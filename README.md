@@ -24,9 +24,9 @@ npm run build
 
 ## GitHub Pages
 
-This site builds into the `docs/` folder, so you can deploy it by using GitHub Pages with the `main` branch and the `docs/` folder as the publishing source.
+This site builds into the `docs/` folder. A GitHub Actions workflow is included at `.github/workflows/deploy.yml` to build the site and deploy it automatically on every push to `main`.
 
-A GitHub Actions workflow is included at `.github/workflows/deploy.yml` to build and deploy the site automatically on every push to `main`.
+The workflow publishes the generated website to the `gh-pages` branch.
 
 ## Project structure
 
