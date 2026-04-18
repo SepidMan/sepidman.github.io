@@ -1,0 +1,16 @@
+{
+  "name": "sepidman.github.io",
+  "version": "1.0.0",
+  "description": "Personal website for Sepidman built with Eleventy",
+  "private": true,
+  "scripts": {
+    "dev": "npx @11ty/eleventy --serve --input=src --output=docs",
+    "build": "npx @11ty/eleventy --input=src --output=docs",
+    "clean": "npx rimraf docs",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.2.0",
+    "rimraf": "^5.0.0"
+  }
+}

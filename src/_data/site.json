@@ -1,0 +1,15 @@
+{
+  "title": "Sepidman",
+  "description": "Personal website for Sepidman built with Eleventy.",
+  "author": "Sepidman",
+  "social": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/sepidman"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/sepidman/"
+    }
+  ]
+}
