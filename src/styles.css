@@ -365,6 +365,38 @@ img {
   fill: currentColor;
 }
 
+.social-icon-link::after,
+.theme-toggle::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.3rem);
+  transform: translate(-50%, 0.18rem);
+  padding: 0.38rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms ease, transform 160ms ease;
+  z-index: 3;
+}
+
+.social-icon-link:hover::after,
+.social-icon-link:focus-visible::after,
+.theme-toggle:hover::after,
+.theme-toggle:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .social-icon-link[data-brand="linkedin"]:hover,
 .social-icon-link[data-brand="linkedin"]:focus-visible {
   color: #0a66c2;
@@ -1402,38 +1434,6 @@ html[data-theme="dark"] .contact-card-link[data-brand="github"]:focus-visible .c
 
   .site-nav a:hover::after,
   .site-nav a:focus-visible::after {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-
-  .social-icon-link::after,
-  .theme-toggle::after {
-    content: attr(data-tip);
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 0.3rem);
-    transform: translate(-50%, 0.18rem);
-    padding: 0.38rem 0.6rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    background: var(--surface-strong);
-    color: var(--text);
-    box-shadow: var(--shadow);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    line-height: 1;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 160ms ease, transform 160ms ease;
-    z-index: 3;
-  }
-
-  .social-icon-link:hover::after,
-  .social-icon-link:focus-visible::after,
-  .theme-toggle:hover::after,
-  .theme-toggle:focus-visible::after {
     opacity: 1;
     transform: translate(-50%, 0);
   }
