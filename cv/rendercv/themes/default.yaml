@@ -1,0 +1,15 @@
+design:
+  theme: opal
+  colors:
+    name: rgb(17, 62, 74)
+    headline: rgb(17, 62, 74)
+    section_titles: rgb(17, 62, 74)
+    links: rgb(17, 62, 74)
+    connections: rgb(17, 62, 74)
+  typography:
+    font_family:
+      body: Source Sans 3
+      name: Source Sans 3
+      headline: Source Sans 3
+      connections: Source Sans 3
+      section_titles: Source Sans 3

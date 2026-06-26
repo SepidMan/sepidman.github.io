@@ -4,6 +4,7 @@ This devcontainer provides a reproducible development environment for this Eleve
 
 Included tools:
 - Node 20 and npm (via the base devcontainer image)
+- pixi for Python environment management
 - git
 - Git LFS (`git-lfs`)
 - GitHub CLI (`gh`)
@@ -21,12 +22,14 @@ How to use
 What happens when the container is created
 - The Dockerfile installs the system tools above.
 - The container runs as the built-in `node` user from the official Node devcontainer image.
-- `postCreateCommand` in `.devcontainer/devcontainer.json` runs `npm install` which will install dependencies and generate `package-lock.json` in the workspace.
+- `postCreateCommand` in `.devcontainer/devcontainer.json` runs `npm install && ~/.pixi/bin/pixi install` so both the Node toolchain and the RenderCV environment are ready.
 
 After the container starts
-- Start the live preview server: `npm run dev`.
+- Start the live preview server: `npx task dev`.
+- Build the default paper-native resume PDF: `npx task build:resume`.
+- Build the full site plus default PDF: `npx task build`.
 - Open the forwarded port `8080` when VS Code prompts you. The devcontainer is configured to open this as a preview automatically.
-- Verify the production build too: `npm run build`.
+- Verify the production build too: `npx task build`.
 - If `package-lock.json` was created, commit it so CI can use `npm ci`.
 
 Commit example after container run:

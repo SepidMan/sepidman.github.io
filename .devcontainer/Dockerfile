@@ -41,3 +41,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 RUN if id -u node >/dev/null 2>&1; then usermod -aG sudo node; echo 'node ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/99_node-nopasswd; fi
 
 USER node
+
+# Install pixi for Python environment management and RenderCV tasks
+RUN curl -fsSL https://pixi.sh/install.sh | bash
+ENV PATH="/home/node/.pixi/bin:${PATH}"

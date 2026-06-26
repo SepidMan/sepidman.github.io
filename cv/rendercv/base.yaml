@@ -1,0 +1,40 @@
+design:
+  page:
+    size: a4
+    top_margin: 0.65in
+    bottom_margin: 0.65in
+    left_margin: 0.65in
+    right_margin: 0.65in
+    show_footer: false
+    show_top_note: false
+  typography:
+    line_spacing: 0.62em
+    alignment: left
+    date_and_location_column_alignment: right
+  links:
+    underline: false
+    show_external_link_icon: false
+  header:
+    alignment: center
+    space_below_name: 0.4cm
+    space_below_headline: 0.25cm
+    space_below_connections: 0.4cm
+  section_titles:
+    type: with_partial_line
+    line_thickness: 0.5pt
+    space_above: 0.42cm
+    space_below: 0.22cm
+  sections:
+    allow_page_break: true
+    space_between_regular_entries: 0.9em
+    space_between_text_based_entries: 0.22em
+    show_time_spans_in:
+      - experience
+  entries:
+    date_and_location_width: 3.75cm
+    side_space: 0.15cm
+    space_between_columns: 0.14cm
+    allow_page_break: false
+    short_second_row: true
+locale:
+  language: english

@@ -3,6 +3,8 @@ import { resolve, join, extname } from "node:path";
 import { createServer } from "node:http";
 import { chromium } from "playwright";
 
+// Legacy fallback: this prints the resume HTML page to PDF via Chromium.
+// The dedicated RenderCV pipeline is now the preferred path for paper-native PDFs.
 const rootDir = resolve(process.cwd(), "build");
 const outputDir = join(rootDir, "assets");
 const outputFile = join(outputDir, "sepideh-mansouri-resume.pdf");

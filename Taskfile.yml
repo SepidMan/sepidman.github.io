@@ -1,0 +1,62 @@
+version: "3"
+
+vars:
+  BUILD_DIR: build
+  ELEVENTY_INPUT: src
+  PIXI_BIN: $HOME/.pixi/bin/pixi
+  RESUME_VARIANT: '{{default "default" .VARIANT}}'
+
+tasks:
+  install:
+    desc: Install Node and pixi-managed dependencies
+    cmds:
+      - npm install
+      - '{{.PIXI_BIN}} install'
+
+  dev:
+    desc: Start the Eleventy development server
+    cmds:
+      - CHOKIDAR_USEPOLLING=1 CHOKIDAR_INTERVAL=250 npx @11ty/eleventy --serve --input={{.ELEVENTY_INPUT}} --output={{.BUILD_DIR}}
+
+  build:
+    desc: Build the site and the default RenderCV PDF
+    cmds:
+      - task: build:site
+      - task: build:resume
+
+  build:site:
+    desc: Build the Eleventy site
+    cmds:
+      - npx @11ty/eleventy --input={{.ELEVENTY_INPUT}} --output={{.BUILD_DIR}}
+
+  build:resume:
+    desc: Build the default RenderCV PDF variant
+    cmds:
+      - task: build:resume:variant
+        vars:
+          VARIANT: default
+
+  build:resume:all:
+    desc: Build every configured RenderCV PDF variant
+    cmds:
+      - node tools/build_resume_pdf.mjs --all
+
+  build:resume:variant:
+    desc: Build a named RenderCV PDF variant
+    cmds:
+      - node tools/build_resume_pdf.mjs --variant {{.RESUME_VARIANT}}
+
+  validate:resume:
+    desc: Validate canonical resume data and resume variant config
+    cmds:
+      - node tools/validate_resume.mjs
+
+  legacy:resume-print:
+    desc: Build the legacy Playwright-based PDF from the print HTML page
+    cmds:
+      - node tools/generate_resume_pdf.mjs
+
+  clean:
+    desc: Remove generated build output
+    cmds:
+      - npx rimraf build cv/generated

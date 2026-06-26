@@ -32,7 +32,7 @@
       "requireLocalPort": true
     }
   },
-  "postCreateCommand": "npm install",
-  "postAttachCommand": "bash -lc 'echo \"Run npm run dev to start the live preview on port 8080.\"'",
+  "postCreateCommand": "bash -lc 'npm install && ~/.pixi/bin/pixi install'",
+  "postAttachCommand": "bash -lc 'echo \"Run npx task dev for the site, npx task build:resume for the default PDF, or npx task build for the full pipeline.\"'",
   "remoteUser": "node"
 }
