@@ -220,15 +220,19 @@ projects:
       - UI/UX Designer
     entity: ReDI School of Digital Integration
     type: Final Course Project
-    website:
+    presentation:
       slug: photohub
-      featured: true
-      order: 1
-      coverTone: sand
-      cardEyebrow: Visual system
-      focus: Components, consistency, and scalable visual patterns.
-      seoDescription: A design systems case study focused on consistency,
-        scalability, and a stronger visual voice across screens.
+      listing:
+        featured: true
+        order: 1
+        cardEyebrow: Visual system
+      cover:
+        tone: sand
+      meta:
+        focus: Components, consistency, and scalable visual patterns.
+      seo:
+        description: A design systems case study focused on consistency,
+          scalability, and a stronger visual voice across screens.
   - name: Impact Page Redesign (Case Study)
     description: Redesigned an NGO Impact Page to improve readability, visual
       hierarchy, and content structure.
@@ -242,15 +246,19 @@ projects:
       - Accessibility
       - Visual Hierarchy
       - UX Research
-    website:
+    presentation:
       slug: redischool-impact-page
-      featured: true
-      order: 2
-      coverTone: coral
-      cardEyebrow: Visual system
-      focus: Components, consistency, and scalable visual patterns.
-      seoDescription: A design systems case study focused on consistency,
-        scalability, and a stronger visual voice across screens.
+      listing:
+        featured: true
+        order: 2
+        cardEyebrow: Visual system
+      cover:
+        tone: coral
+      meta:
+        focus: Components, consistency, and scalable visual patterns.
+      seo:
+        description: A design systems case study focused on consistency,
+          scalability, and a stronger visual voice across screens.
 website:
   baseUrl: https://sepidehmansouri.com
   description: Portfolio website for Sepideh Mansouri, a UI/UX designer focused

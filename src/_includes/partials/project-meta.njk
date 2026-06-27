@@ -1,16 +1,16 @@
 <article class="meta-card">
-  <p class="eyebrow">{{ site.pages.projects.meta.roleLabel }}</p>
-  <p>{{ role }}</p>
+  <p class="eyebrow">{{ projectView.labels.role }}</p>
+  <p>{{ projectView.role }}</p>
 </article>
 <article class="meta-card">
-  <p class="eyebrow">{{ site.pages.projects.meta.timelineLabel }}</p>
-  <p>{{ timeline }}</p>
+  <p class="eyebrow">{{ projectView.labels.timeline }}</p>
+  <p>{{ projectView.timeline }}</p>
 </article>
 <article class="meta-card">
-  <p class="eyebrow">{{ site.pages.projects.meta.toolsLabel }}</p>
-  <p>{{ tools | join(", ") }}</p>
+  <p class="eyebrow">{{ projectView.labels.tools }}</p>
+  <p>{{ projectView.tools | join(", ") }}</p>
 </article>
 <article class="meta-card">
-  <p class="eyebrow">{{ site.pages.projects.meta.focusLabel }}</p>
-  <p>{{ focus }}</p>
+  <p class="eyebrow">{{ projectView.labels.focus }}</p>
+  <p>{{ projectView.focus }}</p>
 </article>

@@ -1,60 +1,12 @@
 const source = require("./main");
+const {
+  asArray,
+  buildHighlights,
+  buildResumeDownloads,
+  cleanDateParts
+} = require("./view-models");
 
-function asArray(value) {
-  return Array.isArray(value) ? value : [];
-}
-
-function cleanDateParts(value) {
-  if (!value) {
-    return null;
-  }
-
-  const parts = String(value).split("-");
-  const [year, month = "01", day = "01"] = parts;
-  return `${year}-${month}-${day}`;
-}
-
-function buildHighlights(workItem) {
-  const highlights = asArray(workItem.highlights);
-  if (highlights.length > 0) {
-    return highlights;
-  }
-  return workItem.summary ? [workItem.summary] : [];
-}
-
-function slugifyName(value) {
-  const slug = String(value || "")
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-  return slug || "resume";
-}
-
-const assetSlug = slugifyName(source.basics && source.basics.name);
-const pageResume =
-  source.website && source.website.pages && source.website.pages.resume
-    ? source.website.pages.resume
-    : {};
-const downloadLabels =
-  pageResume.contact && pageResume.contact.downloads
-    ? pageResume.contact.downloads
-    : {};
-const downloads = {
-  resumePdf: {
-    href: `/assets/${assetSlug}-resume.pdf`,
-    label: downloadLabels.resumePdf || "Resume (PDF)"
-  },
-  cvPdf: {
-    href: `/assets/${assetSlug}-cv.pdf`,
-    label: downloadLabels.cvPdf || "CV (PDF)"
-  },
-  jsonResume: {
-    href: `/assets/${assetSlug}-jsonresume.json`,
-    label: downloadLabels.jsonResume || "CV (JSON Resume)"
-  }
-};
+const resumeAssets = buildResumeDownloads(source);
 
 module.exports = {
   ...source,
@@ -87,13 +39,9 @@ module.exports = {
   languages: asArray(source.languages),
   interests: asArray(source.interests),
   projects: asArray(source.projects),
-  downloads,
-  downloadOptions: [
-    downloads.resumePdf,
-    downloads.cvPdf,
-    downloads.jsonResume
-  ],
-  resumePdfPath: downloads.resumePdf.href,
-  cvPdfPath: downloads.cvPdf.href,
-  jsonResumePath: downloads.jsonResume.href
+  downloads: resumeAssets.downloads,
+  downloadOptions: resumeAssets.downloadOptions,
+  resumePdfPath: resumeAssets.resumePdfPath,
+  cvPdfPath: resumeAssets.cvPdfPath,
+  jsonResumePath: resumeAssets.jsonResumePath
 };

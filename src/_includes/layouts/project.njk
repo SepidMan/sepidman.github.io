@@ -5,12 +5,12 @@ layout: layouts/base.njk
   <section class="page-hero page-hero-project">
     <div class="page-hero-copy">
       <p class="eyebrow">{{ site.pages.projects.hero.eyebrow }}</p>
-      <h1>{{ title }}</h1>
-      <p class="page-lead">{{ summary }}</p>
+      <h1>{{ projectView.title }}</h1>
+      <p class="page-lead">{{ projectView.summary }}</p>
     </div>
-    <div class="page-hero-visual visual-swatch visual-swatch-{{ coverTone or 'sage' }}">
-      <span>{{ role }}</span>
-      <strong>{{ timeline }}</strong>
+    <div class="page-hero-visual visual-swatch visual-swatch-{{ projectView.presentation.coverTone }}">
+      <span>{{ projectView.role }}</span>
+      <strong>{{ projectView.timeline }}</strong>
     </div>
   </section>
 

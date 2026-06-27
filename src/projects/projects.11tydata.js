@@ -1,23 +1,10 @@
 const main = require("../_data/main");
-
-function getProjectEntries() {
-  return Array.isArray(main.projects) ? main.projects : [];
-}
-
-function getProjectWebsite(project) {
-  return project && typeof project.website === "object" ? project.website : {};
-}
-
-function findProjectBySlug(slug) {
-  return getProjectEntries().find((project) => {
-    const website = getProjectWebsite(project);
-    return website.slug === slug;
-  });
-}
+const projectView = require("../_data/project-view");
+const { findProjectBySlug } = require("../_data/view-models");
 
 function requireProject(data) {
   const slug = data.page.fileSlug;
-  const project = findProjectBySlug(slug);
+  const project = findProjectBySlug(main, slug);
 
   if (!project) {
     throw new Error(`No project entry found in data/main.yaml for slug "${slug}".`);
@@ -26,20 +13,8 @@ function requireProject(data) {
   return project;
 }
 
-function getRole(project) {
-  const roles = Array.isArray(project.roles) ? project.roles : [];
-  return roles[0] || "";
-}
-
-function getTimeline(project) {
-  const start = project.startDate ? String(project.startDate) : "";
-  const end = project.endDate ? String(project.endDate) : "";
-
-  if (start && end && start !== end) {
-    return `${start} - ${end}`;
-  }
-
-  return start || end || "";
+function requireProjectView(data) {
+  return projectView.build(requireProject(data));
 }
 
 module.exports = {
@@ -47,20 +22,18 @@ module.exports = {
   tags: ["projects"],
   eleventyComputed: {
     projectEntry: (data) => requireProject(data),
-    title: (data) => requireProject(data).name,
-    description: (data) => {
-      const project = requireProject(data);
-      return project.website.seoDescription || project.description;
-    },
-    summary: (data) => requireProject(data).description,
-    role: (data) => getRole(requireProject(data)),
-    focus: (data) => requireProject(data).website.focus || "",
-    timeline: (data) => getTimeline(requireProject(data)),
-    tools: (data) => requireProject(data).keywords || [],
-    coverTone: (data) => requireProject(data).website.coverTone || "sage",
-    cardEyebrow: (data) => requireProject(data).website.cardEyebrow,
-    featured: (data) => Boolean(requireProject(data).website.featured),
-    order: (data) => requireProject(data).website.order || 0,
-    permalink: (data) => `/work/${data.page.fileSlug}/index.html`
+    projectView: (data) => requireProjectView(data),
+    title: (data) => requireProjectView(data).title,
+    description: (data) => requireProjectView(data).description,
+    summary: (data) => requireProjectView(data).summary,
+    role: (data) => requireProjectView(data).role,
+    focus: (data) => requireProjectView(data).focus,
+    timeline: (data) => requireProjectView(data).timeline,
+    tools: (data) => requireProjectView(data).tools,
+    coverTone: (data) => requireProjectView(data).presentation.coverTone,
+    cardEyebrow: (data) => requireProjectView(data).presentation.cardEyebrow,
+    featured: (data) => requireProjectView(data).presentation.featured,
+    order: (data) => requireProjectView(data).presentation.order,
+    permalink: (data) => requireProjectView(data).permalink
   }
 };

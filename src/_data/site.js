@@ -1,108 +1,20 @@
 const main = require("./main");
 const resume = require("./resume");
-
-function asArray(value) {
-  return Array.isArray(value) ? value : [];
-}
-
-function normalizeIcon(icon) {
-  if (typeof icon === "string" && icon) {
-    return {
-      icon,
-      iconKind: "custom",
-      iconName: icon,
-      iconStyle: null,
-      iconToken: icon
-    };
-  }
-
-  if (icon && typeof icon === "object") {
-    const kind = typeof icon.kind === "string" ? icon.kind : "custom";
-    const name = typeof icon.name === "string" ? icon.name : "";
-    const style = typeof icon.style === "string" ? icon.style : null;
-
-    return {
-      icon,
-      iconKind: kind,
-      iconName: name,
-      iconStyle: style,
-      iconToken: name || null
-    };
-  }
-
-  return {
-    icon: null,
-    iconKind: null,
-    iconName: "",
-    iconStyle: null,
-    iconToken: null
-  };
-}
-
-function withIcon(item, fallbackIcon) {
-  return {
-    ...item,
-    ...normalizeIcon(item.icon || fallbackIcon || null)
-  };
-}
-
-function formatLocation(location) {
-  if (!location || typeof location !== "object") {
-    return "";
-  }
-
-  const city = typeof location.city === "string" ? location.city : "";
-  const region = typeof location.region === "string" ? location.region : "";
-  const countryCode =
-    typeof location.countryCode === "string" ? location.countryCode : "";
-  const parts = [city];
-
-  if (region && region !== city) {
-    parts.push(region);
-  }
-
-  if (countryCode) {
-    parts.push(countryCode);
-  }
-
-  return parts.filter(Boolean).join(", ");
-}
-
-function resolveAction(action) {
-  if (!action || typeof action !== "object") {
-    return action;
-  }
-
-  if (typeof action.asset === "string") {
-    const assetMap = {
-      cvPdf: resume.cvPdfPath,
-      resumePdf: resume.resumePdfPath,
-      jsonResume: resume.jsonResumePath
-    };
-
-    return {
-      ...action,
-      url: assetMap[action.asset] || action.url || "#"
-    };
-  }
-
-  return action;
-}
-
-function resolveActionGroup(group) {
-  if (!group || typeof group !== "object") {
-    return group;
-  }
-
-  return {
-    ...group,
-    primary: resolveAction(group.primary),
-    secondary: resolveAction(group.secondary)
-  };
-}
+const {
+  asArray,
+  asObject,
+  formatLocation,
+  resolveAction,
+  resolveActionGroup,
+  withIcon
+} = require("./view-models");
 
 const basics = main.basics || {};
 const website = main.website || {};
+const pages = asObject(website.pages);
+const homePage = asObject(pages.home);
+const homeHero = asObject(homePage.hero);
+const projectsPage = asObject(pages.projects);
 const social = asArray(basics.profiles).map((item) =>
   withIcon(
     {
@@ -141,40 +53,22 @@ module.exports = {
   social,
   headerSocial: [...social, ...extraConnections],
   pages: {
-    ...(website.pages || {}),
+    ...pages,
     home: {
-      ...(website.pages && website.pages.home ? website.pages.home : {}),
+      ...homePage,
       hero: {
-        ...(website.pages && website.pages.home ? website.pages.home.hero : {}),
-        primaryAction: resolveAction(
-          website.pages &&
-            website.pages.home &&
-            website.pages.home.hero &&
-            website.pages.home.hero.primaryAction
-        ),
-        secondaryAction: resolveAction(
-          website.pages &&
-            website.pages.home &&
-            website.pages.home.hero &&
-            website.pages.home.hero.secondaryAction
-        )
+        ...homeHero,
+        primaryAction: resolveAction(homeHero.primaryAction, resume),
+        secondaryAction: resolveAction(homeHero.secondaryAction, resume)
       },
-      callToAction: resolveActionGroup(
-        website.pages && website.pages.home
-          ? website.pages.home.callToAction
-          : null
-      )
+      callToAction: resolveActionGroup(homePage.callToAction, resume)
     },
     projects: {
-      ...(website.pages && website.pages.projects ? website.pages.projects : {}),
-      callToAction: resolveActionGroup(
-        website.pages && website.pages.projects
-          ? website.pages.projects.callToAction
-          : null
-      )
+      ...projectsPage,
+      callToAction: resolveActionGroup(projectsPage.callToAction, resume)
     },
     contact: {
-      ...(website.pages && website.pages.contact ? website.pages.contact : {}),
+      ...asObject(pages.contact),
       resumePdf: resume.cvPdfPath
     }
   }

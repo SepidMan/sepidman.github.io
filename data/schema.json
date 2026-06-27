@@ -125,30 +125,54 @@
           {
             "type": "object",
             "properties": {
-              "website": {
+              "presentation": {
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
                   "slug": {
                     "type": "string"
                   },
-                  "featured": {
-                    "type": "boolean"
+                  "listing": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "featured": {
+                        "type": "boolean"
+                      },
+                      "order": {
+                        "type": "integer"
+                      },
+                      "cardEyebrow": {
+                        "type": "string"
+                      }
+                    }
                   },
-                  "order": {
-                    "type": "integer"
+                  "cover": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "tone": {
+                        "type": "string"
+                      }
+                    }
                   },
-                  "coverTone": {
-                    "type": "string"
+                  "meta": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "focus": {
+                        "type": "string"
+                      }
+                    }
                   },
-                  "cardEyebrow": {
-                    "type": "string"
-                  },
-                  "focus": {
-                    "type": "string"
-                  },
-                  "seoDescription": {
-                    "type": "string"
+                  "seo": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      }
+                    }
                   }
                 },
                 "required": [
