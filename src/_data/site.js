@@ -1,5 +1,110 @@
 const resume = require("./resume");
 
+function normalizeIcon(icon) {
+  if (typeof icon === "string" && icon) {
+    return {
+      icon,
+      iconKind: "custom",
+      iconName: icon,
+      iconStyle: null,
+      iconToken: icon
+    };
+  }
+
+  if (icon && typeof icon === "object") {
+    const kind = typeof icon.kind === "string" ? icon.kind : "custom";
+    const name = typeof icon.name === "string" ? icon.name : "";
+    const style = typeof icon.style === "string" ? icon.style : null;
+
+    return {
+      icon,
+      iconKind: kind,
+      iconName: name,
+      iconStyle: style,
+      iconToken: name || null
+    };
+  }
+
+  return {
+    icon: null,
+    iconKind: null,
+    iconName: "",
+    iconStyle: null,
+    iconToken: null
+  };
+}
+
+function withIcon(item, fallbackIcon) {
+  return {
+    ...item,
+    ...normalizeIcon(item.icon || fallbackIcon || null)
+  };
+}
+
+const navigation = [
+  {
+    label: "Work",
+    url: "/work/",
+    icon: "work"
+  },
+  {
+    label: "Resume",
+    url: "/resume/",
+    icon: "resume"
+  },
+  {
+    label: "About",
+    url: "/about/",
+    icon: "about"
+  },
+  {
+    label: "Contact",
+    url: "/contact/",
+    icon: "contact"
+  }
+].map((item) => withIcon(item));
+
+const social = [
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/sepid-mans/",
+    icon: "linkedin"
+  },
+  {
+    name: "GitHub",
+    url: "https://github.com/SepidMans",
+    icon: "github"
+  },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/_seraphim___/",
+    icon: "instagram"
+  }
+].map((item) => withIcon(item));
+
+const headerSocial = [
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/sepid-mans/",
+    icon: "linkedin"
+  },
+  {
+    name: "GitHub",
+    url: "https://github.com/SepidMans",
+    icon: "github"
+  },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/_seraphim___/",
+    icon: "instagram"
+  },
+  {
+    name: "Email",
+    url: "mailto:sepideh.mansouri85@gmail.com",
+    icon: "email"
+  }
+].map((item) => withIcon(item));
+
 module.exports = {
   title: "Sepideh Mansouri",
   tagline: "UI/UX Designer",
@@ -14,64 +119,9 @@ module.exports = {
     email: "sepideh.mansouri85@gmail.com",
     brandImage: "/assets/images/profile/headshot.jpg"
   },
-  navigation: [
-    {
-      label: "Work",
-      url: "/work/",
-      icon: "work"
-    },
-    {
-      label: "Resume",
-      url: "/resume/",
-      icon: "resume"
-    },
-    {
-      label: "About",
-      url: "/about/",
-      icon: "about"
-    },
-    {
-      label: "Contact",
-      url: "/contact/",
-      icon: "contact"
-    }
-  ],
-  social: [
-    {
-      name: "LinkedIn",
-      url: "https://www.linkedin.com/in/sepid-mans/"
-    },
-    {
-      name: "GitHub",
-      url: "https://github.com/SepidMans"
-    },
-    {
-      name: "Instagram",
-      url: "https://www.instagram.com/_seraphim___/"
-    }
-  ],
-  headerSocial: [
-    {
-      name: "LinkedIn",
-      url: "https://www.linkedin.com/in/sepid-mans/",
-      icon: "linkedin"
-    },
-    {
-      name: "GitHub",
-      url: "https://github.com/SepidMans",
-      icon: "github"
-    },
-    {
-      name: "Instagram",
-      url: "https://www.instagram.com/_seraphim___/",
-      icon: "instagram"
-    },
-    {
-      name: "Email",
-      url: "mailto:sepideh.mansouri85@gmail.com",
-      icon: "email"
-    }
-  ],
+  navigation,
+  social,
+  headerSocial,
   home: {
     eyebrow: "UI/UX designer based in Berlin",
     headline:

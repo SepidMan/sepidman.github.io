@@ -44,7 +44,7 @@
             rel="noreferrer"
             aria-label="{{ item.name }}"
             data-tip="{{ item.name }}"
-            data-brand="{{ item.icon }}"
+            {% if item.iconToken %}data-brand="{{ item.iconToken }}"{% endif %}
           >
             {% include "partials/social-icon.njk" %}
           </a>
@@ -53,7 +53,7 @@
             class="social-icon-link social-icon-link-disabled"
             aria-hidden="true"
             data-tip="{{ item.name }} unavailable"
-            data-brand="{{ item.icon }}"
+            {% if item.iconToken %}data-brand="{{ item.iconToken }}"{% endif %}
           >
             {% include "partials/social-icon.njk" %}
           </span>
@@ -83,7 +83,7 @@
             rel="noreferrer"
             aria-label="{{ item.name }}"
             data-tip="{{ item.name }}"
-            data-brand="{{ item.icon }}"
+            {% if item.iconToken %}data-brand="{{ item.iconToken }}"{% endif %}
           >
             {% include "partials/social-icon.njk" %}
           </a>
@@ -92,7 +92,7 @@
             class="social-icon-link social-icon-link-disabled"
             aria-hidden="true"
             data-tip="{{ item.name }} unavailable"
-            data-brand="{{ item.icon }}"
+            {% if item.iconToken %}data-brand="{{ item.iconToken }}"{% endif %}
           >
             {% include "partials/social-icon.njk" %}
           </span>

@@ -1,0 +1,425 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sepidehmansouri.com/schema/profile.schema.json",
+  "title": "Canonical Profile Schema",
+  "description": "Internal source-of-truth schema for resume, RenderCV export metadata, and website content.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional schema URL for the canonical profile file."
+    },
+    "meta": {
+      "$ref": "./resume_schema.json#/properties/meta"
+    },
+    "basics": {
+      "allOf": [
+        {
+          "$ref": "./resume_schema.json#/properties/basics"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "shortName": {
+              "type": "string",
+              "description": "Short display name for the website and other UI surfaces."
+            },
+            "connections": {
+              "type": "array",
+              "description": "Additional arbitrary header/contact connections that do not map cleanly to JSON Resume profiles.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "placeholder": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "icon": {
+                    "$ref": "#/definitions/iconDefinition"
+                  }
+                },
+                "required": [
+                  "placeholder",
+                  "icon"
+                ]
+              }
+            },
+            "photo": {
+              "type": "string",
+              "description": "Optional explicit RenderCV photo path or URL when it should differ from basics.image."
+            }
+          }
+        }
+      ]
+    },
+    "work": {
+      "$ref": "./resume_schema.json#/properties/work"
+    },
+    "volunteer": {
+      "$ref": "./resume_schema.json#/properties/volunteer"
+    },
+    "education": {
+      "$ref": "./resume_schema.json#/properties/education"
+    },
+    "awards": {
+      "$ref": "./resume_schema.json#/properties/awards"
+    },
+    "certificates": {
+      "$ref": "./resume_schema.json#/properties/certificates"
+    },
+    "publications": {
+      "type": "array",
+      "description": "JSON Resume publications plus RenderCV-specific publication fields.",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "./resume_schema.json#/properties/publications/items"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "authors": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "RenderCV publication authors list."
+              },
+              "doi": {
+                "type": "string",
+                "description": "DOI identifier for RenderCV publication entries."
+              },
+              "journal": {
+                "type": "string",
+                "description": "Journal, conference, or venue name for RenderCV publication entries."
+              }
+            }
+          }
+        ]
+      }
+    },
+    "skills": {
+      "$ref": "./resume_schema.json#/properties/skills"
+    },
+    "languages": {
+      "$ref": "./resume_schema.json#/properties/languages"
+    },
+    "interests": {
+      "$ref": "./resume_schema.json#/properties/interests"
+    },
+    "references": {
+      "$ref": "./resume_schema.json#/properties/references"
+    },
+    "projects": {
+      "$ref": "./resume_schema.json#/properties/projects"
+    },
+    "website": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "description": {
+          "type": "string"
+        },
+        "navigation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/websiteNavigationItem"
+          }
+        },
+        "home": {
+          "$ref": "#/definitions/websiteHome"
+        },
+        "about": {
+          "$ref": "#/definitions/websiteAbout"
+        },
+        "contact": {
+          "$ref": "#/definitions/websiteContact"
+        }
+      }
+    },
+    "exports": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rendercv": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "locale": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "language": {
+                  "type": "string"
+                }
+              }
+            },
+            "settings": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "currentDate": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "today"
+                      ]
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    }
+                  ]
+                },
+                "boldKeywords": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "pdfTitle": {
+                  "type": "string"
+                }
+              }
+            },
+            "variants": {
+              "type": "object",
+              "description": "Named PDF variants and their pipeline metadata.",
+              "additionalProperties": {
+                "$ref": "#/definitions/rendercvVariant"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "websiteNavigationItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "icon": {
+          "$ref": "#/definitions/iconDefinition"
+        }
+      },
+      "required": [
+        "label",
+        "url"
+      ]
+    },
+    "iconDefinition": {
+      "description": "Icon descriptor supporting either legacy custom icon tokens or Font Awesome icon identifiers.",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Legacy migration form. Interpreted as a custom icon token."
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "custom"
+            },
+            "name": {
+              "type": "string",
+              "description": "Custom icon token used by the website's own SVG icon library."
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "fontawesome"
+            },
+            "name": {
+              "type": "string",
+              "description": "Font Awesome icon name without the fa- prefix."
+            },
+            "style": {
+              "type": "string",
+              "enum": [
+                "solid",
+                "regular",
+                "brands"
+              ],
+              "description": "Font Awesome style family."
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "style"
+          ]
+        }
+      ]
+    },
+    "websiteAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "enum": [
+            "cvPdf",
+            "resumePdf",
+            "jsonResume"
+          ],
+          "description": "Generated asset identifier to avoid duplicating final asset URLs in source data."
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "url"
+          ]
+        },
+        {
+          "required": [
+            "asset"
+          ]
+        }
+      ]
+    },
+    "websiteHomeStat": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "websiteHome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "eyebrow": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "intro": {
+          "type": "string"
+        },
+        "highlights": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ctaPrimary": {
+          "$ref": "#/definitions/websiteAction"
+        },
+        "ctaSecondary": {
+          "$ref": "#/definitions/websiteAction"
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/websiteHomeStat"
+          }
+        }
+      }
+    },
+    "websiteAbout": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "principles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "websiteContact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intro": {
+          "type": "string"
+        },
+        "availability": {
+          "type": "string"
+        }
+      }
+    },
+    "rendercvVariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "output": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile",
+        "theme",
+        "output"
+      ]
+    }
+  }
+}

@@ -1,4 +1,5 @@
 const { DateTime } = require("luxon");
+const { renderIconDescriptor } = require("./src/_includes/helpers/icon-library");
 
 function parseDate(value) {
   if (!value) {
@@ -69,6 +70,10 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter("primaryProfile", (profiles, networkName) => {
     return (profiles || []).find((profile) => profile.network === networkName);
+  });
+
+  eleventyConfig.addFilter("renderIconFields", (iconName, iconKind, iconStyle, family = "social") => {
+    return renderIconDescriptor(iconKind, iconName, iconStyle, family);
   });
 
   return {
