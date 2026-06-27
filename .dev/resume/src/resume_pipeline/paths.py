@@ -21,13 +21,22 @@ def node_binary() -> Path:
     """Return the resolved Node.js binary used for the converter subprocess."""
     resolved = shutil.which("node")
     if resolved is None:
-        raise ResumePipelineError("Node.js is required for the JSON Resume converter but was not found on PATH.")
+        msg = (
+            "Node.js is required for the JSON Resume converter but was not found on PATH."
+        )
+        raise ResumePipelineError(msg)
     return Path(resolved)
 
 
 def node_converter_path() -> Path:
     """Return the installed JSON Resume converter entry point."""
-    return ROOT_DIR / "node_modules" / "@jsonresume" / "jsonresume-to-rendercv" / "index.js"
+    return (
+        ROOT_DIR
+        / "node_modules"
+        / "@jsonresume"
+        / "jsonresume-to-rendercv"
+        / "index.js"
+    )
 
 
 def profile_path(name: str) -> Path:

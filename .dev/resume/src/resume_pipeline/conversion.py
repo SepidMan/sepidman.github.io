@@ -10,7 +10,7 @@ from pathlib import Path
 import yaml
 
 from .errors import ResumePipelineError
-from .io_utils import deep_merge, read_json, read_yaml, write_yaml
+from .io_utils import assert_condition, deep_merge, read_json, read_yaml, write_yaml
 from .paths import (
     BASE_RENDER_CV_PATH,
     generated_yaml_path,
@@ -41,7 +41,8 @@ def _run_jsonresume_converter(profiled_resume: JsonDict) -> JsonDict:
         )
         with output_path.open("r", encoding="utf8") as handle:
             data = yaml.safe_load(handle)
-        assert isinstance(data, dict)
+        message = f"Expected the JSON Resume converter to produce a YAML object at {output_path}."
+        assert_condition(condition=isinstance(data, dict), message=message)
         return data
 
 
@@ -56,11 +57,15 @@ def _load_variant(variant: str) -> tuple[JsonDict, VariantConfig, JsonDict, Json
     base_config = read_yaml(BASE_RENDER_CV_PATH)
     theme_config = read_yaml(theme_path(variant_config.theme))
     merged_theme = deep_merge(base_config, theme_config)
-    assert isinstance(merged_theme, dict)
+    message = "Expected merged RenderCV theme config to stay object-shaped."
+    assert_condition(condition=isinstance(merged_theme, dict), message=message)
     return validated.resume, variant_config, merged_theme, profile
 
 
-def generate_rendercv_yaml(variant: str = "default", output: str | None = None) -> GeneratedVariant:
+def generate_rendercv_yaml(
+    variant: str = "default",
+    output: str | None = None,
+) -> GeneratedVariant:
     """Generate the RenderCV YAML input for a named resume variant."""
     resume, variant_config, theme_config, profile = _load_variant(variant)
     profiled_resume = apply_profile_overrides(resume, profile)
@@ -80,9 +85,7 @@ def generate_rendercv_yaml(variant: str = "default", output: str | None = None) 
         profiled_resume,
         converted_seed,
         theme_config,
-        paths.output_path,
-        paths.render_output_dir,
-        paths.rendered_pdf_path,
+        paths,
     )
     write_yaml(paths.output_path, rendercv_data)
 

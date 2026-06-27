@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import yaml
 
 from .errors import ResumePipelineError
-from .types import JsonDict, JsonValue
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from .types import JsonDict, JsonValue
 
 
-def assert_condition(condition: bool, message: str) -> None:
+def assert_condition(*, condition: bool, message: str) -> None:
     """Raise a pipeline error when a required condition is false."""
     if not condition:
         raise ResumePipelineError(message)
@@ -22,7 +26,8 @@ def read_json(path: Path) -> JsonDict:
     with path.open("r", encoding="utf8") as handle:
         data = json.load(handle)
 
-    assert_condition(isinstance(data, dict), f"Expected a JSON object in {path}.")
+    message = f"Expected a JSON object in {path}."
+    assert_condition(condition=isinstance(data, dict), message=message)
     return data
 
 
@@ -31,7 +36,8 @@ def read_yaml(path: Path) -> JsonDict:
     with path.open("r", encoding="utf8") as handle:
         data = yaml.safe_load(handle)
 
-    assert_condition(isinstance(data, dict), f"Expected a YAML object in {path}.")
+    message = f"Expected a YAML object in {path}."
+    assert_condition(condition=isinstance(data, dict), message=message)
     return data
 
 
@@ -64,4 +70,5 @@ def clone(data: JsonDict) -> JsonDict:
 def ensure_readable(path: Path, label: str) -> None:
     """Ensure a required file exists."""
     if not path.is_file():
-        raise ResumePipelineError(f"{label} is missing or unreadable: {path}")
+        msg = f"{label} is missing or unreadable: {path}"
+        raise ResumePipelineError(msg)

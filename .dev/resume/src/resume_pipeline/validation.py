@@ -20,19 +20,44 @@ from .types import PipelineConfig, VariantConfig
 
 
 def _validate_variant_shape(name: str, config: object) -> VariantConfig:
-    assert_condition(isinstance(config, dict), f'Variant "{name}" must be an object.')
+    message = f'Variant "{name}" must be an object.'
+    assert_condition(condition=isinstance(config, dict), message=message)
     profile = config.get("profile")
     theme = config.get("theme")
     output = config.get("output")
     label = config.get("label")
     summary = config.get("summary")
 
-    assert_condition(isinstance(profile, str) and profile, f'Variant "{name}" must define a profile.')
-    assert_condition(isinstance(theme, str) and theme, f'Variant "{name}" must define a theme.')
-    assert_condition(isinstance(output, str) and output, f'Variant "{name}" must define an output path.')
-    assert_condition(output.startswith("build/assets/"), f'Variant "{name}" output must live under build/assets/.')
-    assert_condition(label is None or isinstance(label, str), f'Variant "{name}" label must be a string when provided.')
-    assert_condition(summary is None or isinstance(summary, str), f'Variant "{name}" summary must be a string when provided.')
+    message = f'Variant "{name}" must define a profile.'
+    assert_condition(
+        condition=isinstance(profile, str) and bool(profile),
+        message=message,
+    )
+    message = f'Variant "{name}" must define a theme.'
+    assert_condition(
+        condition=isinstance(theme, str) and bool(theme),
+        message=message,
+    )
+    message = f'Variant "{name}" must define an output path.'
+    assert_condition(
+        condition=isinstance(output, str) and bool(output),
+        message=message,
+    )
+    message = f'Variant "{name}" output must live under build/assets/.'
+    assert_condition(
+        condition=output.startswith("build/assets/"),
+        message=message,
+    )
+    message = f'Variant "{name}" label must be a string when provided.'
+    assert_condition(
+        condition=label is None or isinstance(label, str),
+        message=message,
+    )
+    message = f'Variant "{name}" summary must be a string when provided.'
+    assert_condition(
+        condition=summary is None or isinstance(summary, str),
+        message=message,
+    )
 
     return VariantConfig(
         name=name,
@@ -64,21 +89,28 @@ def validate_resume_pipeline() -> PipelineConfig:
     if errors:
         messages = []
         for error in errors:
-            pointer = "/" + "/".join(str(part) for part in error.path) if error.path else "/"
+            pointer = (
+                "/" + "/".join(str(part) for part in error.path)
+                if error.path
+                else "/"
+            )
             messages.append(f"{pointer} {error.message}")
         message = "cv/resume.json failed schema validation:\n" + "\n".join(messages)
         raise ResumePipelineError(message)
 
     assert_condition(
-        isinstance(variants_data, dict),
-        "cv/rendercv/variants.json must be an object keyed by variant name.",
+        condition=isinstance(variants_data, dict),
+        message="cv/rendercv/variants.json must be an object keyed by variant name.",
     )
 
     ensure_readable(theme_path("default"), "Default theme config")
 
     variants: dict[str, VariantConfig] = {}
     for name, config in variants_data.items():
-        assert_condition(isinstance(name, str), "Variant names must be strings.")
+        assert_condition(
+            condition=isinstance(name, str),
+            message="Variant names must be strings.",
+        )
         variant = _validate_variant_shape(name, config)
         ensure_readable(profile_path(variant.profile), f'Profile for variant "{name}"')
         ensure_readable(theme_path(variant.theme), f'Theme for variant "{name}"')

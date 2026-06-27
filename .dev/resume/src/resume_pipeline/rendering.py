@@ -4,17 +4,23 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from .conversion import generate_rendercv_yaml
 from .errors import ResumePipelineError
 from .paths import BUILD_DIR, PIXI_BINARY
 from .validation import validate_resume_pipeline
 
+if TYPE_CHECKING:
+    from pathlib import Path
+
 
 def _ensure_pixi() -> None:
     if not PIXI_BINARY.is_file():
-        msg = f"Pixi is not installed at {PIXI_BINARY}. Install it first or reopen the devcontainer."
+        msg = (
+            f"Pixi is not installed at {PIXI_BINARY}. Install it first or reopen the "
+            "devcontainer."
+        )
         raise ResumePipelineError(msg)
 
 
@@ -39,14 +45,21 @@ def _build_variant(name: str) -> Path:
     if not generated.paths.rendered_pdf_path.is_file():
         msg = f"RenderCV did not produce {generated.paths.rendered_pdf_path}"
         raise ResumePipelineError(msg)
-    shutil.copyfile(generated.paths.rendered_pdf_path, generated.paths.public_pdf_output_path)
+    shutil.copyfile(
+        generated.paths.rendered_pdf_path,
+        generated.paths.public_pdf_output_path,
+    )
     if not generated.paths.public_pdf_output_path.is_file():
         msg = f"Public PDF was not copied to {generated.paths.public_pdf_output_path}"
         raise ResumePipelineError(msg)
     return generated.paths.public_pdf_output_path
 
 
-def build_resume_pdf(variant: str = "default", *, build_all: bool = False) -> list[Path]:
+def build_resume_pdf(
+    variant: str = "default",
+    *,
+    build_all: bool = False,
+) -> list[Path]:
     """Build one or more PDF variants through RenderCV."""
     _ensure_pixi()
     variants = validate_resume_pipeline().variants

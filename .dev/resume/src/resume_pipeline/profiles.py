@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from .io_utils import clone
-from .types import JsonDict
+
+if TYPE_CHECKING:
+    from .types import JsonDict
 
 
 def apply_profile_overrides(resume: JsonDict, profile: JsonDict) -> JsonDict:
