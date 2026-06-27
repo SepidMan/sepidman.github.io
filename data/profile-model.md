@@ -301,3 +301,4 @@ This model is now partially wired in:
 - VS Code schema mapping points at `data/schema.json`
 - the Python validation pipeline validates both canonical and JSON Resume output
 - the Eleventy data loaders derive site and resume data from `data/main.yaml`
+- the canonical schema now composes smaller modules under `data/schema/`

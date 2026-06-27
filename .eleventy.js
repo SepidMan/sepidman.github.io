@@ -22,14 +22,35 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addCollection("projects", (collectionApi) => {
     return collectionApi.getFilteredByTag("projects").sort((a, b) => {
-      return (a.data.order || 0) - (b.data.order || 0);
+      return (
+        (a.data.projectView && a.data.projectView.presentation
+          ? a.data.projectView.presentation.order
+          : 0) -
+        (b.data.projectView && b.data.projectView.presentation
+          ? b.data.projectView.presentation.order
+          : 0)
+      );
     });
   });
 
   eleventyConfig.addCollection("featuredProjects", (collectionApi) => {
     return collectionApi.getFilteredByTag("projects")
-      .filter((item) => item.data.featured)
-      .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+      .filter(
+        (item) =>
+          item.data.projectView &&
+          item.data.projectView.presentation &&
+          item.data.projectView.presentation.featured
+      )
+      .sort((a, b) => {
+        return (
+          (a.data.projectView && a.data.projectView.presentation
+            ? a.data.projectView.presentation.order
+            : 0) -
+          (b.data.projectView && b.data.projectView.presentation
+            ? b.data.projectView.presentation.order
+            : 0)
+        );
+      });
   });
 
   eleventyConfig.addFilter("readableDate", (value, format = "LLLL d, yyyy") => {

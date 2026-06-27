@@ -9,6 +9,7 @@ data/
   README.md
   main.yaml
   schema.json
+  schema/
   jsonresume.schema.json
   resume_ux.md
   profile-model.md
@@ -26,8 +27,13 @@ data/
 
 `schema.json`
 
-- The internal validation schema for `main.yaml`.
-- Extends JSON Resume with website-specific fields used by Eleventy.
+- Thin top-level validation schema for `main.yaml`.
+- Composes smaller schema modules under `schema/`.
+
+`schema/`
+
+- Split internal schema modules for canonical content, website content, shared definitions, and export configuration.
+- Keeps model changes localized instead of editing one monolithic schema file.
 
 `jsonresume.schema.json`
 
