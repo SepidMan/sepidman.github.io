@@ -32,7 +32,7 @@
       "requireLocalPort": true
     }
   },
-  "postCreateCommand": "bash -lc 'npm install && ~/.pixi/bin/pixi install'",
+  "postCreateCommand": "bash -lc 'npm install && ~/.pixi/bin/pixi install --all'",
   "postAttachCommand": "bash -lc 'echo \"Run npx task dev for the site, npx task build:resume for the default PDF, or npx task build for the full pipeline.\"'",
   "remoteUser": "node"
 }

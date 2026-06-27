@@ -1,0 +1,5 @@
+target-version = "py312"
+src = [".dev/resume/src"]
+
+[lint]
+select = ["ALL"]

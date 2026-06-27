@@ -3,14 +3,37 @@ name = "sepidman-github-io"
 channels = ["conda-forge"]
 platforms = ["linux-64"]
 
-[dependencies]
-python = ">=3.11,<3.13"
+[feature.rendercv.dependencies]
+python = ">=3.12,<3.13"
 pip = "*"
 
-[pypi-dependencies]
+[feature.rendercv.pypi-dependencies]
 rendercv = { version = "*", extras = ["full"] }
+
+[feature.rendercv.tasks]
+rendercv = "rendercv"
+
+[feature.resume.dependencies]
+python = ">=3.12,<3.13"
+pip = "*"
+
+[feature.resume.pypi-dependencies]
 resume-pipeline = { path = ".dev/resume", editable = true }
 
-[tasks]
-rendercv = "rendercv"
+[feature.resume.tasks]
 resume-pipeline = "resume-pipeline"
+
+[feature.lint.dependencies]
+python = ">=3.12,<3.13"
+pip = "*"
+
+[feature.lint.pypi-dependencies]
+ruff = "*"
+
+[feature.lint.tasks]
+ruff = "ruff"
+
+[environments]
+rendercv = ["rendercv"]
+resume = ["resume"]
+lint = ["lint"]

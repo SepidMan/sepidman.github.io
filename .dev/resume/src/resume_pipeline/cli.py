@@ -3,12 +3,8 @@ from __future__ import annotations
 import argparse
 import sys
 
-from .pipeline import (
-    ResumePipelineError,
-    build_resume_pdf,
-    generate_rendercv_yaml,
-    validate_resume_pipeline,
-)
+from .errors import ResumePipelineError
+from .pipeline import build_resume_pdf, generate_rendercv_yaml, validate_resume_pipeline
 
 
 def build_parser() -> argparse.ArgumentParser:

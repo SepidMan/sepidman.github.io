@@ -22,7 +22,7 @@ How to use
 What happens when the container is created
 - The Dockerfile installs the system tools above.
 - The container runs as the built-in `node` user from the official Node devcontainer image.
-- `postCreateCommand` in `.devcontainer/devcontainer.json` runs `npm install && ~/.pixi/bin/pixi install` so both the Node toolchain and the RenderCV environment are ready.
+- `postCreateCommand` in `.devcontainer/devcontainer.json` runs `npm install && ~/.pixi/bin/pixi install --all` so the Node toolchain plus the `resume`, `rendercv`, and `lint` pixi environments are ready.
 
 After the container starts
 - Start the live preview server: `npx task dev`.

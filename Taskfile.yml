@@ -4,7 +4,8 @@ vars:
   BUILD_DIR: build
   ELEVENTY_INPUT: src
   PIXI_BIN: $HOME/.pixi/bin/pixi
-  RESUME_CLI: '{{.PIXI_BIN}} run resume-pipeline'
+  RESUME_CLI: '{{.PIXI_BIN}} run --environment resume resume-pipeline'
+  RUFF_CLI: '{{.PIXI_BIN}} run --environment lint ruff'
   RESUME_VARIANT: '{{default "default" .VARIANT}}'
 
 tasks:
@@ -12,7 +13,7 @@ tasks:
     desc: Install Node and pixi-managed dependencies
     cmds:
       - npm install
-      - '{{.PIXI_BIN}} install'
+      - '{{.PIXI_BIN}} install --all'
 
   dev:
     desc: Start the Eleventy development server
@@ -52,6 +53,11 @@ tasks:
     desc: Validate canonical resume data and resume variant config
     cmds:
       - '{{.RESUME_CLI}} validate'
+
+  lint:resume:
+    desc: Lint the Python resume pipeline package with Ruff
+    cmds:
+      - '{{.RUFF_CLI}} check --config .config/ruff.toml .dev/resume/src/resume_pipeline'
 
   clean:
     desc: Remove generated build output
