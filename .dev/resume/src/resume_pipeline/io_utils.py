@@ -15,6 +15,18 @@ if TYPE_CHECKING:
     from .types import JsonDict, JsonValue
 
 
+class _NoDatesSafeLoader(yaml.SafeLoader):
+    """Safe YAML loader that keeps timestamp-like scalars as strings."""
+
+
+for _key, _resolvers in list(_NoDatesSafeLoader.yaml_implicit_resolvers.items()):
+    _NoDatesSafeLoader.yaml_implicit_resolvers[_key] = [
+        (tag, regexp)
+        for tag, regexp in _resolvers
+        if tag != "tag:yaml.org,2002:timestamp"
+    ]
+
+
 def assert_condition(*, condition: bool, message: str) -> None:
     """Raise a pipeline error when a required condition is false."""
     if not condition:
@@ -31,10 +43,18 @@ def read_json(path: Path) -> JsonDict:
     return data
 
 
+def write_json(path: Path, data: JsonDict) -> None:
+    """Write a JSON object to disk."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf8") as handle:
+        json.dump(data, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
+
+
 def read_yaml(path: Path) -> JsonDict:
     """Read a YAML object from disk."""
     with path.open("r", encoding="utf8") as handle:
-        data = yaml.safe_load(handle)
+        data = yaml.load(handle, Loader=_NoDatesSafeLoader)  # noqa: S506
 
     message = f"Expected a YAML object in {path}."
     assert_condition(condition=isinstance(data, dict), message=message)

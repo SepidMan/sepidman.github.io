@@ -33,7 +33,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     convert_parser.add_argument(
         "--variant",
-        default="default",
+        default="cv",
         help="Variant name to convert.",
     )
     convert_parser.add_argument(
@@ -47,7 +47,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     build_parser.add_argument(
         "--variant",
-        default="default",
+        default="cv",
         help="Variant name to build.",
     )
     build_parser.add_argument(
@@ -81,7 +81,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "build":
             outputs = build_resume_pdf(variant=args.variant, build_all=args.all)
             for output in outputs:
-                _write_stdout(f"Built RenderCV PDF: {output}")
+                _write_stdout(f"Built resume asset: {output}")
             return 0
 
         parser.error(f"Unknown command: {args.command}")

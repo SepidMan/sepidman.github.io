@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "./cv/resume_schema.json": "cv/resume.yaml"
+  }
+}

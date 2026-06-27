@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from jsonschema import Draft7Validator, FormatChecker
 
+from .assets import resume_slug
 from .errors import ResumePipelineError
-from .io_utils import assert_condition, ensure_readable, read_json
+from .io_utils import assert_condition, ensure_readable, read_json, read_yaml
 from .paths import (
     BASE_RENDER_CV_PATH,
     RESUME_PATH,
@@ -19,7 +20,12 @@ from .paths import (
 from .types import PipelineConfig, VariantConfig
 
 
-def _validate_variant_shape(name: str, config: object) -> VariantConfig:
+def _validate_variant_shape(
+    name: str,
+    config: object,
+    *,
+    canonical_resume_slug: str,
+) -> VariantConfig:
     message = f'Variant "{name}" must be an object.'
     assert_condition(condition=isinstance(config, dict), message=message)
     profile = config.get("profile")
@@ -59,11 +65,13 @@ def _validate_variant_shape(name: str, config: object) -> VariantConfig:
         message=message,
     )
 
+    resolved_output = output.replace("{resume_slug}", canonical_resume_slug)
+
     return VariantConfig(
         name=name,
         profile=profile,
         theme=theme,
-        output=ROOT_DIR / output,
+        output=ROOT_DIR / resolved_output,
         label=label,
         summary=summary,
     )
@@ -80,9 +88,10 @@ def validate_resume_pipeline() -> PipelineConfig:
     ]:
         ensure_readable(path, label)
 
-    resume = read_json(RESUME_PATH)
+    resume = read_yaml(RESUME_PATH)
     schema = read_json(RESUME_SCHEMA_PATH)
-    variants_data = read_json(VARIANTS_PATH)
+    variants_data = read_yaml(VARIANTS_PATH)
+    canonical_resume_slug = resume_slug(resume)
 
     validator = Draft7Validator(schema, format_checker=FormatChecker())
     errors = sorted(validator.iter_errors(resume), key=lambda error: list(error.path))
@@ -95,12 +104,12 @@ def validate_resume_pipeline() -> PipelineConfig:
                 else "/"
             )
             messages.append(f"{pointer} {error.message}")
-        message = "cv/resume.json failed schema validation:\n" + "\n".join(messages)
+        message = "cv/resume.yaml failed schema validation:\n" + "\n".join(messages)
         raise ResumePipelineError(message)
 
     assert_condition(
         condition=isinstance(variants_data, dict),
-        message="cv/rendercv/variants.json must be an object keyed by variant name.",
+        message="cv/rendercv/variants.yaml must be an object keyed by variant name.",
     )
 
     ensure_readable(theme_path("default"), "Default theme config")
@@ -111,7 +120,11 @@ def validate_resume_pipeline() -> PipelineConfig:
             condition=isinstance(name, str),
             message="Variant names must be strings.",
         )
-        variant = _validate_variant_shape(name, config)
+        variant = _validate_variant_shape(
+            name,
+            config,
+            canonical_resume_slug=canonical_resume_slug,
+        )
         ensure_readable(profile_path(variant.profile), f'Profile for variant "{name}"')
         ensure_readable(theme_path(variant.theme), f'Theme for variant "{name}"')
         variants[name] = variant

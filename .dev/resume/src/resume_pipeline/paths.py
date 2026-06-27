@@ -10,9 +10,9 @@ from .errors import ResumePipelineError
 ROOT_DIR = Path.cwd()
 CV_DIR = ROOT_DIR / "cv"
 BUILD_DIR = ROOT_DIR / "build"
-RESUME_PATH = CV_DIR / "resume.json"
+RESUME_PATH = CV_DIR / "resume.yaml"
 RESUME_SCHEMA_PATH = CV_DIR / "resume_schema.json"
-VARIANTS_PATH = CV_DIR / "rendercv" / "variants.json"
+VARIANTS_PATH = CV_DIR / "rendercv" / "variants.yaml"
 BASE_RENDER_CV_PATH = CV_DIR / "rendercv" / "base.yaml"
 PIXI_BINARY = Path.home() / ".pixi" / "bin" / "pixi"
 
@@ -41,7 +41,7 @@ def node_converter_path() -> Path:
 
 def profile_path(name: str) -> Path:
     """Return the path to a profile override file."""
-    return CV_DIR / "profiles" / f"{name}.json"
+    return CV_DIR / "profiles" / f"{name}.yaml"
 
 
 def theme_path(name: str) -> Path:

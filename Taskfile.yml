@@ -6,7 +6,7 @@ vars:
   PIXI_BIN: $HOME/.pixi/bin/pixi
   RESUME_CLI: '{{.PIXI_BIN}} run --environment resume resume-pipeline'
   RUFF_CLI: '{{.PIXI_BIN}} run --environment lint ruff'
-  RESUME_VARIANT: '{{default "default" .VARIANT}}'
+  RESUME_VARIANT: '{{default "cv" .VARIANT}}'
 
 tasks:
   install:
@@ -21,7 +21,7 @@ tasks:
       - CHOKIDAR_USEPOLLING=1 CHOKIDAR_INTERVAL=250 npx @11ty/eleventy --serve --input={{.ELEVENTY_INPUT}} --output={{.BUILD_DIR}}
 
   build:
-    desc: Build the site and the default RenderCV PDF
+    desc: Build the site and all public resume assets
     cmds:
       - task: build:site
       - task: build:resume
@@ -33,11 +33,9 @@ tasks:
       - npx @11ty/eleventy --input={{.ELEVENTY_INPUT}} --output={{.BUILD_DIR}}
 
   build:resume:
-    desc: Build the default RenderCV PDF variant
+    desc: Build all public resume assets
     cmds:
-      - task: build:resume:variant
-        vars:
-          VARIANT: default
+      - '{{.RESUME_CLI}} build --all'
 
   build:resume:all:
     desc: Build every configured RenderCV PDF variant

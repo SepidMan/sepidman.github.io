@@ -1,0 +1,162 @@
+$schema: https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json
+basics:
+  name: Sepideh Mansouri
+  label: UX/UI Designer | Junior & Internship Candidate
+  image: ""
+  email: sepideh.mansouri85@gmail.com
+  phone: +49 176 7685 2444
+  url: https://www.linkedin.com/in/sepid-mans/
+  summary: Aspiring UX/UI Designer with a background in content management and
+    customer-facing roles, currently transitioning into digital product design.
+    Experienced in user-centered thinking through project-based training at ReDI
+    School of Digital Integration and independent UX projects. Skilled in
+    designing mobile-first interfaces, improving usability, and structuring
+    information for clarity. Strong understanding of user behavior developed
+    through both real-world customer experience and UX design practice.
+    Currently seeking Junior UX Designer or Internship opportunities in Berlin
+    to further develop practical product design skills.
+  location:
+    address: Königsberger Straße 23
+    postalCode: "12207"
+    city: Berlin
+    countryCode: DE
+    region: Berlin
+  profiles:
+    - network: LinkedIn
+      username: sepid-mans
+      url: https://www.linkedin.com/in/sepid-mans/
+    - network: GitHub
+      username: SepidMans
+      url: https://github.com/SepidMans
+work:
+  - name: Action
+    location: Berlin, Germany
+    position: Sales Assistant / Customer Experience
+    startDate: 2025-01-01
+    summary: Assisted customers in a fast-paced retail environment; developed strong
+      communication and problem-solving skills; gained real-world insight into
+      user behavior and needs.
+  - name: Davino Export
+    location: Teheran, Iran
+    position: Content Manager
+    startDate: 2017-01-01
+    endDate: 2021-12-31
+    summary: Managed digital content and product-related communication; supported
+      marketing activities and content creation; worked on website updates and
+      visual content uploads.
+    highlights:
+      - Managed digital content and product-related communication
+      - Supported marketing activities and content creation
+      - Worked on website updates and visual content uploads
+  - name: Online Shop
+    location: Teheran, Iran
+    position: Marketing & Digital Content
+    startDate: 2015-01-01
+    endDate: 2017-12-31
+    summary: Supported campaign planning and content development; assisted in
+      digital marketing and product presentation.
+  - name: Freelance
+    location: Teheran, Iran
+    position: English Tutor
+    startDate: 2011-07-01
+    endDate: 2014-12-31
+    summary: Taught English to students and prepared exam materials; provided
+      one-on-one tutoring and lesson planning.
+  - name: Kish Air
+    location: Teheran, Iran
+    position: Cabin Crew / Training Program
+    summary: Completed an 11-month cabin crew service training program focusing on
+      aviation safety, service standards, teamwork and high-pressure customer
+      service skills.
+volunteer: []
+education:
+  - institution: ReDI School of Digital Integration
+    area: UX/UI Design
+    studyType: Course
+    startDate: 2025-01-01
+    endDate: 2025-12-31
+    summary: Basic & Intermediate project-based UX training
+  - institution: Goldnetz gGmbH
+    area: Coaching Program
+    studyType: Course
+    startDate: 2024-09-01
+    endDate: 2024-12-01
+    summary: Coaching program in Berlin
+  - institution: Islamic Azad University, Karaj
+    area: English Literature
+    studyType: Bachelor
+    startDate: 2007-01-01
+    endDate: 2012-12-31
+awards:
+  - title: telc B2 (German language)
+    date: 2023-01-01
+    awarder: Berlitz
+    summary: German language certificate B2.
+publications: []
+certifications:
+  - name: Foundations of User Experience (UX) Design
+    issuer: Google
+  - name: UX/UI Design Basics
+    issuer: ReDI School
+  - name: UX/UI Design Intermediate
+    issuer: ReDI School
+skills:
+  - name: UX & UI
+    keywords:
+      - UX Research
+      - UI Design
+      - User Flows
+      - Information Architecture
+      - Usability Thinking
+      - Content Design
+  - name: Design Tools
+    keywords:
+      - Figma
+      - Canva
+      - Google Slides
+      - PowerPoint
+languages:
+  - language: Farsi
+    fluency: Native speaker
+  - language: English
+    fluency: B2
+  - language: German
+    fluency: B2
+interests:
+  - name: Interests
+    keywords:
+      - Photography
+      - Visual Storytelling
+      - Art
+      - Film
+references: []
+projects:
+  - name: Photography App (UX Project)
+    description: Designed a mobile-first photography application in Figma; developed
+      user flows, wireframes, and interactive prototypes.
+    highlights:
+      - Designed mobile-first photography application using Figma
+      - Developed user flows, wireframes, and interactive prototypes
+      - Conducted basic usability testing to refine design decisions
+    keywords:
+      - Figma
+      - Mobile-first
+      - Prototyping
+      - Wireframing
+      - Usability Testing
+  - name: Impact Page Redesign (Case Study)
+    description: Redesigned an NGO Impact Page to improve readability, visual
+      hierarchy, and layout consistency.
+    highlights:
+      - Improved readability and visual hierarchy
+      - Resolved text-heavy content and misalignment issues
+      - Created a more accessible and user-friendly information flow
+    keywords:
+      - Information Architecture
+      - Accessibility
+      - Visual Hierarchy
+      - UX Research
+meta:
+  canonical: https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json
+  version: v1.0.0
+  lastModified: 2026-04-22T00:00:00

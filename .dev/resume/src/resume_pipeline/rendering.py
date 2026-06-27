@@ -6,8 +6,10 @@ import shutil
 import subprocess
 from typing import TYPE_CHECKING
 
+from .assets import public_jsonresume_output_path
 from .conversion import generate_rendercv_yaml
 from .errors import ResumePipelineError
+from .io_utils import write_json
 from .paths import BUILD_DIR, PIXI_BINARY
 from .validation import validate_resume_pipeline
 
@@ -55,13 +57,26 @@ def _build_variant(name: str) -> Path:
     return generated.paths.public_pdf_output_path
 
 
+def _publish_jsonresume_asset() -> Path:
+    validated = validate_resume_pipeline()
+    BUILD_DIR.joinpath("assets").mkdir(parents=True, exist_ok=True)
+    output_path = public_jsonresume_output_path(validated.resume)
+    write_json(output_path, validated.resume)
+    if not output_path.is_file():
+        msg = f"Public JSON Resume was not written to {output_path}"
+        raise ResumePipelineError(msg)
+    return output_path
+
+
 def build_resume_pdf(
-    variant: str = "default",
+    variant: str = "cv",
     *,
     build_all: bool = False,
 ) -> list[Path]:
-    """Build one or more PDF variants through RenderCV."""
+    """Build one or more PDF variants and publish the canonical JSON Resume."""
     _ensure_pixi()
     variants = validate_resume_pipeline().variants
     names = list(variants) if build_all else [variant]
-    return [_build_variant(name) for name in names]
+    outputs = [_publish_jsonresume_asset()]
+    outputs.extend(_build_variant(name) for name in names)
+    return outputs

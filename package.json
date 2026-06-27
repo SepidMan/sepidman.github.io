@@ -20,5 +20,8 @@
     "@jsonresume/jsonresume-to-rendercv": "^1.0.13",
     "luxon": "^3.7.2",
     "rimraf": "^5.0.0"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
   }
 }

@@ -4,17 +4,17 @@ This directory contains the resume source data and the configuration that turns 
 
 The resume system now has two separate presentation layers:
 
-- Web resume: `cv/resume.json` -> Eleventy data normalization -> `/resume/`
-- PDF resume: `cv/resume.json` -> profile override -> RenderCV YAML -> PDF in `build/assets/`
+- Web resume: `cv/resume.yaml` -> Eleventy data normalization -> `/resume/`
+- PDF resume: `cv/resume.yaml` -> profile override -> RenderCV YAML -> PDF in `build/assets/`
 
-The important idea is that `resume.json` is the canonical source, while the files under `profiles/` and `rendercv/` control how that source is shaped and styled for specific PDF outputs.
+The important idea is that `resume.yaml` is the canonical source, while the files under `profiles/` and `rendercv/` control how that source is shaped and styled for specific PDF outputs.
 
 ## Layout
 
 ```text
 cv/
   README.md
-  resume.json
+  resume.yaml
   resume_schema.json
   resume_ux.md
   generated/
@@ -24,7 +24,7 @@ cv/
 
 ## Files And Directories
 
-`resume.json`
+`resume.yaml`
 
 - The canonical resume source.
 - This is the primary file to edit when the actual content changes.
@@ -33,7 +33,7 @@ cv/
 `resume_schema.json`
 
 - The JSON Resume schema used by the validation step.
-- The pipeline checks `resume.json` against this before generating PDFs.
+- The pipeline checks `resume.yaml` against this before generating PDFs.
 - Usually you should not edit this unless the schema version or local validation approach changes.
 
 `resume_ux.md`
@@ -53,7 +53,7 @@ cv/
 `profiles/`
 
 - Small content overrides used to create different PDF variants from the same canonical resume.
-- A profile does not replace `resume.json`; it adjusts it.
+- A profile does not replace `resume.yaml`; it adjusts it.
 - Current supported overrides are intentionally narrow:
   - replace the summary
   - disable a section
@@ -61,9 +61,9 @@ cv/
 
 Examples:
 
-- [profiles/default.json](/workspaces/sepidman.github.io/cv/profiles/default.json:1)
-  Keeps the default content and limits projects to 2.
-- [profiles/concise.json](/workspaces/sepidman.github.io/cv/profiles/concise.json:1)
+- [profiles/cv.yaml](/workspaces/sepidman.github.io/cv/profiles/cv.yaml:1)
+  Leaves the canonical content untouched for the full CV output.
+- [profiles/resume.yaml](/workspaces/sepidman.github.io/cv/profiles/resume.yaml:1)
   Replaces the summary, hides awards, limits projects to 1, and limits certifications to 2.
 
 `rendercv/`
@@ -77,15 +77,15 @@ Examples:
 
 ## RenderCV Config
 
-`rendercv/variants.json`
+`rendercv/variants.yaml`
 
 - The registry of available PDF outputs.
-- Each variant maps a name like `default` or `concise` to:
+- Each variant maps a name like `cv` or `resume` to:
   - a profile in `profiles/`
   - a theme preset in `rendercv/themes/`
   - an output path in `build/assets/`
 
-See [rendercv/variants.json](/workspaces/sepidman.github.io/cv/rendercv/variants.json:1).
+See [rendercv/variants.yaml](/workspaces/sepidman.github.io/cv/rendercv/variants.yaml:1).
 
 `rendercv/base.yaml`
 
@@ -109,14 +109,15 @@ Current examples:
 
 The PDF flow is:
 
-1. Validate [resume.json](/workspaces/sepidman.github.io/cv/resume.json:1) against [resume_schema.json](/workspaces/sepidman.github.io/cv/resume_schema.json:1).
-2. Read [rendercv/variants.json](/workspaces/sepidman.github.io/cv/rendercv/variants.json:1) to determine which variant to build.
+1. Validate [resume.yaml](/workspaces/sepidman.github.io/cv/resume.yaml:1) against [resume_schema.json](/workspaces/sepidman.github.io/cv/resume_schema.json:1).
+2. Read [rendercv/variants.yaml](/workspaces/sepidman.github.io/cv/rendercv/variants.yaml:1) to determine which variant to build.
 3. Load that variant’s profile from `profiles/`.
 4. Apply the profile override to the canonical resume content.
 5. Convert the result to RenderCV-shaped YAML.
 6. Merge in `rendercv/base.yaml` plus the selected theme overlay from `rendercv/themes/`.
 7. Write the merged YAML to `generated/`.
 8. Ask RenderCV to produce the final PDF in `build/assets/`.
+9. Publish the canonical JSON Resume file in `build/assets/`.
 
 The main implementation point is the Python package under [.dev/resume](/workspaces/sepidman.github.io/.dev/resume/pyproject.toml:1).
 
@@ -129,7 +130,7 @@ The main implementation point is the Python package under [.dev/resume](/workspa
 
 ### Update resume content
 
-Edit [resume.json](/workspaces/sepidman.github.io/cv/resume.json:1).
+Edit [resume.yaml](/workspaces/sepidman.github.io/cv/resume.yaml:1).
 
 Use this when:
 
@@ -157,7 +158,7 @@ Use this when:
 - a variant should show fewer projects or certifications
 - a variant needs a different summary
 
-Then connect it in [rendercv/variants.json](/workspaces/sepidman.github.io/cv/rendercv/variants.json:1).
+Then connect it in [rendercv/variants.yaml](/workspaces/sepidman.github.io/cv/rendercv/variants.yaml:1).
 
 ### Change how all PDFs look on paper
 
@@ -180,7 +181,7 @@ Use this when:
 - one variant should feel more branded
 - colors or theme choice should differ between outputs
 
-Then point the variant at that theme in [rendercv/variants.json](/workspaces/sepidman.github.io/cv/rendercv/variants.json:1).
+Then point the variant at that theme in [rendercv/variants.yaml](/workspaces/sepidman.github.io/cv/rendercv/variants.yaml:1).
 
 ### Debug conversion or RenderCV issues
 
@@ -201,7 +202,7 @@ Validate the pipeline:
 npx task validate:resume
 ```
 
-Build the default PDF:
+Build all public resume assets:
 
 ```bash
 npx task build:resume
@@ -210,7 +211,7 @@ npx task build:resume
 Build a specific variant:
 
 ```bash
-npx task build:resume:variant VARIANT=concise
+npx task build:resume:variant VARIANT=resume
 ```
 
 Build all configured PDF variants:
@@ -219,7 +220,7 @@ Build all configured PDF variants:
 npx task build:resume:all
 ```
 
-Build the site plus the default PDF:
+Build the site plus all public resume assets:
 
 ```bash
 npx task build
@@ -229,7 +230,7 @@ npx task build
 
 1. Add a profile in `profiles/` if the new variant needs content changes.
 2. Add a theme file in `rendercv/themes/` if it needs distinct styling.
-3. Register the variant in [rendercv/variants.json](/workspaces/sepidman.github.io/cv/rendercv/variants.json:1).
+3. Register the variant in [rendercv/variants.yaml](/workspaces/sepidman.github.io/cv/rendercv/variants.yaml:1).
 4. Run:
 
 ```bash

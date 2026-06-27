@@ -10,7 +10,7 @@ from pathlib import Path
 import yaml
 
 from .errors import ResumePipelineError
-from .io_utils import assert_condition, deep_merge, read_json, read_yaml, write_yaml
+from .io_utils import assert_condition, deep_merge, read_yaml, write_yaml
 from .paths import (
     BASE_RENDER_CV_PATH,
     generated_yaml_path,
@@ -53,7 +53,7 @@ def _load_variant(variant: str) -> tuple[JsonDict, VariantConfig, JsonDict, Json
         msg = f'Unknown resume variant "{variant}".'
         raise ResumePipelineError(msg)
 
-    profile = read_json(profile_path(variant_config.profile))
+    profile = read_yaml(profile_path(variant_config.profile))
     base_config = read_yaml(BASE_RENDER_CV_PATH)
     theme_config = read_yaml(theme_path(variant_config.theme))
     merged_theme = deep_merge(base_config, theme_config)
@@ -63,7 +63,7 @@ def _load_variant(variant: str) -> tuple[JsonDict, VariantConfig, JsonDict, Json
 
 
 def generate_rendercv_yaml(
-    variant: str = "default",
+    variant: str = "cv",
     output: str | None = None,
 ) -> GeneratedVariant:
     """Generate the RenderCV YAML input for a named resume variant."""
