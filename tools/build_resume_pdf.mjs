@@ -1,4 +1,4 @@
-import { access, mkdir } from "node:fs/promises";
+import { access, copyFile, mkdir } from "node:fs/promises";
 import { constants as fsConstants } from "node:fs";
 import { resolve } from "node:path";
 import { spawn } from "node:child_process";
@@ -55,11 +55,17 @@ function run(command, args) {
 }
 
 async function buildVariant(variant) {
-  const { outputPath, pdfOutputPath } = await generateRenderCvYaml({ variant });
+  const {
+    outputPath,
+    renderedPdfPath,
+    publicPdfOutputPath
+  } = await generateRenderCvYaml({ variant });
   await mkdir(resolve(rootDir, "build/assets"), { recursive: true });
   await run(pixiBinary, ["run", "rendercv", "render", outputPath]);
-  await access(pdfOutputPath, fsConstants.R_OK);
-  return pdfOutputPath;
+  await access(renderedPdfPath, fsConstants.R_OK);
+  await copyFile(renderedPdfPath, publicPdfOutputPath);
+  await access(publicPdfOutputPath, fsConstants.R_OK);
+  return publicPdfOutputPath;
 }
 
 export async function buildResumePdf({ variant = "default", all = false } = {}) {

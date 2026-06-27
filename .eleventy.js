@@ -16,7 +16,8 @@ function parseDate(value) {
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/styles.css": "styles.css" });
   eleventyConfig.addPassthroughCopy({ "src/theme.js": "theme.js" });
-  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  eleventyConfig.addPassthroughCopy("src/assets/**/*.{avif,gif,ico,jpg,jpeg,png,pdf,svg,webp}");
+  eleventyConfig.ignores.add("src/assets/**/*.md");
 
   eleventyConfig.addCollection("projects", (collectionApi) => {
     return collectionApi.getFilteredByTag("projects").sort((a, b) => {

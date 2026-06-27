@@ -65,4 +65,6 @@ The web resume page and the downloadable PDFs are both generated from the same c
 - Web resume: `cv/resume.json` -> `src/_data/resume.js` -> Eleventy/Nunjucks
 - PDF resume: `cv/resume.json` -> profile override -> RenderCV YAML -> RenderCV PDF
 
+RenderCV intermediate files stay under `cv/generated/`, and only the final public PDFs are copied into `build/assets/`.
+
 The legacy Playwright print pipeline is still available via `npx task legacy:resume-print`, but it is now a fallback rather than the preferred PDF path.

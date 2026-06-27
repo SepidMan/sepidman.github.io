@@ -219,10 +219,10 @@ function buildSections(resume) {
   return sections;
 }
 
-function buildRenderCvData(resume, convertedSeed, themeConfig, outputPath, pdfOutputPath) {
+function buildRenderCvData(resume, convertedSeed, themeConfig, outputPath, renderOutputDir, renderedPdfPath) {
   const basics = resume.basics || {};
-  const outputFolder = relative(dirname(outputPath), dirname(pdfOutputPath)) || ".";
-  const pdfFilePath = relative(dirname(outputPath), pdfOutputPath);
+  const outputFolder = relative(dirname(outputPath), renderOutputDir) || ".";
+  const pdfFilePath = relative(dirname(outputPath), renderedPdfPath);
   const typstFilePath = pdfFilePath.replace(/\.pdf$/i, ".typ");
   const cv = {
     ...(convertedSeed.cv || {}),
@@ -287,13 +287,16 @@ export async function generateRenderCvYaml({ variant = "default", output } = {})
   const profiledResume = applyProfileOverrides(resume, profile);
   const convertedSeed = YAML.parse(await convertJsonResume(profiledResume));
   const outputPath = resolve(rootDir, output || `cv/generated/rendercv-${variant}.yaml`);
-  const pdfOutputPath = resolve(rootDir, variantConfig.output);
+  const renderOutputDir = resolve(rootDir, "cv/generated/rendered", variant);
+  const renderedPdfPath = resolve(renderOutputDir, `${variant}.pdf`);
+  const publicPdfOutputPath = resolve(rootDir, variantConfig.output);
   const renderCvData = buildRenderCvData(
     profiledResume,
     convertedSeed,
     themedConfig,
     outputPath,
-    pdfOutputPath
+    renderOutputDir,
+    renderedPdfPath
   );
 
   await mkdir(dirname(outputPath), { recursive: true });
@@ -303,7 +306,9 @@ export async function generateRenderCvYaml({ variant = "default", output } = {})
     outputPath,
     profile: variantConfig.profile,
     theme: variantConfig.theme,
-    pdfOutputPath
+    renderOutputDir,
+    renderedPdfPath,
+    publicPdfOutputPath
   };
 }
 
