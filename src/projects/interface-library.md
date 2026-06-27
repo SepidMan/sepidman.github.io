@@ -1,24 +1,3 @@
----
-layout: layouts/project.njk
-title: Creating a reusable interface language
-description: A design systems case study focused on consistency, scalability, and a stronger visual voice across screens.
-summary: A component-focused exercise exploring how consistency, scalability, and a stronger visual voice can work together.
-slug: interface-library
-role: Design Systems
-focus: Components, consistency, and scalable visual patterns.
-timeline: 2025
-tools:
-  - Figma
-  - Components
-  - Design systems
-coverTone: sand
-cardEyebrow: Visual system
-featured: true
-order: 3
-tags:
-  - projects
-permalink: /work/{{ slug }}/index.html
----
 ## The challenge
 
 As digital products grow, small inconsistencies in spacing, type, and components can make the experience feel fragmented. The challenge is to create enough structure for consistency without flattening the personality of the product.

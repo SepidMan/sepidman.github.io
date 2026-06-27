@@ -4,7 +4,7 @@ layout: layouts/base.njk
 <article class="project-page">
   <section class="page-hero page-hero-project">
     <div class="page-hero-copy">
-      <p class="eyebrow">Case study</p>
+      <p class="eyebrow">{{ site.pages.projects.heroEyebrow }}</p>
       <h1>{{ title }}</h1>
       <p class="page-lead">{{ summary }}</p>
     </div>
@@ -23,11 +23,11 @@ layout: layouts/base.njk
   </section>
 
   <section class="cta-panel">
-    <p class="eyebrow">Looking for more?</p>
-    <h2>See the rest of the portfolio or get in touch.</h2>
+    <p class="eyebrow">{{ site.pages.projects.cta.eyebrow }}</p>
+    <h2>{{ site.pages.projects.cta.headline }}</h2>
     <div class="cta-row">
-      <a class="button" href="/work/">Back to all work</a>
-      <a class="button button-secondary" href="/contact/">Contact me</a>
+      <a class="button" href="{{ site.pages.projects.cta.primary.url }}">{{ site.pages.projects.cta.primary.label }}</a>
+      <a class="button button-secondary" href="{{ site.pages.projects.cta.secondary.url }}">{{ site.pages.projects.cta.secondary.label }}</a>
     </div>
   </section>
 </article>

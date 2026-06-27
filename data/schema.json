@@ -116,7 +116,49 @@
       "$ref": "./jsonresume.schema.json#/properties/references"
     },
     "projects": {
-      "$ref": "./jsonresume.schema.json#/properties/projects"
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "./jsonresume.schema.json#/properties/projects/items"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "website": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "slug": {
+                    "type": "string"
+                  },
+                  "featured": {
+                    "type": "boolean"
+                  },
+                  "order": {
+                    "type": "integer"
+                  },
+                  "coverTone": {
+                    "type": "string"
+                  },
+                  "cardEyebrow": {
+                    "type": "string"
+                  },
+                  "focus": {
+                    "type": "string"
+                  },
+                  "seoDescription": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "slug"
+                ]
+              }
+            }
+          }
+        ]
+      }
     },
     "website": {
       "type": "object",
@@ -143,6 +185,9 @@
         },
         "contact": {
           "$ref": "#/definitions/websiteContact"
+        },
+        "pages": {
+          "$ref": "#/definitions/websitePages"
         }
       }
     },
@@ -391,6 +436,390 @@
           "type": "string"
         },
         "availability": {
+          "type": "string"
+        }
+      }
+    },
+    "websitePages": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "home": {
+          "$ref": "#/definitions/websitePageHome"
+        },
+        "about": {
+          "$ref": "#/definitions/websitePageAbout"
+        },
+        "contact": {
+          "$ref": "#/definitions/websitePageContact"
+        },
+        "work": {
+          "$ref": "#/definitions/websitePageSimpleHero"
+        },
+        "resume": {
+          "$ref": "#/definitions/websitePageResume"
+        },
+        "projects": {
+          "$ref": "#/definitions/websitePageProjects"
+        },
+        "footer": {
+          "$ref": "#/definitions/websiteFooter"
+        }
+      }
+    },
+    "websitePageSeo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "websitePageSimpleHero": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seo": {
+          "$ref": "#/definitions/websitePageSeo"
+        },
+        "eyebrow": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "intro": {
+          "type": "string"
+        }
+      }
+    },
+    "websitePageAbout": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seo": {
+          "$ref": "#/definitions/websitePageSeo"
+        },
+        "eyebrow": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "guidance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "headline": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "principlesEyebrow": {
+              "type": "string"
+            }
+          }
+        },
+        "workingStyle": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "headline": {
+              "type": "string"
+            },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "eyebrow": {
+                    "type": "string"
+                  },
+                  "headline": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "websitePageHome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seo": {
+          "$ref": "#/definitions/websitePageSeo"
+        },
+        "graphicLabels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "top": {
+              "type": "string"
+            },
+            "bottom": {
+              "type": "string"
+            }
+          }
+        },
+        "heroPanel": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "caption": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "featuredProjects": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "headline": {
+              "type": "string"
+            },
+            "linkLabel": {
+              "type": "string"
+            }
+          }
+        },
+        "practice": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "headline": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            }
+          }
+        },
+        "focus": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "ctaPanel": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "headline": {
+              "type": "string"
+            },
+            "primary": {
+              "$ref": "#/definitions/websiteAction"
+            },
+            "secondary": {
+              "$ref": "#/definitions/websiteAction"
+            }
+          }
+        }
+      }
+    },
+    "websitePageContact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seo": {
+          "$ref": "#/definitions/websitePageSeo"
+        },
+        "eyebrow": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "socialCardBody": {
+          "type": "string"
+        },
+        "emailCardEyebrow": {
+          "type": "string"
+        },
+        "emailCardBody": {
+          "type": "string"
+        }
+      }
+    },
+    "websitePageResume": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seo": {
+          "$ref": "#/definitions/websitePageSeo"
+        },
+        "heroEyebrow": {
+          "type": "string"
+        },
+        "contactLabels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "linkedin": {
+              "type": "string"
+            },
+            "github": {
+              "type": "string"
+            }
+          }
+        },
+        "downloadButtonLabel": {
+          "type": "string"
+        },
+        "downloadOptions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "resumePdf": {
+              "type": "string"
+            },
+            "cvPdf": {
+              "type": "string"
+            },
+            "jsonResume": {
+              "type": "string"
+            }
+          }
+        },
+        "sections": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "experienceEyebrow": {
+              "type": "string"
+            },
+            "experienceHeadline": {
+              "type": "string"
+            },
+            "presentLabel": {
+              "type": "string"
+            },
+            "educationEyebrow": {
+              "type": "string"
+            },
+            "skillsEyebrow": {
+              "type": "string"
+            },
+            "trainingEyebrow": {
+              "type": "string"
+            },
+            "certificatesHeading": {
+              "type": "string"
+            },
+            "languagesHeading": {
+              "type": "string"
+            },
+            "projectsHeading": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "websitePageProjects": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cardEyebrowFallback": {
+          "type": "string"
+        },
+        "heroEyebrow": {
+          "type": "string"
+        },
+        "metaLabels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "role": {
+              "type": "string"
+            },
+            "timeline": {
+              "type": "string"
+            },
+            "tools": {
+              "type": "string"
+            },
+            "focus": {
+              "type": "string"
+            }
+          }
+        },
+        "cta": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            },
+            "headline": {
+              "type": "string"
+            },
+            "primary": {
+              "$ref": "#/definitions/websiteAction"
+            },
+            "secondary": {
+              "$ref": "#/definitions/websiteAction"
+            }
+          }
+        }
+      }
+    },
+    "websiteFooter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contactEyebrow": {
+          "type": "string"
+        },
+        "downloadLabel": {
           "type": "string"
         }
       }

@@ -1,6 +1,6 @@
 <section class="resume-grid">
   <article class="resume-panel">
-    <p class="eyebrow">Education</p>
+    <p class="eyebrow">{{ site.pages.resume.sections.educationEyebrow }}</p>
     {% for item in resume.education %}
       <div class="resume-list-item">
         <h3>{{ item.institution }}</h3>
@@ -14,7 +14,7 @@
   </article>
 
   <article class="resume-panel">
-    <p class="eyebrow">Skills</p>
+    <p class="eyebrow">{{ site.pages.resume.sections.skillsEyebrow }}</p>
     {% for item in resume.skills %}
       <div class="resume-list-item">
         <h3>{{ item.name }}</h3>
@@ -28,9 +28,9 @@
   </article>
 
   <article class="resume-panel">
-    <p class="eyebrow">Training and languages</p>
+    <p class="eyebrow">{{ site.pages.resume.sections.trainingEyebrow }}</p>
     <div class="resume-list-item">
-      <h3>Certificates</h3>
+      <h3>{{ site.pages.resume.sections.certificatesHeading }}</h3>
       <ul class="plain-list">
         {% for item in resume.certificates %}
           <li>{{ item.name }}{% if item.issuer %} · {{ item.issuer }}{% endif %}</li>
@@ -38,7 +38,7 @@
       </ul>
     </div>
     <div class="resume-list-item">
-      <h3>Languages</h3>
+      <h3>{{ site.pages.resume.sections.languagesHeading }}</h3>
       <ul class="plain-list">
         {% for item in resume.languages %}
           <li>{{ item.language }} · {{ item.fluency }}</li>
@@ -46,7 +46,7 @@
       </ul>
     </div>
     <div class="resume-list-item">
-      <h3>Selected projects</h3>
+      <h3>{{ site.pages.resume.sections.projectsHeading }}</h3>
       <ul class="plain-list">
         {% for item in resume.projects %}
           <li>{{ item.name }}</li>

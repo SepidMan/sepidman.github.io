@@ -1,12 +1,12 @@
 <footer class="site-footer">
   <div>
-    <p class="eyebrow">Contact</p>
+    <p class="eyebrow">{{ site.pages.footer.contactEyebrow }}</p>
     <a class="footer-email" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
   </div>
   <div class="footer-links">
     {% for item in site.social %}
       <a href="{{ item.url }}" target="_blank" rel="noreferrer">{{ item.name }}</a>
     {% endfor %}
-    <a href="{{ resume.cvPdfPath }}">Download CV</a>
+    <a href="{{ resume.cvPdfPath }}">{{ site.pages.footer.downloadLabel }}</a>
   </div>
 </footer>

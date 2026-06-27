@@ -1,11 +1,12 @@
 ---
 layout: layouts/base.njk
-title: About
-description: Learn more about Sepideh Mansouri, her design background, and what guides her work.
+eleventyComputed:
+  title: "{{ site.pages.about.seo.title }}"
+  description: "{{ site.pages.about.seo.description }}"
 ---
 <section class="page-intro">
-  <p class="eyebrow">About</p>
-  <h1>Designing with calm structure, empathy, and a strong sense of visual tone.</h1>
+  <p class="eyebrow">{{ site.pages.about.eyebrow }}</p>
+  <h1>{{ site.pages.about.headline }}</h1>
   {% for paragraph in site.about.summary %}
     <p class="page-lead">{{ paragraph }}</p>
   {% endfor %}
@@ -13,12 +14,12 @@ description: Learn more about Sepideh Mansouri, her design background, and what 
 
 <section class="split-section">
   <article class="content-card">
-    <p class="eyebrow">What guides me</p>
-    <h2>I want interfaces to feel capable, respectful, and easy to move through.</h2>
-    <p>My background in content work and customer-facing roles taught me how much trust depends on clarity. In design, I bring that same attention to information structure, interaction flow, and the emotional tone of each screen.</p>
+    <p class="eyebrow">{{ site.pages.about.guidance.eyebrow }}</p>
+    <h2>{{ site.pages.about.guidance.headline }}</h2>
+    <p>{{ site.pages.about.guidance.body }}</p>
   </article>
   <aside class="note-card">
-    <p class="eyebrow">Principles</p>
+    <p class="eyebrow">{{ site.pages.about.guidance.principlesEyebrow }}</p>
     <ul class="plain-list">
       {% for principle in site.about.principles %}
         <li>{{ principle }}</li>
@@ -30,25 +31,17 @@ description: Learn more about Sepideh Mansouri, her design background, and what 
 <section class="section-block">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">Working style</p>
-      <h2>Research-minded, visually thoughtful, and collaborative.</h2>
+      <p class="eyebrow">{{ site.pages.about.workingStyle.eyebrow }}</p>
+      <h2>{{ site.pages.about.workingStyle.headline }}</h2>
     </div>
   </div>
   <div class="cards-grid">
-    <article class="info-card">
-      <p class="eyebrow">Listen</p>
-      <h3>Understand the real problem</h3>
-      <p>I like starting with user goals and context so the work solves what actually matters.</p>
-    </article>
-    <article class="info-card">
-      <p class="eyebrow">Shape</p>
-      <h3>Turn ideas into usable structure</h3>
-      <p>I organize flows, content, and components so the product feels coherent and easier to use.</p>
-    </article>
-    <article class="info-card">
-      <p class="eyebrow">Refine</p>
-      <h3>Build trust through detail</h3>
-      <p>I care about hierarchy, wording, and visual finish because small decisions shape confidence.</p>
-    </article>
+    {% for card in site.pages.about.workingStyle.cards %}
+      <article class="info-card">
+        <p class="eyebrow">{{ card.eyebrow }}</p>
+        <h3>{{ card.headline }}</h3>
+        <p>{{ card.body }}</p>
+      </article>
+    {% endfor %}
   </div>
 </section>

@@ -137,5 +137,28 @@ module.exports = {
   contact: {
     ...(website.contact || {}),
     resumePdf: resume.cvPdfPath
+  },
+  pages: {
+    ...(website.pages || {}),
+    home: {
+      ...(website.pages && website.pages.home ? website.pages.home : {}),
+      ctaPanel: {
+        ...(website.pages && website.pages.home && website.pages.home.ctaPanel
+          ? website.pages.home.ctaPanel
+          : {}),
+        primary: resolveAction(
+          website.pages &&
+            website.pages.home &&
+            website.pages.home.ctaPanel &&
+            website.pages.home.ctaPanel.primary
+        ),
+        secondary: resolveAction(
+          website.pages &&
+            website.pages.home &&
+            website.pages.home.ctaPanel &&
+            website.pages.home.ctaPanel.secondary
+        )
+      }
+    }
   }
 };

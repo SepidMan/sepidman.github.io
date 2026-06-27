@@ -33,18 +33,23 @@ function slugifyName(value) {
 }
 
 const assetSlug = slugifyName(source.basics && source.basics.name);
+const pageResume =
+  source.website && source.website.pages && source.website.pages.resume
+    ? source.website.pages.resume
+    : {};
+const downloadLabels = pageResume.downloadOptions || {};
 const downloads = {
   resumePdf: {
     href: `/assets/${assetSlug}-resume.pdf`,
-    label: "Resume (PDF)"
+    label: downloadLabels.resumePdf || "Resume (PDF)"
   },
   cvPdf: {
     href: `/assets/${assetSlug}-cv.pdf`,
-    label: "CV (PDF)"
+    label: downloadLabels.cvPdf || "CV (PDF)"
   },
   jsonResume: {
     href: `/assets/${assetSlug}-jsonresume.json`,
-    label: "CV (JSON Resume)"
+    label: downloadLabels.jsonResume || "CV (JSON Resume)"
   }
 };
 

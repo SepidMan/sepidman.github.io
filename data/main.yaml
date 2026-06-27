@@ -220,6 +220,8 @@ projects:
       - UI/UX Designer
     entity: ReDI School of Digital Integration
     type: Final Course Project
+    website:
+      slug: photohub
   - name: Impact Page Redesign (Case Study)
     description: Redesigned an NGO Impact Page to improve readability, visual
       hierarchy, and content structure.
@@ -233,6 +235,84 @@ projects:
       - Accessibility
       - Visual Hierarchy
       - UX Research
+    website:
+      slug: impact-page-redesign
+  - name: Making an analytics workspace feel more focused
+    description: A UI/UX case study exploring modular hierarchy, calmer
+      grouping, and clearer decision paths in analytics software.
+    highlights:
+      - Analytics products often ask people to interpret dense information while
+        navigating too many competing panels, filters, and metrics at once.
+      - This concept explores how a workspace can feel more supportive by
+        reducing noise and giving each section a clearer role.
+    keywords:
+      - Figma
+      - Wireframing
+      - UX analysis
+    startDate: "2025"
+    endDate: "2025"
+    roles:
+      - UI/UX Design
+    website:
+      slug: analytics-workspace
+      featured: true
+      order: 1
+      coverTone: slate
+      cardEyebrow: Product UX
+      focus: Information architecture, dashboard clarity, and reusable layout
+        patterns.
+      seoDescription: A UI/UX case study exploring modular hierarchy, calmer
+        grouping, and clearer decision paths in analytics software.
+  - name: Designing a warmer care journey
+    description: A service UX concept focused on reassurance, guidance, and
+      reducing friction during emotionally sensitive tasks.
+    highlights:
+      - Care-related services often combine urgency, uncertainty, and
+        emotionally sensitive decisions.
+      - The concept explores a calmer service journey using step-by-step
+        guidance, softer content tone, and clearer feedback at every stage.
+    keywords:
+      - Figma
+      - Content design
+      - User flows
+    startDate: "2025"
+    endDate: "2025"
+    roles:
+      - Service UX
+    website:
+      slug: care-journey
+      featured: true
+      order: 2
+      coverTone: coral
+      cardEyebrow: Service experience
+      focus: User flows, emotional tone, and supportive content design.
+      seoDescription: A service UX concept focused on reassurance, guidance, and
+        reducing friction during emotionally sensitive tasks.
+  - name: Creating a reusable interface language
+    description: A design systems case study focused on consistency,
+      scalability, and a stronger visual voice across screens.
+    highlights:
+      - As digital products grow, small inconsistencies in spacing, type, and
+        components can make the experience feel fragmented.
+      - This exploration focused on shared interface primitives, repeatable
+        patterns, and visual rules that support both usability and tone.
+    keywords:
+      - Figma
+      - Components
+      - Design systems
+    startDate: "2025"
+    endDate: "2025"
+    roles:
+      - Design Systems
+    website:
+      slug: interface-library
+      featured: true
+      order: 3
+      coverTone: sand
+      cardEyebrow: Visual system
+      focus: Components, consistency, and scalable visual patterns.
+      seoDescription: A design systems case study focused on consistency,
+        scalability, and a stronger visual voice across screens.
 website:
   baseUrl: https://sepidehmansouri.com
   description: Portfolio website for Sepideh Mansouri, a UI/UX designer focused
@@ -304,3 +384,147 @@ website:
       feedback, I would love to hear from you.
     availability: Currently open to junior UI/UX roles, internships, and
       collaborative product design opportunities.
+  pages:
+    home:
+      seo:
+        title: Home
+        description: Portfolio homepage for Sepideh Mansouri, UI/UX designer in
+          Berlin.
+      graphicLabels:
+        top: COMPLEXITY TO CLARITY
+        bottom: IDEA TO DESIGN
+      heroPanel:
+        eyebrow: Design lens
+        caption: From complexity to clarity!
+        note: I like taking crowded, uncertain product experiences and shaping
+          them into interfaces that feel calm, legible, and intentional.
+      featuredProjects:
+        eyebrow: Featured projects
+        headline: Selected work that combines clarity, structure, and visual
+          tone.
+        linkLabel: View all work
+      practice:
+        eyebrow: About my practice
+        headline: My process is rooted in usability, but shaped by content and
+          atmosphere too.
+        body: I enjoy designing flows that make complex information feel
+          lighter. That means thinking carefully about hierarchy, language, and
+          the small visual decisions that help people trust what they are using.
+      focus:
+        eyebrow: Currently focused on
+        items:
+          - Junior UI/UX opportunities
+          - Portfolio-ready case studies
+          - Calm, accessible digital products
+      ctaPanel:
+        eyebrow: Let’s connect
+        headline: Looking for a thoughtful designer who cares about clarity and
+          human-centered details.
+        primary:
+          label: Get in touch
+          url: /contact/
+        secondary:
+          label: View resume
+          url: /resume/
+    about:
+      seo:
+        title: About
+        description: Learn more about Sepideh Mansouri, her design background,
+          and what guides her work.
+      eyebrow: About
+      headline: Designing with calm structure, empathy, and a strong sense of
+        visual tone.
+      guidance:
+        eyebrow: What guides me
+        headline: I want interfaces to feel capable, respectful, and easy to
+          move through.
+        body: My background in content work and customer-facing roles taught me
+          how much trust depends on clarity. In design, I bring that same
+          attention to information structure, interaction flow, and the
+          emotional tone of each screen.
+        principlesEyebrow: Principles
+      workingStyle:
+        eyebrow: Working style
+        headline: Research-minded, visually thoughtful, and collaborative.
+        cards:
+          - eyebrow: Listen
+            headline: Understand the real problem
+            body: I like starting with user goals and context so the work solves
+              what actually matters.
+          - eyebrow: Shape
+            headline: Turn ideas into usable structure
+            body: I organize flows, content, and components so the product
+              feels coherent and easier to use.
+          - eyebrow: Refine
+            headline: Build trust through detail
+            body: I care about hierarchy, wording, and visual finish because
+              small decisions shape confidence.
+    contact:
+      seo:
+        title: Contact
+        description: Contact Sepideh Mansouri for UI/UX opportunities and
+          collaborations.
+      eyebrow: Contact
+      headline: Let’s talk about design roles, internships, or thoughtful
+        digital products.
+      socialCardBody: Connect with me and explore more of my background and
+        work.
+      emailCardEyebrow: Email
+      emailCardBody: The best place to reach me for roles, portfolio
+        conversations, and collaboration inquiries.
+    work:
+      seo:
+        title: Work
+        description: Selected UI/UX projects and case studies by Sepideh
+          Mansouri.
+      eyebrow: Work
+      headline: Portfolio work focused on user clarity, thoughtful systems, and
+        visual restraint.
+      intro: These case studies show how I approach product structure,
+        interface design, and experience tone together.
+    resume:
+      seo:
+        title: Resume
+        description: Resume and CV for Sepideh Mansouri, rendered from
+          structured resume data.
+      heroEyebrow: Resume
+      contactLabels:
+        location: Location
+        email: Email
+        linkedin: LinkedIn
+        github: GitHub
+      downloadButtonLabel: Download Resume
+      downloadOptions:
+        resumePdf: Resume (PDF)
+        cvPdf: CV (PDF)
+        jsonResume: CV (JSON Resume)
+      sections:
+        experienceEyebrow: Experience
+        experienceHeadline: Professional background
+        presentLabel: Present
+        educationEyebrow: Education
+        skillsEyebrow: Skills
+        trainingEyebrow: Training and languages
+        certificatesHeading: Certificates
+        languagesHeading: Languages
+        projectsHeading: Selected projects
+    projects:
+      cardEyebrowFallback: Selected work
+      heroEyebrow: Case study
+      metaLabels:
+        role: Role
+        timeline: Timeline
+        tools: Tools
+        focus: Focus
+      cta:
+        eyebrow: Looking for more?
+        headline: See the rest of the portfolio or get in touch.
+        primary:
+          label: Back to all work
+          url: /work/
+        secondary:
+          label: Contact me
+          url: /contact/
+    footer:
+      contactEyebrow: Contact
+      downloadLabel: Download CV

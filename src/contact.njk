@@ -1,12 +1,13 @@
 ---
 layout: layouts/base.njk
-title: Contact
-description: Contact Sepideh Mansouri for UI/UX opportunities and collaborations.
+eleventyComputed:
+  title: "{{ site.pages.contact.seo.title }}"
+  description: "{{ site.pages.contact.seo.description }}"
 ---
 <section class="contact-layout">
   <div class="contact-intro">
-    <p class="eyebrow">Contact</p>
-    <h1>Let’s talk about design roles, internships, or thoughtful digital products.</h1>
+    <p class="eyebrow">{{ site.pages.contact.eyebrow }}</p>
+    <h1>{{ site.pages.contact.headline }}</h1>
     <p class="page-lead">{{ site.contact.intro }}</p>
     <p>{{ site.contact.availability }}</p>
   </div>
@@ -22,7 +23,7 @@ description: Contact Sepideh Mansouri for UI/UX opportunities and collaborations
         </div>
         <p class="eyebrow">{{ item.name }}</p>
         <h2>{{ item.url | replace("https://www.", "") | replace("https://", "") }}</h2>
-        <p>Connect with me and explore more of my background and work.</p>
+        <p>{{ site.pages.contact.socialCardBody }}</p>
       </a>
     {% endfor %}
 
@@ -33,9 +34,9 @@ description: Contact Sepideh Mansouri for UI/UX opportunities and collaborations
         {% set iconStyle = null %}
         {% include "partials/contact-icon.njk" %}
       </div>
-      <p class="eyebrow">Email</p>
+      <p class="eyebrow">{{ site.pages.contact.emailCardEyebrow }}</p>
       <h2>{{ site.author.email }}</h2>
-      <p>The best place to reach me for roles, portfolio conversations, and collaboration inquiries.</p>
+      <p>{{ site.pages.contact.emailCardBody }}</p>
     </a>
   </div>
 </section>

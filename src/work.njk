@@ -1,12 +1,13 @@
 ---
 layout: layouts/base.njk
-title: Work
-description: Selected UI/UX projects and case studies by Sepideh Mansouri.
+eleventyComputed:
+  title: "{{ site.pages.work.seo.title }}"
+  description: "{{ site.pages.work.seo.description }}"
 ---
 <section class="page-intro">
-  <p class="eyebrow">Work</p>
-  <h1>Portfolio work focused on user clarity, thoughtful systems, and visual restraint.</h1>
-  <p class="page-lead">These case studies show how I approach product structure, interface design, and experience tone together.</p>
+  <p class="eyebrow">{{ site.pages.work.eyebrow }}</p>
+  <h1>{{ site.pages.work.headline }}</h1>
+  <p class="page-lead">{{ site.pages.work.intro }}</p>
 </section>
 
 <section class="section-block">

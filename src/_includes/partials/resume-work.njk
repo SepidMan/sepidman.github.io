@@ -1,8 +1,8 @@
 <section class="resume-section">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">Experience</p>
-      <h2>Professional background</h2>
+      <p class="eyebrow">{{ site.pages.resume.sections.experienceEyebrow }}</p>
+      <h2>{{ site.pages.resume.sections.experienceHeadline }}</h2>
     </div>
   </div>
   <div class="resume-timeline">
@@ -21,7 +21,7 @@
               {% if item.endDate %}
                 - <time datetime="{{ item.endDate | isoDate }}">{{ item.endDate | resumeDate }}</time>
               {% elseif item.startDate %}
-                - Present
+                - {{ site.pages.resume.sections.presentLabel }}
               {% endif %}
             </p>
           {% endif %}

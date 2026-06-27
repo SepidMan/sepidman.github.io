@@ -1,7 +1,8 @@
 ---
 layout: layouts/base.njk
-title: Resume
-description: Resume and CV for Sepideh Mansouri, rendered from structured resume data.
+eleventyComputed:
+  title: "{{ site.pages.resume.seo.title }}"
+  description: "{{ site.pages.resume.seo.description }}"
 ---
 {% include "partials/resume-basics.njk" %}
 {% include "partials/resume-work.njk" %}

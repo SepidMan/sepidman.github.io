@@ -1,7 +1,8 @@
 ---
 layout: layouts/base.njk
-title: Home
-description: Portfolio homepage for Sepideh Mansouri, UI/UX designer in Berlin.
+eleventyComputed:
+  title: "{{ site.pages.home.seo.title }}"
+  description: "{{ site.pages.home.seo.description }}"
 ---
 <div class="hero-top-graphic" aria-hidden="true">
   <svg class="hero-top-graphic-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" fill="none">
@@ -20,8 +21,8 @@ description: Portfolio homepage for Sepideh Mansouri, UI/UX designer in Berlin.
       </radialGradient>
     </defs>
     <path class="hero-top-graphic-line" d="M-92 182H186C212 182 234 168 224 145C211 116 255 91 284 122C322 163 247 207 221 174C188 132 244 73 318 88C399 104 418 201 352 244C286 288 190 244 203 165C216 85 324 48 389 108C455 170 404 285 304 282C214 279 151 195 191 119C236 34 377 36 438 122C493 199 431 315 321 321C229 326 158 264 151 185C143 91 241 32 337 59C427 84 487 173 459 255C432 332 314 344 235 290C174 249 166 167 218 118C275 64 376 74 425 143C469 205 433 286 358 304C280 323 201 280 186 207C170 131 229 67 307 70C383 73 443 134 442 205C441 264 393 309 327 311C255 314 201 270 204 207C207 154 250 116 305 118C360 121 399 162 396 211C393 259 348 289 301 278C258 268 236 225 250 187C264 148 305 132 342 150C371 164 384 197 373 226C361 258 325 271 294 255C269 242 260 214 273 191C287 167 315 160 337 174C362 190 363 224 338 246C312 269 265 267 232 239C207 218 195 192 207 172C222 149 257 155 286 176C317 199 349 226 387 224C422 222 450 197 474 205C497 213 520 229 546 204C567 183 579 156 604 150C631 144 646 176 670 184C697 194 724 176 747 163C771 150 796 152 816 169C837 186 860 192 887 186C914 180 934 165 958 163C985 161 1008 176 1031 180C1053 184 1075 182 1095 182H1160" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <text class="hero-top-graphic-label hero-top-graphic-label-top" x="560" y="92">COMPLEXITY TO CLARITY</text>
-    <text class="hero-top-graphic-label hero-top-graphic-label-bottom" x="760" y="250">IDEA TO DESIGN</text>
+    <text class="hero-top-graphic-label hero-top-graphic-label-top" x="560" y="92">{{ site.pages.home.graphicLabels.top }}</text>
+    <text class="hero-top-graphic-label hero-top-graphic-label-bottom" x="760" y="250">{{ site.pages.home.graphicLabels.bottom }}</text>
     <g class="hero-top-graphic-bulb">
       <ellipse class="hero-top-graphic-bulb-aura" cx="1162" cy="110" rx="36" ry="48" fill="url(#hero-bulb-aura)"/>
       <circle class="hero-top-graphic-bulb-glow" cx="1165" cy="110" r="30" fill="url(#hero-bulb-core)"/>
@@ -44,9 +45,9 @@ description: Portfolio homepage for Sepideh Mansouri, UI/UX designer in Berlin.
   </div>
 
   <div class="hero-panel">
-    <p class="eyebrow">Design lens</p>
-    <p class="hero-panel-caption">From complexity to clarity!</p>
-    <p class="hero-panel-note">I like taking crowded, uncertain product experiences and shaping them into interfaces that feel calm, legible, and intentional.</p>
+    <p class="eyebrow">{{ site.pages.home.heroPanel.eyebrow }}</p>
+    <p class="hero-panel-caption">{{ site.pages.home.heroPanel.caption }}</p>
+    <p class="hero-panel-note">{{ site.pages.home.heroPanel.note }}</p>
   </div>
 </section>
 
@@ -63,10 +64,10 @@ description: Portfolio homepage for Sepideh Mansouri, UI/UX designer in Berlin.
 <section class="section-block">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">Featured projects</p>
-      <h2>Selected work that combines clarity, structure, and visual tone.</h2>
+      <p class="eyebrow">{{ site.pages.home.featuredProjects.eyebrow }}</p>
+      <h2>{{ site.pages.home.featuredProjects.headline }}</h2>
     </div>
-    <a class="text-link" href="/work/">View all work</a>
+    <a class="text-link" href="/work/">{{ site.pages.home.featuredProjects.linkLabel }}</a>
   </div>
   <div class="project-grid">
     {% for project in collections.featuredProjects %}
@@ -77,25 +78,25 @@ description: Portfolio homepage for Sepideh Mansouri, UI/UX designer in Berlin.
 
 <section class="split-section">
   <article class="content-card">
-    <p class="eyebrow">About my practice</p>
-    <h2>My process is rooted in usability, but shaped by content and atmosphere too.</h2>
-    <p>I enjoy designing flows that make complex information feel lighter. That means thinking carefully about hierarchy, language, and the small visual decisions that help people trust what they are using.</p>
+    <p class="eyebrow">{{ site.pages.home.practice.eyebrow }}</p>
+    <h2>{{ site.pages.home.practice.headline }}</h2>
+    <p>{{ site.pages.home.practice.body }}</p>
   </article>
   <aside class="note-card">
-    <p class="eyebrow">Currently focused on</p>
+    <p class="eyebrow">{{ site.pages.home.focus.eyebrow }}</p>
     <ul class="plain-list">
-      <li>Junior UI/UX opportunities</li>
-      <li>Portfolio-ready case studies</li>
-      <li>Calm, accessible digital products</li>
+      {% for item in site.pages.home.focus.items %}
+        <li>{{ item }}</li>
+      {% endfor %}
     </ul>
   </aside>
 </section>
 
 <section class="cta-panel">
-  <p class="eyebrow">Let’s connect</p>
-  <h2>Looking for a thoughtful designer who cares about clarity and human-centered details.</h2>
+  <p class="eyebrow">{{ site.pages.home.ctaPanel.eyebrow }}</p>
+  <h2>{{ site.pages.home.ctaPanel.headline }}</h2>
   <div class="cta-row">
-    <a class="button" href="/contact/">Get in touch</a>
-    <a class="button button-secondary" href="/resume/">View resume</a>
+    <a class="button" href="{{ site.pages.home.ctaPanel.primary.url }}">{{ site.pages.home.ctaPanel.primary.label }}</a>
+    <a class="button button-secondary" href="{{ site.pages.home.ctaPanel.secondary.url }}">{{ site.pages.home.ctaPanel.secondary.label }}</a>
   </div>
 </section>
