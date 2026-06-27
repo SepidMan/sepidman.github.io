@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from jsonschema import Draft7Validator, FormatChecker, RefResolver
+from typing import TYPE_CHECKING
+
+from jsonschema import Draft7Validator
+from pyserials import validate as serial_validate
 
 from .assets import resume_slug
 from .errors import ResumePipelineError
@@ -18,6 +21,40 @@ from .paths import (
     theme_path,
 )
 from .types import PipelineConfig, RenderCVConfig, VariantConfig
+
+if TYPE_CHECKING:
+    from .types import JsonDict
+
+
+def _pointer_for_error(error: object) -> str:
+    """Convert a validation error path into a JSON pointer."""
+    path = getattr(error, "path", ())
+    path_parts = list(path) if path else []
+    return "/" + "/".join(str(part) for part in path_parts) if path_parts else "/"
+
+
+def _validate_schema(
+    *,
+    data: JsonDict,
+    schema: JsonDict,
+    failure_message: str,
+) -> None:
+    """Validate data against a JSON Schema using pyserials."""
+    errors = serial_validate.jsonschema(
+        data,
+        schema,
+        validator=Draft7Validator,
+        iter_errors=True,
+        raise_invalid_data=False,
+    )
+    if not errors:
+        return
+
+    messages = [
+        f"{_pointer_for_error(error)} {error.message}"
+        for error in sorted(errors, key=lambda error: list(error.path))
+    ]
+    raise ResumePipelineError(f"{failure_message}\n" + "\n".join(messages))
 
 
 def _validate_variant_shape(
@@ -79,56 +116,20 @@ def _validate_variant_shape(
 
 def _validate_canonical_resume(
     *,
-    resume: object,
-    schema: object,
-    jsonresume_schema: object,
+    resume: JsonDict,
+    schema: JsonDict,
+    jsonresume_schema: JsonDict,
 ) -> None:
-    resolver = RefResolver(
-        base_uri=SCHEMA_PATH.resolve().as_uri(),
-        referrer=schema,
-        store={JSONRESUME_SCHEMA_PATH.resolve().as_uri(): jsonresume_schema},
+    _validate_schema(
+        data=resume,
+        schema=schema,
+        failure_message="data/main.yaml failed schema validation:",
     )
-    validator = Draft7Validator(
-        schema,
-        format_checker=FormatChecker(),
-        resolver=resolver,
+    _validate_schema(
+        data=build_jsonresume_data(resume),
+        schema=jsonresume_schema,
+        failure_message="Generated JSON Resume output failed schema validation:",
     )
-    errors = sorted(validator.iter_errors(resume), key=lambda error: list(error.path))
-    if errors:
-        messages = []
-        for error in errors:
-            pointer = (
-                "/" + "/".join(str(part) for part in error.path)
-                if error.path
-                else "/"
-            )
-            messages.append(f"{pointer} {error.message}")
-        message = "data/main.yaml failed schema validation:\n" + "\n".join(messages)
-        raise ResumePipelineError(message)
-
-    jsonresume = build_jsonresume_data(resume)
-    jsonresume_validator = Draft7Validator(
-        jsonresume_schema,
-        format_checker=FormatChecker(),
-    )
-    jsonresume_errors = sorted(
-        jsonresume_validator.iter_errors(jsonresume),
-        key=lambda error: list(error.path),
-    )
-    if jsonresume_errors:
-        messages = []
-        for error in jsonresume_errors:
-            pointer = (
-                "/" + "/".join(str(part) for part in error.path)
-                if error.path
-                else "/"
-            )
-            messages.append(f"{pointer} {error.message}")
-        message = (
-            "Generated JSON Resume output failed schema validation:\n"
-            + "\n".join(messages)
-        )
-        raise ResumePipelineError(message)
 
 
 def _extract_rendercv_config(

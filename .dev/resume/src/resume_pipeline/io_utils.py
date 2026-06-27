@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
-import json
+from copy import deepcopy
+from datetime import date, datetime, time
 from typing import TYPE_CHECKING
 
-import yaml
+from pyserials import read as serial_read
+from pyserials import update as serial_update
+from pyserials import write as serial_write
 
 from .errors import ResumePipelineError
 
@@ -15,76 +18,73 @@ if TYPE_CHECKING:
     from .types import JsonDict, JsonValue
 
 
-class _NoDatesSafeLoader(yaml.SafeLoader):
-    """Safe YAML loader that keeps timestamp-like scalars as strings."""
-
-
-for _key, _resolvers in list(_NoDatesSafeLoader.yaml_implicit_resolvers.items()):
-    _NoDatesSafeLoader.yaml_implicit_resolvers[_key] = [
-        (tag, regexp)
-        for tag, regexp in _resolvers
-        if tag != "tag:yaml.org,2002:timestamp"
-    ]
-
-
 def assert_condition(*, condition: bool, message: str) -> None:
     """Raise a pipeline error when a required condition is false."""
     if not condition:
         raise ResumePipelineError(message)
 
 
-def read_json(path: Path) -> JsonDict:
-    """Read a JSON object from disk."""
-    with path.open("r", encoding="utf8") as handle:
-        data = json.load(handle)
+def _normalize_serialized_value(value: object) -> JsonValue:
+    """Convert parser-specific values into plain JSON-shaped Python data."""
+    if isinstance(value, dict):
+        return {
+            str(key): _normalize_serialized_value(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_normalize_serialized_value(item) for item in value]
+    if isinstance(value, (datetime, date, time)):
+        return value.isoformat()
+    return value
 
-    message = f"Expected a JSON object in {path}."
+
+def _read_object(path: Path, *, data_type: str) -> JsonDict:
+    """Read and normalize a serialized object file."""
+    data = _normalize_serialized_value(serial_read.from_file(path, data_type=data_type))
+    message = f"Expected a {data_type.upper()} object in {path}."
     assert_condition(condition=isinstance(data, dict), message=message)
     return data
+
+
+def read_json(path: Path) -> JsonDict:
+    """Read a JSON object from disk."""
+    return _read_object(path, data_type="json")
 
 
 def write_json(path: Path, data: JsonDict) -> None:
     """Write a JSON object to disk."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf8") as handle:
-        json.dump(data, handle, indent=2, ensure_ascii=False)
-        handle.write("\n")
+    serial_write.to_json_file(data, path, indent=2)
 
 
 def read_yaml(path: Path) -> JsonDict:
     """Read a YAML object from disk."""
-    with path.open("r", encoding="utf8") as handle:
-        data = yaml.load(handle, Loader=_NoDatesSafeLoader)  # noqa: S506
-
-    message = f"Expected a YAML object in {path}."
-    assert_condition(condition=isinstance(data, dict), message=message)
-    return data
+    return _read_object(path, data_type="yaml")
 
 
 def write_yaml(path: Path, data: JsonDict) -> None:
     """Write a YAML object to disk."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf8") as handle:
-        yaml.safe_dump(data, handle, sort_keys=False, allow_unicode=False)
+    serial_write.to_yaml_file(data, path)
 
 
 def deep_merge(target: JsonValue, source: JsonValue) -> JsonValue:
     """Recursively merge dict-like values, replacing scalars and lists."""
     if not isinstance(source, dict):
-        return source
+        return deepcopy(source)
 
     result = dict(target) if isinstance(target, dict) else {}
-    for key, value in source.items():
-        if isinstance(value, dict) and isinstance(result.get(key), dict):
-            result[key] = deep_merge(result[key], value)
-        else:
-            result[key] = value
+    serial_update.recursive_update(
+        result,
+        source,
+        types={list: "write"},
+        undefined_existing="write",
+        log_changes=False,
+    )
     return result
 
 
 def clone(data: JsonDict) -> JsonDict:
     """Deep-copy JSON-shaped data."""
-    return json.loads(json.dumps(data))
+    return deepcopy(data)
 
 
 def ensure_readable(path: Path, label: str) -> None:

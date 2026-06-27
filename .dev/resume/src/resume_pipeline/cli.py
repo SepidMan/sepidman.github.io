@@ -68,7 +68,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "validate":
             validate_resume_pipeline()
             _write_stdout(
-                "Canonical resume source, schema, profiles, and RenderCV export config are valid."
+                "Canonical resume source, schema, profiles, and RenderCV export config are valid.",
             )
             return 0
 
