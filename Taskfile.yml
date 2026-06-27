@@ -27,6 +27,7 @@ tasks:
   build:site:
     desc: Build the Eleventy site
     cmds:
+      - npx rimraf {{.BUILD_DIR}}
       - npx @11ty/eleventy --input={{.ELEVENTY_INPUT}} --output={{.BUILD_DIR}}
 
   build:resume:
@@ -50,11 +51,6 @@ tasks:
     desc: Validate canonical resume data and resume variant config
     cmds:
       - node tools/validate_resume.mjs
-
-  legacy:resume-print:
-    desc: Build the legacy Playwright-based PDF from the print HTML page
-    cmds:
-      - node tools/generate_resume_pdf.mjs
 
   clean:
     desc: Remove generated build output

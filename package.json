@@ -7,7 +7,7 @@
     "task": "task",
     "dev": "task dev",
     "build:site": "task build:site",
-    "build:pdf": "task legacy:resume-print",
+    "build:pdf": "task build:resume",
     "build:resume": "task build:resume",
     "build": "task build",
     "clean": "task clean",
@@ -21,7 +21,6 @@
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "luxon": "^3.7.2",
-    "playwright": "^1.53.1",
     "rimraf": "^5.0.0",
     "yaml": "^2.8.1"
   }

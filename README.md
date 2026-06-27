@@ -8,7 +8,6 @@ This repository contains a data-driven personal portfolio website built with Ele
 - Nunjucks
 - JSON Resume data
 - RenderCV for paper-native PDF export
-- Playwright for the legacy HTML-print PDF export
 
 ## Project structure
 
@@ -20,7 +19,6 @@ This repository contains a data-driven personal portfolio website built with Ele
 - `cv/rendercv/` — RenderCV base config, theme presets, and variant definitions
 - `build/` — generated site output for deployment
 - `tools/build_resume_pdf.mjs` — RenderCV PDF build orchestration
-- `tools/generate_resume_pdf.mjs` — legacy Playwright PDF export
 - `Taskfile.yml` — top-level task runner commands
 - `pixi.toml` — Python environment management for RenderCV
 
@@ -66,5 +64,3 @@ The web resume page and the downloadable PDFs are both generated from the same c
 - PDF resume: `cv/resume.json` -> profile override -> RenderCV YAML -> RenderCV PDF
 
 RenderCV intermediate files stay under `cv/generated/`, and only the final public PDFs are copied into `build/assets/`.
-
-The legacy Playwright print pipeline is still available via `npx task legacy:resume-print`, but it is now a fallback rather than the preferred PDF path.

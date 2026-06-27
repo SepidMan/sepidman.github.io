@@ -1203,19 +1203,6 @@ html[data-theme="dark"] .contact-card-link[data-brand="github"]:focus-visible .c
   color: var(--muted);
 }
 
-.resume-print {
-  width: 210mm;
-  min-height: 297mm;
-  margin: 0 auto;
-  padding: 14mm;
-  background: #fff;
-}
-
-.resume-print .resume-hero,
-.resume-print .resume-grid {
-  gap: 10mm;
-}
-
 .site-footer {
   grid-template-columns: 1fr auto;
   align-items: end;
@@ -1649,51 +1636,5 @@ html[data-theme="dark"] .contact-card-link[data-brand="github"]:focus-visible .c
 
   .project-card-visual {
     min-height: 12.5rem;
-  }
-}
-
-@page {
-  size: A4;
-  margin: 14mm;
-}
-
-@media print {
-  body {
-    background: #fff;
-  }
-
-  .print-body {
-    background: #fff;
-  }
-
-  .resume-print {
-    width: auto;
-    min-height: auto;
-    margin: 0;
-    padding: 0;
-  }
-
-  .resume-hero,
-  .resume-grid {
-    grid-template-columns: 1fr 0.9fr;
-  }
-
-  .resume-contact-card,
-  .timeline-item,
-  .resume-panel,
-  .page-hero-copy,
-  .page-hero-visual,
-  .content-card,
-  .note-card,
-  .contact-card,
-  .cta-panel {
-    box-shadow: none;
-    background: #fff;
-  }
-
-  .resume-section,
-  .timeline-item,
-  .resume-panel {
-    break-inside: avoid;
   }
 }

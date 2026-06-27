@@ -243,4 +243,3 @@ npx task build:resume:variant VARIANT=<name>
 
 - The website resume and the PDF resume are intentionally decoupled now.
 - Editing the website template or CSS does not automatically improve the PDF anymore.
-- The legacy Playwright pipeline still exists outside this directory as a fallback, but the preferred PDF path is the RenderCV pipeline described here.
