@@ -278,8 +278,17 @@ img {
 .site-nav {
   display: flex;
   justify-content: center;
+}
+
+.site-nav-links {
+  display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 0.35rem;
+}
+
+.site-nav-social-row {
+  display: none;
 }
 
 .site-nav a {
@@ -287,18 +296,21 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
+  font-size: 1rem;
 }
 
 .site-nav-icon {
-  display: none;
-  width: 1rem;
-  height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
   line-height: 0;
 }
 
 .site-nav-icon svg {
-  width: 1rem;
-  height: 1rem;
+  width: 1.05rem;
+  height: 1.05rem;
   fill: currentColor;
 }
 
@@ -435,11 +447,15 @@ html[data-theme="dark"] .social-icon-link[data-brand="github"]:focus-visible {
 }
 
 .site-nav a:hover,
-.site-nav a:focus-visible,
-.site-nav a[aria-current="page"] {
+.site-nav a:focus-visible {
   background: var(--panel-overlay);
   color: var(--text);
   transform: translateY(-1px);
+}
+
+.site-nav a[aria-current="page"] {
+  background: var(--panel-overlay);
+  color: var(--text);
 }
 
 .theme-toggle {
@@ -1370,6 +1386,10 @@ html[data-theme="dark"] .contact-card-link[data-brand="github"]:focus-visible .c
 
   .site-nav {
     flex-wrap: nowrap;
+  }
+
+  .site-nav-links {
+    flex-wrap: nowrap;
     gap: 0.45rem;
   }
 
@@ -1388,13 +1408,8 @@ html[data-theme="dark"] .contact-card-link[data-brand="github"]:focus-visible .c
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.55rem;
-    height: 1.55rem;
-  }
-
-  .site-nav-icon svg {
-    width: 1.55rem;
-    height: 1.55rem;
+    width: 1.05rem;
+    height: 1.05rem;
   }
 
   .site-nav-label {
@@ -1514,22 +1529,27 @@ html[data-theme="dark"] .contact-card-link[data-brand="github"]:focus-visible .c
     grid-column: 1 / -1;
     order: 4;
     width: 100%;
-    margin-top: 0.35rem;
-    padding-top: 0.35rem;
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
     border-top: 1px solid var(--line);
-    flex-direction: column;
     align-items: stretch;
-    gap: 0.45rem;
   }
 
   html[data-menu-open="true"] .site-nav {
-    display: flex;
+    display: block;
+  }
+
+  .site-nav-links {
+    flex-direction: column;
+    gap: 0.45rem;
   }
 
   .site-nav a {
-    justify-content: flex-start;
+    justify-content: center;
     padding: 0.8rem 0.95rem;
     background: var(--panel-overlay);
+    line-height: 1.2;
+    text-align: center;
   }
 
   .site-nav-icon {
@@ -1546,6 +1566,31 @@ html[data-theme="dark"] .contact-card-link[data-brand="github"]:focus-visible .c
     overflow: visible;
     clip: auto;
     white-space: normal;
+  }
+
+  .site-nav-social-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .site-nav-social-row .social-icon-link {
+    width: 2.35rem;
+    height: 2.35rem;
+    min-width: 2.35rem;
+    min-height: 2.35rem;
+    justify-content: center;
+    padding: 0;
+    background: var(--surface);
+  }
+
+  .site-nav-social-row .social-icon-link svg {
+    width: 1.05rem;
+    height: 1.05rem;
   }
 
   .social-icon-row {

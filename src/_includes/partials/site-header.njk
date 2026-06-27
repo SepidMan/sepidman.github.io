@@ -18,20 +18,48 @@
     </span>
   </a>
   <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
-    {% for item in site.navigation %}
-      {% set isCurrent = page.url == item.url or (item.url != "/" and page.url.indexOf(item.url) == 0) %}
-      <a
-        href="{{ item.url }}"
-        {% if isCurrent %} aria-current="page"{% endif %}
-        aria-label="{{ item.label }}"
-        data-nav-tip="{{ item.label }}"
-      >
-        <span class="site-nav-icon" aria-hidden="true">
-          {% include "partials/nav-icon.njk" %}
-        </span>
-        <span class="site-nav-label">{{ item.label }}</span>
-      </a>
-    {% endfor %}
+    <div class="site-nav-links">
+      {% for item in site.navigation %}
+        {% set isCurrent = page.url == item.url or (item.url != "/" and page.url.indexOf(item.url) == 0) %}
+        <a
+          href="{{ item.url }}"
+          {% if isCurrent %} aria-current="page"{% endif %}
+          aria-label="{{ item.label }}"
+          data-nav-tip="{{ item.label }}"
+        >
+          <span class="site-nav-icon" aria-hidden="true">
+            {% include "partials/nav-icon.njk" %}
+          </span>
+          <span class="site-nav-label">{{ item.label }}</span>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="site-nav-social-row" aria-label="Social links">
+      {% for item in site.headerSocial %}
+        {% if item.url %}
+          <a
+            class="social-icon-link"
+            href="{{ item.url }}"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="{{ item.name }}"
+            data-tip="{{ item.name }}"
+            data-brand="{{ item.icon }}"
+          >
+            {% include "partials/social-icon.njk" %}
+          </a>
+        {% else %}
+          <span
+            class="social-icon-link social-icon-link-disabled"
+            aria-hidden="true"
+            data-tip="{{ item.name }} unavailable"
+            data-brand="{{ item.icon }}"
+          >
+            {% include "partials/social-icon.njk" %}
+          </span>
+        {% endif %}
+      {% endfor %}
+    </div>
   </nav>
   <div class="site-header-actions">
     <button
