@@ -45,7 +45,7 @@ data/
 - RenderCV-specific configuration.
 - `base.yaml` holds shared paper-layout defaults.
 - `themes/` contains visual overlays for different PDF families.
-- `variants.yaml` maps variant names to profile, theme, and public output path.
+- Canonical variant metadata now lives in `main.yaml` under `exports.rendercv.variants`.
 
 ## Build Outputs
 
@@ -57,7 +57,7 @@ data/
 1. Validate `main.yaml` against `schema.json`.
 2. Project JSON Resume fields from `main.yaml` and validate that export against `jsonresume.schema.json`.
 3. Load a profile from `profiles/` for each requested PDF variant.
-4. Transform the profiled data into RenderCV input and merge `rendercv/base.yaml` with the selected theme overlay.
+4. Read RenderCV variant/settings metadata from `main.yaml` and merge `rendercv/base.yaml` with the selected theme overlay.
 5. Write the generated RenderCV YAML to `build/cv/`.
 6. Render the paper-native PDFs through RenderCV.
 7. Publish the PDFs and the generated JSON Resume asset into `build/website/assets/`.

@@ -393,7 +393,7 @@ website:
       graphicLabels:
         top: COMPLEXITY TO CLARITY
         bottom: IDEA TO DESIGN
-      heroPanel:
+      aside:
         eyebrow: Design lens
         caption: From complexity to clarity!
         note: I like taking crowded, uncertain product experiences and shaping
@@ -416,7 +416,7 @@ website:
           - Junior UI/UX opportunities
           - Portfolio-ready case studies
           - Calm, accessible digital products
-      ctaPanel:
+      cta:
         eyebrow: Let’s connect
         headline: Looking for a thoughtful designer who cares about clarity and
           human-centered details.
@@ -434,7 +434,7 @@ website:
       eyebrow: About
       headline: Designing with calm structure, empathy, and a strong sense of
         visual tone.
-      guidance:
+      introCard:
         eyebrow: What guides me
         headline: I want interfaces to feel capable, respectful, and easy to
           move through.
@@ -443,7 +443,7 @@ website:
           attention to information structure, interaction flow, and the
           emotional tone of each screen.
         principlesEyebrow: Principles
-      workingStyle:
+      featureCards:
         eyebrow: Working style
         headline: Research-minded, visually thoughtful, and collaborative.
         cards:
@@ -509,7 +509,7 @@ website:
         languagesHeading: Languages
         projectsHeading: Selected projects
     projects:
-      cardEyebrowFallback: Selected work
+      defaultCardEyebrow: Selected work
       heroEyebrow: Case study
       metaLabels:
         role: Role
@@ -528,3 +528,26 @@ website:
     footer:
       contactEyebrow: Contact
       downloadLabel: Download CV
+exports:
+  rendercv:
+    locale:
+      language: english
+    settings:
+      currentDate: today
+      boldKeywords: []
+      pdfTitle: NAME - CV
+    variants:
+      cv:
+        label: CV
+        profile: cv
+        theme: default
+        output: build/website/assets/{resume_slug}-cv.pdf
+        summary: Full A4 curriculum vitae with no profile-based content
+          trimming.
+      resume:
+        label: Resume
+        profile: resume
+        theme: minimal
+        output: build/website/assets/{resume_slug}-resume.pdf
+        summary: Selective application-ready resume with reduced supporting
+          content.

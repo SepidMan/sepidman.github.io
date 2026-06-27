@@ -26,11 +26,22 @@ class VariantConfig:
 
 
 @dataclass(frozen=True)
+class RenderCVConfig:
+    """Canonical RenderCV export settings from the internal data model."""
+
+    current_date: str = "today"
+    bold_keywords: list[str] | None = None
+    pdf_title: str | None = None
+    locale_language: str | None = None
+
+
+@dataclass(frozen=True)
 class PipelineConfig:
     """Validated resume data and variant registry."""
 
     resume: JsonDict
     variants: dict[str, VariantConfig]
+    rendercv: RenderCVConfig
 
 
 @dataclass(frozen=True)

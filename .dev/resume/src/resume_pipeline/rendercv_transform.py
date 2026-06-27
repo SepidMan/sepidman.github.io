@@ -1,36 +1,17 @@
-"""Transform canonical resume data into RenderCV-ready structures."""
+"""Projection from canonical profile data to RenderCV input."""
 
 from __future__ import annotations
 
+import os
 from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from .errors import ResumePipelineError
-from .io_utils import clone, deep_merge
+from .io_utils import deep_merge
+from .paths import ROOT_DIR
 
 if TYPE_CHECKING:
-    from .types import GeneratedVariantPaths, JsonDict, JsonValue
-
-
-JSONRESUME_TOP_LEVEL_KEYS = {
-    "$schema",
-    "meta",
-    "basics",
-    "work",
-    "volunteer",
-    "education",
-    "awards",
-    "certificates",
-    "publications",
-    "skills",
-    "languages",
-    "interests",
-    "references",
-    "projects",
-}
-JSONRESUME_SCHEMA_URL = (
-    "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json"
-)
+    from .types import GeneratedVariantPaths, JsonDict, JsonValue, RenderCVConfig
 
 
 def _pick_username(profile: JsonDict) -> str:
@@ -85,86 +66,27 @@ def _optional_string(value: JsonValue) -> str | None:
     return None
 
 
-def build_sections(resume: JsonDict) -> JsonDict:
-    """Build the RenderCV section payload for a profiled resume."""
-    sections: JsonDict = {}
-    basics = resume.get("basics")
+def _resolve_photo(value: JsonValue, output_directory: str) -> str | None:
+    photo = _optional_string(value)
+    if photo is None:
+        return None
 
-    if isinstance(basics, dict):
-        summary = basics.get("summary")
-        if isinstance(summary, str) and summary:
-            sections["summary"] = [summary]
+    if photo.startswith(("http://", "https://")):
+        parsed = urlparse(photo)
+        if parsed.path.startswith("/assets/"):
+            source_path = ROOT_DIR / "src" / parsed.path.lstrip("/")
+            if source_path.is_file():
+                return os.path.relpath(source_path, ROOT_DIR / output_directory)
 
-    work_items = resume.get("work")
-    if isinstance(work_items, list) and work_items:
-        sections["experience"] = [
-            _build_experience_entry(item)
-            for item in work_items
-            if isinstance(item, dict)
-        ]
-
-    education_items = resume.get("education")
-    if isinstance(education_items, list) and education_items:
-        sections["education"] = [
-            _build_education_entry(item)
-            for item in education_items
-            if isinstance(item, dict)
-        ]
-
-    skills = resume.get("skills")
-    if isinstance(skills, list) and skills:
-        sections["skills"] = [
-            _build_labeled_entry(item, keyword_key="keywords", name_key="name")
-            for item in skills
-            if isinstance(item, dict)
-        ]
-
-    projects = resume.get("projects")
-    if isinstance(projects, list) and projects:
-        sections["projects"] = [
-            _build_project_entry(item) for item in projects if isinstance(item, dict)
-        ]
-
-    certificates = resume.get("certificates")
-    if isinstance(certificates, list) and certificates:
-        sections["certificates"] = [
-            _build_detail_entry(item, name_key="name", detail_keys=("issuer", "date"))
-            for item in certificates
-            if isinstance(item, dict)
-        ]
-
-    languages = resume.get("languages")
-    if isinstance(languages, list) and languages:
-        sections["languages"] = [
-            _build_detail_entry(item, name_key="language", detail_keys=("fluency",))
-            for item in languages
-            if isinstance(item, dict)
-        ]
-
-    awards = resume.get("awards")
-    if isinstance(awards, list) and awards:
-        sections["awards"] = [
-            {
-                "bullet": " | ".join(
-                    part for part in _string_values(item, ("title", "awarder"))
-                ),
-            }
-            for item in awards
-            if isinstance(item, dict)
-        ]
-
-    return sections
+    return photo
 
 
-def build_jsonresume_data(profile: JsonDict) -> JsonDict:
-    """Strip internal-only top-level fields and emit JSON Resume data."""
-    jsonresume = {
-        key: clone(value) if isinstance(value, (dict, list)) else value
-        for key, value in profile.items()
-        if key in JSONRESUME_TOP_LEVEL_KEYS
-    }
-    jsonresume["$schema"] = JSONRESUME_SCHEMA_URL
-    return jsonresume
+def _string_values(item: JsonDict, keys: tuple[str, ...]) -> list[str]:
+    return [
+        value
+        for key in keys
+        if isinstance((value := item.get(key)), str) and value
+    ]
 
 
 def _build_experience_entry(item: JsonDict) -> JsonDict:
@@ -247,18 +169,117 @@ def _build_detail_entry(
     }
 
 
-def _string_values(item: JsonDict, keys: tuple[str, ...]) -> list[str]:
-    return [
-        value
-        for key in keys
-        if isinstance((value := item.get(key)), str) and value
-    ]
+def build_sections(resume: JsonDict) -> JsonDict:
+    """Build the RenderCV section payload for a profiled resume."""
+    sections: JsonDict = {}
+    basics = resume.get("basics")
+
+    if isinstance(basics, dict):
+        summary = basics.get("summary")
+        if isinstance(summary, str) and summary:
+            sections["summary"] = [summary]
+
+    work_items = resume.get("work")
+    if isinstance(work_items, list) and work_items:
+        sections["experience"] = [
+            _build_experience_entry(item)
+            for item in work_items
+            if isinstance(item, dict)
+        ]
+
+    education_items = resume.get("education")
+    if isinstance(education_items, list) and education_items:
+        sections["education"] = [
+            _build_education_entry(item)
+            for item in education_items
+            if isinstance(item, dict)
+        ]
+
+    skills = resume.get("skills")
+    if isinstance(skills, list) and skills:
+        sections["skills"] = [
+            _build_labeled_entry(item, keyword_key="keywords", name_key="name")
+            for item in skills
+            if isinstance(item, dict)
+        ]
+
+    projects = resume.get("projects")
+    if isinstance(projects, list) and projects:
+        sections["projects"] = [
+            _build_project_entry(item) for item in projects if isinstance(item, dict)
+        ]
+
+    certificates = resume.get("certificates")
+    if isinstance(certificates, list) and certificates:
+        sections["certificates"] = [
+            _build_detail_entry(item, name_key="name", detail_keys=("issuer", "date"))
+            for item in certificates
+            if isinstance(item, dict)
+        ]
+
+    languages = resume.get("languages")
+    if isinstance(languages, list) and languages:
+        sections["languages"] = [
+            _build_detail_entry(item, name_key="language", detail_keys=("fluency",))
+            for item in languages
+            if isinstance(item, dict)
+        ]
+
+    awards = resume.get("awards")
+    if isinstance(awards, list) and awards:
+        sections["awards"] = [
+            {
+                "bullet": " | ".join(
+                    part for part in _string_values(item, ("title", "awarder"))
+                ),
+            }
+            for item in awards
+            if isinstance(item, dict)
+        ]
+
+    return sections
+
+
+def _build_custom_connections(basics: JsonDict) -> list[JsonDict]:
+    connections = basics.get("connections")
+    if not isinstance(connections, list):
+        return []
+
+    items: list[JsonDict] = []
+    for item in connections:
+        if not isinstance(item, dict):
+            continue
+        icon = item.get("icon")
+        label = item.get("label")
+        if not isinstance(label, str) or not label:
+            continue
+
+        fontawesome_icon: str | None = None
+        if isinstance(icon, dict):
+            if icon.get("kind") == "fontawesome" and isinstance(icon.get("name"), str):
+                fontawesome_icon = icon["name"]
+        elif isinstance(icon, str) and icon:
+            fontawesome_icon = icon
+
+        if fontawesome_icon is None:
+            continue
+
+        connection: JsonDict = {
+            "placeholder": label,
+            "fontawesome_icon": fontawesome_icon,
+        }
+        if isinstance(item.get("url"), str) and item["url"]:
+            connection["url"] = item["url"]
+        items.append(connection)
+
+    return items
 
 
 def build_rendercv_data(
     resume: JsonDict,
     theme_config: JsonDict,
     paths: GeneratedVariantPaths,
+    rendercv_config: RenderCVConfig,
 ) -> JsonDict:
     """Merge theme config and transformed resume data into RenderCV input."""
     basics = resume.get("basics")
@@ -287,21 +308,34 @@ def build_rendercv_data(
         cv["phone"] = phone
     if (website := _optional_string(basics.get("url"))) is not None:
         cv["website"] = website
+    photo = _resolve_photo(
+        basics.get("photo") or basics.get("image"),
+        paths.output_path.parent.relative_to(ROOT_DIR).as_posix(),
+    )
+    if photo is not None:
+        cv["photo"] = photo
+    if (custom_connections := _build_custom_connections(basics)):
+        cv["custom_connections"] = custom_connections
 
-    return deep_merge(
-        theme_config,
-        {
-            "cv": cv,
-            "settings": {
-                "current_date": "today",
-                "render_command": {
-                    "output_folder": str(output_folder),
-                    "pdf_path": str(pdf_path),
-                    "typst_path": str(typst_path),
-                    "dont_generate_markdown": True,
-                    "dont_generate_html": True,
-                    "dont_generate_png": True,
-                },
+    rendercv_payload: JsonDict = {
+        "cv": cv,
+        "settings": {
+            "current_date": rendercv_config.current_date,
+            "render_command": {
+                "output_folder": str(output_folder),
+                "pdf_path": str(pdf_path),
+                "typst_path": str(typst_path),
+                "dont_generate_markdown": True,
+                "dont_generate_html": True,
+                "dont_generate_png": True,
             },
         },
-    )
+    }
+    if rendercv_config.bold_keywords:
+        rendercv_payload["settings"]["bold_keywords"] = rendercv_config.bold_keywords
+    if rendercv_config.pdf_title is not None:
+        rendercv_payload["settings"]["pdf_title"] = rendercv_config.pdf_title
+    if rendercv_config.locale_language is not None:
+        rendercv_payload["locale"] = {"language": rendercv_config.locale_language}
+
+    return deep_merge(theme_config, rendercv_payload)

@@ -14,12 +14,12 @@ eleventyComputed:
 
 <section class="split-section">
   <article class="content-card">
-    <p class="eyebrow">{{ site.pages.about.guidance.eyebrow }}</p>
-    <h2>{{ site.pages.about.guidance.headline }}</h2>
-    <p>{{ site.pages.about.guidance.body }}</p>
+    <p class="eyebrow">{{ site.pages.about.introCard.eyebrow }}</p>
+    <h2>{{ site.pages.about.introCard.headline }}</h2>
+    <p>{{ site.pages.about.introCard.body }}</p>
   </article>
   <aside class="note-card">
-    <p class="eyebrow">{{ site.pages.about.guidance.principlesEyebrow }}</p>
+    <p class="eyebrow">{{ site.pages.about.introCard.principlesEyebrow }}</p>
     <ul class="plain-list">
       {% for principle in site.about.principles %}
         <li>{{ principle }}</li>
@@ -31,12 +31,12 @@ eleventyComputed:
 <section class="section-block">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">{{ site.pages.about.workingStyle.eyebrow }}</p>
-      <h2>{{ site.pages.about.workingStyle.headline }}</h2>
+      <p class="eyebrow">{{ site.pages.about.featureCards.eyebrow }}</p>
+      <h2>{{ site.pages.about.featureCards.headline }}</h2>
     </div>
   </div>
   <div class="cards-grid">
-    {% for card in site.pages.about.workingStyle.cards %}
+    {% for card in site.pages.about.featureCards.cards %}
       <article class="info-card">
         <p class="eyebrow">{{ card.eyebrow }}</p>
         <h3>{{ card.headline }}</h3>

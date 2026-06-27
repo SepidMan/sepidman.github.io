@@ -56,7 +56,7 @@ npx task build:resume:all
 - Update shared resume and website content in `data/main.yaml`
 - Add PDF-specific content overrides in `data/profiles/`
 - Tune PDF design defaults in `data/rendercv/base.yaml`
-- Add or adjust variant definitions in `data/rendercv/variants.yaml`
+- Add or adjust RenderCV export variants in `data/main.yaml` under `exports.rendercv.variants`
 - Add or edit case studies in `src/projects/`
 
 The web resume page and the downloadable PDFs are both generated from the same canonical resume source file, but they now have separate presentation pipelines:

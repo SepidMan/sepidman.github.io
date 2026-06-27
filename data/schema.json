@@ -510,7 +510,7 @@
         "headline": {
           "type": "string"
         },
-        "guidance": {
+        "introCard": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -528,7 +528,7 @@
             }
           }
         },
-        "workingStyle": {
+        "featureCards": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -579,7 +579,7 @@
             }
           }
         },
-        "heroPanel": {
+        "aside": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -639,7 +639,7 @@
             }
           }
         },
-        "ctaPanel": {
+        "cta": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -768,7 +768,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "cardEyebrowFallback": {
+        "defaultCardEyebrow": {
           "type": "string"
         },
         "heroEyebrow": {

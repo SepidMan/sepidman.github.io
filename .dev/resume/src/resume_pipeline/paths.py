@@ -13,7 +13,6 @@ WEBSITE_ASSETS_DIR = WEBSITE_BUILD_DIR / "assets"
 MAIN_PATH = DATA_DIR / "main.yaml"
 SCHEMA_PATH = DATA_DIR / "schema.json"
 JSONRESUME_SCHEMA_PATH = DATA_DIR / "jsonresume.schema.json"
-VARIANTS_PATH = DATA_DIR / "rendercv" / "variants.yaml"
 BASE_RENDER_CV_PATH = DATA_DIR / "rendercv" / "base.yaml"
 PIXI_BINARY = Path.home() / ".pixi" / "bin" / "pixi"
 

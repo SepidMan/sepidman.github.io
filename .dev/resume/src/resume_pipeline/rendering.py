@@ -10,8 +10,8 @@ from .assets import public_jsonresume_output_path
 from .conversion import generate_rendercv_yaml
 from .errors import ResumePipelineError
 from .io_utils import write_json
+from .jsonresume import build_jsonresume_data
 from .paths import PIXI_BINARY, ROOT_DIR, WEBSITE_ASSETS_DIR
-from .transform import build_jsonresume_data
 from .validation import validate_resume_pipeline
 
 if TYPE_CHECKING:

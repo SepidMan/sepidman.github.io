@@ -142,21 +142,21 @@ module.exports = {
     ...(website.pages || {}),
     home: {
       ...(website.pages && website.pages.home ? website.pages.home : {}),
-      ctaPanel: {
-        ...(website.pages && website.pages.home && website.pages.home.ctaPanel
-          ? website.pages.home.ctaPanel
+      cta: {
+        ...(website.pages && website.pages.home && website.pages.home.cta
+          ? website.pages.home.cta
           : {}),
         primary: resolveAction(
           website.pages &&
             website.pages.home &&
-            website.pages.home.ctaPanel &&
-            website.pages.home.ctaPanel.primary
+            website.pages.home.cta &&
+            website.pages.home.cta.primary
         ),
         secondary: resolveAction(
           website.pages &&
             website.pages.home &&
-            website.pages.home.ctaPanel &&
-            website.pages.home.ctaPanel.secondary
+            website.pages.home.cta &&
+            website.pages.home.cta.secondary
         )
       }
     }

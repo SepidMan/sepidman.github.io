@@ -1,11 +1,11 @@
 # Canonical Profile Model
 
-This document defines the proposed internal source-of-truth data model that would
-unifies the current split between:
+This document defines the internal source-of-truth data model that unifies the
+current split between:
 
 - `data/main.yaml`
 - `src/_data/site.js`
-- `data/rendercv/variants.yaml`
+- legacy standalone RenderCV variant config
 
 The intent is to keep the model close to JSON Resume while adding:
 
@@ -184,7 +184,7 @@ canonical export metadata and belong in the internal model.
   - `output`
   - `summary`
 
-This would absorb the current role of `data/rendercv/variants.yaml`.
+This now absorbs the former role of the standalone RenderCV variants file.
 
 ## Sample Canonical File Layout
 
@@ -290,9 +290,8 @@ The expected migration order is:
 2. Create a new canonical profile YAML file that follows it.
 3. Generate JSON Resume output from the canonical file.
 4. Generate Eleventy site data from the canonical file.
-5. Move variant metadata into `exports.rendercv.variants`.
-6. Remove duplicated factual content from `site.js`.
-7. Retire remaining duplicate data sources once the canonical file is in place.
+5. Remove duplicated factual content from `site.js`.
+6. Retire remaining duplicate data sources once the canonical file is in place.
 
 ## Current Status
 

@@ -12,12 +12,20 @@ from .paths import (
     theme_path,
 )
 from .profiles import apply_profile_overrides
-from .transform import build_rendercv_data
-from .types import GeneratedVariant, GeneratedVariantPaths, JsonDict, VariantConfig
+from .rendercv_transform import build_rendercv_data
+from .types import (
+    GeneratedVariant,
+    GeneratedVariantPaths,
+    JsonDict,
+    RenderCVConfig,
+    VariantConfig,
+)
 from .validation import validate_resume_pipeline
 
 
-def _load_variant(variant: str) -> tuple[JsonDict, VariantConfig, JsonDict, JsonDict]:
+def _load_variant(
+    variant: str,
+) -> tuple[JsonDict, VariantConfig, JsonDict, JsonDict, RenderCVConfig]:
     validated = validate_resume_pipeline()
     variant_config = validated.variants.get(variant)
     if variant_config is None:
@@ -30,7 +38,7 @@ def _load_variant(variant: str) -> tuple[JsonDict, VariantConfig, JsonDict, Json
     merged_theme = deep_merge(base_config, theme_config)
     message = "Expected merged RenderCV theme config to stay object-shaped."
     assert_condition(condition=isinstance(merged_theme, dict), message=message)
-    return validated.resume, variant_config, merged_theme, profile
+    return validated.resume, variant_config, merged_theme, profile, validated.rendercv
 
 
 def generate_rendercv_yaml(
@@ -38,7 +46,9 @@ def generate_rendercv_yaml(
     output: str | None = None,
 ) -> GeneratedVariant:
     """Generate the RenderCV YAML input for a named resume variant."""
-    resume, variant_config, theme_config, profile = _load_variant(variant)
+    resume, variant_config, theme_config, profile, rendercv_config = _load_variant(
+        variant,
+    )
     profiled_resume = apply_profile_overrides(resume, profile)
 
     output_path = generated_yaml_path(variant, output)
@@ -55,6 +65,7 @@ def generate_rendercv_yaml(
         profiled_resume,
         theme_config,
         paths,
+        rendercv_config,
     )
     write_yaml(paths.output_path, rendercv_data)
 
