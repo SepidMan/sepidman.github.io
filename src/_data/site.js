@@ -140,23 +140,42 @@ module.exports = {
   navigation: asArray(website.navigation).map((item) => withIcon(item)),
   social,
   headerSocial: [...social, ...extraConnections],
-  home: {
-    ...(website.home || {}),
-    ctaPrimary: resolveAction(website.home && website.home.ctaPrimary),
-    ctaSecondary: resolveAction(website.home && website.home.ctaSecondary)
-  },
-  about: website.about || {},
-  contact: {
-    ...(website.contact || {}),
-    resumePdf: resume.cvPdfPath
-  },
   pages: {
     ...(website.pages || {}),
     home: {
       ...(website.pages && website.pages.home ? website.pages.home : {}),
-      cta: resolveActionGroup(
-        website.pages && website.pages.home ? website.pages.home.cta : null
+      hero: {
+        ...(website.pages && website.pages.home ? website.pages.home.hero : {}),
+        primaryAction: resolveAction(
+          website.pages &&
+            website.pages.home &&
+            website.pages.home.hero &&
+            website.pages.home.hero.primaryAction
+        ),
+        secondaryAction: resolveAction(
+          website.pages &&
+            website.pages.home &&
+            website.pages.home.hero &&
+            website.pages.home.hero.secondaryAction
+        )
+      },
+      callToAction: resolveActionGroup(
+        website.pages && website.pages.home
+          ? website.pages.home.callToAction
+          : null
       )
+    },
+    projects: {
+      ...(website.pages && website.pages.projects ? website.pages.projects : {}),
+      callToAction: resolveActionGroup(
+        website.pages && website.pages.projects
+          ? website.pages.projects.callToAction
+          : null
+      )
+    },
+    contact: {
+      ...(website.pages && website.pages.contact ? website.pages.contact : {}),
+      resumePdf: resume.cvPdfPath
     }
   }
 };

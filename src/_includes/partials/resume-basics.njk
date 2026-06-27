@@ -1,20 +1,20 @@
 <section class="resume-hero">
   <div>
-    <p class="eyebrow">{{ site.pages.resume.heroEyebrow }}</p>
+    <p class="eyebrow">{{ site.pages.resume.hero.eyebrow }}</p>
     <h1>{{ resume.basics.name }}</h1>
     <p class="resume-title">{{ resume.basics.label }}</p>
     <p class="page-lead">{{ resume.basics.summary }}</p>
   </div>
   <aside class="resume-contact-card">
-    <p><strong>{{ site.pages.resume.contactLabels.location }}</strong><span>{{ site.author.location }}</span></p>
-    <p><strong>{{ site.pages.resume.contactLabels.email }}</strong><a href="mailto:{{ resume.basics.email }}">{{ resume.basics.email }}</a></p>
+    <p><strong>{{ site.pages.resume.contact.labels.location }}</strong><span>{{ site.author.location }}</span></p>
+    <p><strong>{{ site.pages.resume.contact.labels.email }}</strong><a href="mailto:{{ resume.basics.email }}">{{ resume.basics.email }}</a></p>
     {% set linkedin = resume.basics.profiles | primaryProfile("LinkedIn") %}
     {% set github = resume.basics.profiles | primaryProfile("GitHub") %}
     {% if linkedin %}
-      <p><strong>{{ site.pages.resume.contactLabels.linkedin }}</strong><a href="{{ linkedin.url }}">{{ linkedin.url | replace("https://www.", "") | replace("https://", "") }}</a></p>
+      <p><strong>{{ site.pages.resume.contact.labels.linkedin }}</strong><a href="{{ linkedin.url }}">{{ linkedin.url | replace("https://www.", "") | replace("https://", "") }}</a></p>
     {% endif %}
     {% if github %}
-      <p><strong>{{ site.pages.resume.contactLabels.github }}</strong><a href="{{ github.url }}">{{ github.url | replace("https://www.", "") | replace("https://", "") }}</a></p>
+      <p><strong>{{ site.pages.resume.contact.labels.github }}</strong><a href="{{ github.url }}">{{ github.url | replace("https://www.", "") | replace("https://", "") }}</a></p>
     {% endif %}
     <div class="download-menu" data-download-menu>
       <button
@@ -31,7 +31,7 @@
             <path d="M5 18h14"></path>
           </svg>
         </span>
-        <span>{{ site.pages.resume.downloadButtonLabel }}</span>
+        <span>{{ site.pages.resume.contact.downloadLabel }}</span>
       </button>
       <div
         class="download-menu-items"

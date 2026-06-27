@@ -7,7 +7,7 @@ eleventyComputed:
 <section class="page-intro">
   <p class="eyebrow">{{ site.pages.about.eyebrow }}</p>
   <h1>{{ site.pages.about.headline }}</h1>
-  {% for paragraph in site.about.summary %}
+  {% for paragraph in site.pages.about.summary %}
     <p class="page-lead">{{ paragraph }}</p>
   {% endfor %}
 </section>
@@ -21,7 +21,7 @@ eleventyComputed:
   <aside class="note-card">
     <p class="eyebrow">{{ site.pages.about.introCard.principlesEyebrow }}</p>
     <ul class="plain-list">
-      {% for principle in site.about.principles %}
+      {% for principle in site.pages.about.principles %}
         <li>{{ principle }}</li>
       {% endfor %}
     </ul>

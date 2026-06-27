@@ -35,12 +35,12 @@ eleventyComputed:
 
 <section class="hero-grid">
   <div class="hero-intro">
-    <p class="eyebrow">{{ site.home.eyebrow }}</p>
-    <h1>{{ site.home.headline }}</h1>
-    <p class="page-lead">{{ site.home.intro }}</p>
+    <p class="eyebrow">{{ site.pages.home.hero.eyebrow }}</p>
+    <h1>{{ site.pages.home.hero.headline }}</h1>
+    <p class="page-lead">{{ site.pages.home.hero.intro }}</p>
     <div class="cta-row">
-      <a class="button" href="{{ site.home.ctaPrimary.url }}">{{ site.home.ctaPrimary.label }}</a>
-      <a class="button button-secondary" href="{{ site.home.ctaSecondary.url }}">{{ site.home.ctaSecondary.label }}</a>
+      <a class="button" href="{{ site.pages.home.hero.primaryAction.url }}">{{ site.pages.home.hero.primaryAction.label }}</a>
+      <a class="button button-secondary" href="{{ site.pages.home.hero.secondaryAction.url }}">{{ site.pages.home.hero.secondaryAction.label }}</a>
     </div>
   </div>
 
@@ -52,7 +52,7 @@ eleventyComputed:
 </section>
 
 <section class="stats-grid">
-  {% for item in site.home.stats %}
+  {% for item in site.pages.home.stats %}
     <article class="stat-card">
       <p class="eyebrow">{{ item.label }}</p>
       <h2>{{ item.value }}</h2>
@@ -93,10 +93,10 @@ eleventyComputed:
 </section>
 
 <section class="cta-panel">
-  <p class="eyebrow">{{ site.pages.home.cta.eyebrow }}</p>
-  <h2>{{ site.pages.home.cta.headline }}</h2>
+  <p class="eyebrow">{{ site.pages.home.callToAction.eyebrow }}</p>
+  <h2>{{ site.pages.home.callToAction.headline }}</h2>
   <div class="cta-row">
-    <a class="button" href="{{ site.pages.home.cta.primary.url }}">{{ site.pages.home.cta.primary.label }}</a>
-    <a class="button button-secondary" href="{{ site.pages.home.cta.secondary.url }}">{{ site.pages.home.cta.secondary.label }}</a>
+    <a class="button" href="{{ site.pages.home.callToAction.primary.url }}">{{ site.pages.home.callToAction.primary.label }}</a>
+    <a class="button button-secondary" href="{{ site.pages.home.callToAction.secondary.url }}">{{ site.pages.home.callToAction.secondary.label }}</a>
   </div>
 </section>

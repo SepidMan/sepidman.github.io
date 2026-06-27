@@ -177,15 +177,6 @@
             "$ref": "#/definitions/websiteNavigationItem"
           }
         },
-        "home": {
-          "$ref": "#/definitions/websiteHome"
-        },
-        "about": {
-          "$ref": "#/definitions/websiteAbout"
-        },
-        "contact": {
-          "$ref": "#/definitions/websiteContact"
-        },
         "pages": {
           "$ref": "#/definitions/websitePages"
         }
@@ -358,7 +349,7 @@
         }
       ]
     },
-    "websiteHomeStat": {
+    "websiteStat": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -377,7 +368,7 @@
         "value"
       ]
     },
-    "websiteHome": {
+    "websiteHeroBlock": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -390,53 +381,11 @@
         "intro": {
           "type": "string"
         },
-        "highlights": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "ctaPrimary": {
+        "primaryAction": {
           "$ref": "#/definitions/websiteAction"
         },
-        "ctaSecondary": {
+        "secondaryAction": {
           "$ref": "#/definitions/websiteAction"
-        },
-        "stats": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/websiteHomeStat"
-          }
-        }
-      }
-    },
-    "websiteAbout": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "summary": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "principles": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "websiteContact": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "intro": {
-          "type": "string"
-        },
-        "availability": {
-          "type": "string"
         }
       }
     },
@@ -510,6 +459,18 @@
         "headline": {
           "type": "string"
         },
+        "summary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "principles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "introCard": {
           "type": "object",
           "additionalProperties": false,
@@ -566,6 +527,15 @@
       "properties": {
         "seo": {
           "$ref": "#/definitions/websitePageSeo"
+        },
+        "hero": {
+          "$ref": "#/definitions/websiteHeroBlock"
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/websiteStat"
+          }
         },
         "graphicLabels": {
           "type": "object",
@@ -639,7 +609,7 @@
             }
           }
         },
-        "cta": {
+        "callToAction": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -672,6 +642,12 @@
         "headline": {
           "type": "string"
         },
+        "intro": {
+          "type": "string"
+        },
+        "availability": {
+          "type": "string"
+        },
         "socialLinkDescription": {
           "type": "string"
         },
@@ -690,42 +666,54 @@
         "seo": {
           "$ref": "#/definitions/websitePageSeo"
         },
-        "heroEyebrow": {
-          "type": "string"
-        },
-        "contactLabels": {
+        "hero": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "location": {
-              "type": "string"
-            },
-            "email": {
-              "type": "string"
-            },
-            "linkedin": {
-              "type": "string"
-            },
-            "github": {
+            "eyebrow": {
               "type": "string"
             }
           }
         },
-        "downloadButtonLabel": {
-          "type": "string"
-        },
-        "downloadOptions": {
+        "contact": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "resumePdf": {
+            "labels": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "location": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "linkedin": {
+                  "type": "string"
+                },
+                "github": {
+                  "type": "string"
+                }
+              }
+            },
+            "downloadLabel": {
               "type": "string"
             },
-            "cvPdf": {
-              "type": "string"
-            },
-            "jsonResume": {
-              "type": "string"
+            "downloads": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "resumePdf": {
+                  "type": "string"
+                },
+                "cvPdf": {
+                  "type": "string"
+                },
+                "jsonResume": {
+                  "type": "string"
+                }
+              }
             }
           }
         },
@@ -733,32 +721,56 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "experienceEyebrow": {
-              "type": "string"
+            "experience": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "eyebrow": {
+                  "type": "string"
+                },
+                "headline": {
+                  "type": "string"
+                },
+                "presentLabel": {
+                  "type": "string"
+                }
+              }
             },
-            "experienceHeadline": {
-              "type": "string"
+            "education": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "eyebrow": {
+                  "type": "string"
+                }
+              }
             },
-            "presentLabel": {
-              "type": "string"
+            "skills": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "eyebrow": {
+                  "type": "string"
+                }
+              }
             },
-            "educationEyebrow": {
-              "type": "string"
-            },
-            "skillsEyebrow": {
-              "type": "string"
-            },
-            "trainingEyebrow": {
-              "type": "string"
-            },
-            "certificatesHeading": {
-              "type": "string"
-            },
-            "languagesHeading": {
-              "type": "string"
-            },
-            "projectsHeading": {
-              "type": "string"
+            "supporting": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "eyebrow": {
+                  "type": "string"
+                },
+                "certificatesHeading": {
+                  "type": "string"
+                },
+                "languagesHeading": {
+                  "type": "string"
+                },
+                "projectsHeading": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
@@ -768,31 +780,43 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "defaultCardLabel": {
-          "type": "string"
-        },
-        "heroEyebrow": {
-          "type": "string"
-        },
-        "metaLabels": {
+        "card": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "role": {
-              "type": "string"
-            },
-            "timeline": {
-              "type": "string"
-            },
-            "tools": {
-              "type": "string"
-            },
-            "focus": {
+            "eyebrow": {
               "type": "string"
             }
           }
         },
-        "cta": {
+        "hero": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eyebrow": {
+              "type": "string"
+            }
+          }
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "roleLabel": {
+              "type": "string"
+            },
+            "timelineLabel": {
+              "type": "string"
+            },
+            "toolsLabel": {
+              "type": "string"
+            },
+            "focusLabel": {
+              "type": "string"
+            }
+          }
+        },
+        "callToAction": {
           "type": "object",
           "additionalProperties": false,
           "properties": {

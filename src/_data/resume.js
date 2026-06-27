@@ -37,7 +37,10 @@ const pageResume =
   source.website && source.website.pages && source.website.pages.resume
     ? source.website.pages.resume
     : {};
-const downloadLabels = pageResume.downloadOptions || {};
+const downloadLabels =
+  pageResume.contact && pageResume.contact.downloads
+    ? pageResume.contact.downloads
+    : {};
 const downloads = {
   resumePdf: {
     href: `/assets/${assetSlug}-resume.pdf`,
