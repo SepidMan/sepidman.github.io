@@ -1,12 +1,13 @@
-$schema: https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json
+$schema: ./schema.json
 meta:
   canonical: https://sepidehmansouri.com/assets/sepide-mansouri-jsonresume.json
   version: 1.0.0
   lastModified: 2026-06-27
 basics:
   name: Sepideh Mansouri
+  shortName: Sepideh
   label: UX/UI Designer
-  image: https://sepidehmansouri.com/assets/images/headshot.jpg
+  image: https://sepidehmansouri.com/assets/images/profile/headshot.jpg
   email: sepideh.mansouri85@gmail.com
   url: https://sepidehmansouri.com
   summary: Aspiring UX/UI Designer with a background in content management and
@@ -27,12 +28,27 @@ basics:
     - network: LinkedIn
       username: sepid-mans
       url: https://www.linkedin.com/in/sepid-mans/
+      icon:
+        kind: custom
+        name: linkedin
     - network: GitHub
       username: SepidMans
       url: https://github.com/SepidMans
+      icon:
+        kind: custom
+        name: github
     - network: Instagram
       username: _seraphim___
       url: https://www.instagram.com/_seraphim___/
+      icon:
+        kind: custom
+        name: instagram
+  connections:
+    - label: Email
+      url: mailto:sepideh.mansouri85@gmail.com
+      icon:
+        kind: custom
+        name: email
 work:
   - name: Action
     location: Berlin, Germany
@@ -217,3 +233,74 @@ projects:
       - Accessibility
       - Visual Hierarchy
       - UX Research
+website:
+  baseUrl: https://sepidehmansouri.com
+  description: Portfolio website for Sepideh Mansouri, a UI/UX designer focused
+    on calm interfaces, thoughtful systems, and human-centered digital
+    experiences.
+  navigation:
+    - label: Work
+      url: /work/
+      icon:
+        kind: custom
+        name: work
+    - label: Resume
+      url: /resume/
+      icon:
+        kind: custom
+        name: resume
+    - label: About
+      url: /about/
+      icon:
+        kind: custom
+        name: about
+    - label: Contact
+      url: /contact/
+      icon:
+        kind: custom
+        name: contact
+  home:
+    eyebrow: UI/UX designer based in Berlin
+    headline: I design digital products that feel clear, calm, and genuinely
+      human.
+    intro: My work blends UX thinking, content clarity, and visual sensitivity
+      to create interfaces that help people feel capable from the first screen
+      to the final decision.
+    highlights:
+      - Mobile-first product thinking
+      - Clear flows and information architecture
+      - Warm, professional interface design
+    ctaPrimary:
+      label: View selected work
+      url: /work/
+    ctaSecondary:
+      label: Download CV
+      asset: cvPdf
+    stats:
+      - label: Focus
+        value: UX strategy
+        detail: User flows, clarity, and design systems
+      - label: Approach
+        value: Calm UI
+        detail: Strong hierarchy with expressive restraint
+      - label: Based in
+        value: Berlin
+        detail: Open to junior and internship opportunities
+  about:
+    summary:
+      - I am a UI/UX designer with a background in content management and
+        customer-facing work, now focused on designing digital experiences that
+        are both usable and emotionally aware.
+      - I care about information architecture, tone of voice, and visual rhythm
+        because the best interfaces do more than function well. They help
+        people feel oriented, respected, and confident.
+    principles:
+      - Start from real user intent
+      - Reduce friction before adding flourish
+      - Design systems that stay coherent as products grow
+      - Give every interface a clear point of view
+  contact:
+    intro: If you would like to talk about a role, collaboration, or portfolio
+      feedback, I would love to hear from you.
+    availability: Currently open to junior UI/UX roles, internships, and
+      collaborative product design opportunities.

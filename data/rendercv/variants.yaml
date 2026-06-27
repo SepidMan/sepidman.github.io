@@ -2,12 +2,12 @@ cv:
   label: CV
   profile: cv
   theme: default
-  output: build/assets/{resume_slug}-cv.pdf
+  output: build/website/assets/{resume_slug}-cv.pdf
   summary: Full A4 curriculum vitae with no profile-based content trimming.
 
 resume:
   label: Resume
   profile: resume
   theme: minimal
-  output: build/assets/{resume_slug}-resume.pdf
+  output: build/website/assets/{resume_slug}-resume.pdf
   summary: Selective application-ready resume with reduced supporting content.

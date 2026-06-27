@@ -9,4 +9,4 @@ Recommended structure:
 - `images/backgrounds/` - decorative background graphics or textures
 - `files/` - source downloads that should ship with the site
 
-The generated resume PDF is still created at build time and written to `build/assets/`.
+The generated resume assets are created at build time and written to `build/website/assets/`.

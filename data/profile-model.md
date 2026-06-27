@@ -1,11 +1,11 @@
 # Canonical Profile Model
 
 This document defines the proposed internal source-of-truth data model that would
-eventually replace the current split between:
+unifies the current split between:
 
-- `cv/resume.yaml`
+- `data/main.yaml`
 - `src/_data/site.js`
-- `cv/rendercv/variants.yaml`
+- `data/rendercv/variants.yaml`
 
 The intent is to keep the model close to JSON Resume while adding:
 
@@ -48,7 +48,7 @@ The following should be generated rather than authored twice:
 ## Proposed Top-Level Shape
 
 ```yaml
-$schema: ./cv/profile.schema.json
+$schema: ./schema.json
 
 meta:
 basics:
@@ -168,7 +168,7 @@ That should be interpreted as a legacy custom icon token.
 ## RenderCV Fields To Add
 
 Some RenderCV concepts are pure presentation and can remain separate for now,
-such as `rendercv/base.yaml` and theme overlays. Other fields are useful as
+such as `data/rendercv/base.yaml` and theme overlays. Other fields are useful as
 canonical export metadata and belong in the internal model.
 
 ### Add under `exports.rendercv`
@@ -184,14 +184,14 @@ canonical export metadata and belong in the internal model.
   - `output`
   - `summary`
 
-This would absorb the current role of `cv/rendercv/variants.yaml`.
+This would absorb the current role of `data/rendercv/variants.yaml`.
 
 ## Sample Canonical File Layout
 
 This is an illustrative shape, not a fully migrated file:
 
 ```yaml
-$schema: ./cv/profile.schema.json
+$schema: ./schema.json
 
 meta:
   canonical: https://sepidehmansouri.com/assets/sepideh-mansouri-jsonresume.json
@@ -223,7 +223,7 @@ skills: []
 certificates: []
 
 website:
-  baseUrl: https://sepidman.github.io
+  baseUrl: https://sepidehmansouri.com
   description: Portfolio website for Sepideh Mansouri, a UI/UX designer focused on calm interfaces, thoughtful systems, and human-centered digital experiences.
   navigation:
     - label: Work
@@ -274,12 +274,12 @@ exports:
         label: CV
         profile: cv
         theme: default
-        output: build/assets/{resume_slug}-cv.pdf
+        output: build/website/assets/{resume_slug}-cv.pdf
       resume:
         label: Resume
         profile: resume
         theme: minimal
-        output: build/assets/{resume_slug}-resume.pdf
+        output: build/website/assets/{resume_slug}-resume.pdf
 ```
 
 ## Migration Notes
@@ -292,15 +292,13 @@ The expected migration order is:
 4. Generate Eleventy site data from the canonical file.
 5. Move variant metadata into `exports.rendercv.variants`.
 6. Remove duplicated factual content from `site.js`.
-7. Retire `resume.yaml` once the new canonical file is in place.
+7. Retire remaining duplicate data sources once the canonical file is in place.
 
 ## Current Status
 
-This schema is a design draft only.
+This model is now partially wired in:
 
-It is not yet wired into:
-
-- VS Code schema mapping
-- the Python validation pipeline
-- the Eleventy data loaders
-- the PDF export tasks
+- `data/main.yaml` is the canonical authored source
+- VS Code schema mapping points at `data/schema.json`
+- the Python validation pipeline validates both canonical and JSON Resume output
+- the Eleventy data loaders derive site and resume data from `data/main.yaml`

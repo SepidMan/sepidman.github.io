@@ -1,4 +1,9 @@
+const main = require("./main");
 const resume = require("./resume");
+
+function asArray(value) {
+  return Array.isArray(value) ? value : [];
+}
 
 function normalizeIcon(icon) {
   if (typeof icon === "string" && icon) {
@@ -41,141 +46,96 @@ function withIcon(item, fallbackIcon) {
   };
 }
 
-const navigation = [
-  {
-    label: "Work",
-    url: "/work/",
-    icon: "work"
-  },
-  {
-    label: "Resume",
-    url: "/resume/",
-    icon: "resume"
-  },
-  {
-    label: "About",
-    url: "/about/",
-    icon: "about"
-  },
-  {
-    label: "Contact",
-    url: "/contact/",
-    icon: "contact"
+function formatLocation(location) {
+  if (!location || typeof location !== "object") {
+    return "";
   }
-].map((item) => withIcon(item));
 
-const social = [
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/sepid-mans/",
-    icon: "linkedin"
-  },
-  {
-    name: "GitHub",
-    url: "https://github.com/SepidMans",
-    icon: "github"
-  },
-  {
-    name: "Instagram",
-    url: "https://www.instagram.com/_seraphim___/",
-    icon: "instagram"
-  }
-].map((item) => withIcon(item));
+  const city = typeof location.city === "string" ? location.city : "";
+  const region = typeof location.region === "string" ? location.region : "";
+  const countryCode =
+    typeof location.countryCode === "string" ? location.countryCode : "";
+  const parts = [city];
 
-const headerSocial = [
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/sepid-mans/",
-    icon: "linkedin"
-  },
-  {
-    name: "GitHub",
-    url: "https://github.com/SepidMans",
-    icon: "github"
-  },
-  {
-    name: "Instagram",
-    url: "https://www.instagram.com/_seraphim___/",
-    icon: "instagram"
-  },
-  {
-    name: "Email",
-    url: "mailto:sepideh.mansouri85@gmail.com",
-    icon: "email"
+  if (region && region !== city) {
+    parts.push(region);
   }
-].map((item) => withIcon(item));
+
+  if (countryCode) {
+    parts.push(countryCode);
+  }
+
+  return parts.filter(Boolean).join(", ");
+}
+
+function resolveAction(action) {
+  if (!action || typeof action !== "object") {
+    return action;
+  }
+
+  if (typeof action.asset === "string") {
+    const assetMap = {
+      cvPdf: resume.cvPdfPath,
+      resumePdf: resume.resumePdfPath,
+      jsonResume: resume.jsonResumePath
+    };
+
+    return {
+      ...action,
+      url: assetMap[action.asset] || action.url || "#"
+    };
+  }
+
+  return action;
+}
+
+const basics = main.basics || {};
+const website = main.website || {};
+const social = asArray(basics.profiles).map((item) =>
+  withIcon(
+    {
+      name: item.network,
+      url: item.url,
+      username: item.username,
+      icon: item.icon
+    },
+    item.network ? String(item.network).toLowerCase() : null
+  )
+);
+const extraConnections = asArray(basics.connections).map((item) =>
+  withIcon({
+    name: item.label,
+    url: item.url || null,
+    icon: item.icon
+  })
+);
 
 module.exports = {
-  title: "Sepideh Mansouri",
-  tagline: "UI/UX Designer",
-  description:
-    "Portfolio website for Sepideh Mansouri, a UI/UX designer focused on calm interfaces, thoughtful systems, and human-centered digital experiences.",
-  url: "https://sepidman.github.io",
+  title: basics.name || "",
+  tagline: basics.label || "",
+  description: website.description || "",
+  url: website.baseUrl || basics.url || "",
   author: {
-    name: "Sepideh Mansouri",
-    shortName: "Sepideh",
-    title: "UI/UX Designer",
-    location: "Berlin, Germany",
-    email: "sepideh.mansouri85@gmail.com",
-    brandImage: "/assets/images/profile/headshot.jpg"
+    name: basics.name || "",
+    shortName: basics.shortName || basics.name || "",
+    title: basics.label || "",
+    location: formatLocation(basics.location),
+    email: basics.email || "",
+    brandImage: basics.image
+      ? basics.image.replace(/^https?:\/\/[^/]+/, "")
+      : ""
   },
-  navigation,
+  navigation: asArray(website.navigation).map((item) => withIcon(item)),
   social,
-  headerSocial,
+  headerSocial: [...social, ...extraConnections],
   home: {
-    eyebrow: "UI/UX designer based in Berlin",
-    headline:
-      "I design digital products that feel clear, calm, and genuinely human.",
-    intro:
-      "My work blends UX thinking, content clarity, and visual sensitivity to create interfaces that help people feel capable from the first screen to the final decision.",
-    highlights: [
-      "Mobile-first product thinking",
-      "Clear flows and information architecture",
-      "Warm, professional interface design"
-    ],
-    ctaPrimary: {
-      label: "View selected work",
-      url: "/work/"
-    },
-    ctaSecondary: {
-      label: "Download CV",
-      url: resume.cvPdfPath
-    },
-    stats: [
-      {
-        label: "Focus",
-        value: "UX strategy",
-        detail: "User flows, clarity, and design systems"
-      },
-      {
-        label: "Approach",
-        value: "Calm UI",
-        detail: "Strong hierarchy with expressive restraint"
-      },
-      {
-        label: "Based in",
-        value: "Berlin",
-        detail: "Open to junior and internship opportunities"
-      }
-    ]
+    ...(website.home || {}),
+    ctaPrimary: resolveAction(website.home && website.home.ctaPrimary),
+    ctaSecondary: resolveAction(website.home && website.home.ctaSecondary)
   },
-  about: {
-    summary: [
-      "I am a UI/UX designer with a background in content management and customer-facing work, now focused on designing digital experiences that are both usable and emotionally aware.",
-      "I care about information architecture, tone of voice, and visual rhythm because the best interfaces do more than function well. They help people feel oriented, respected, and confident."
-    ],
-    principles: [
-      "Start from real user intent",
-      "Reduce friction before adding flourish",
-      "Design systems that stay coherent as products grow",
-      "Give every interface a clear point of view"
-    ]
-  },
+  about: website.about || {},
   contact: {
-    intro:
-      "If you would like to talk about a role, collaboration, or portfolio feedback, I would love to hear from you.",
-    availability:
-      "Currently open to junior UI/UX roles, internships, and collaborative product design opportunities.",
+    ...(website.contact || {}),
     resumePdf: resume.cvPdfPath
   }
 };

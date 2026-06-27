@@ -2,20 +2,22 @@
 
 from __future__ import annotations
 
-from jsonschema import Draft7Validator, FormatChecker
+from jsonschema import Draft7Validator, FormatChecker, RefResolver
 
 from .assets import resume_slug
 from .errors import ResumePipelineError
 from .io_utils import assert_condition, ensure_readable, read_json, read_yaml
 from .paths import (
     BASE_RENDER_CV_PATH,
-    RESUME_PATH,
-    RESUME_SCHEMA_PATH,
+    JSONRESUME_SCHEMA_PATH,
+    MAIN_PATH,
     ROOT_DIR,
+    SCHEMA_PATH,
     VARIANTS_PATH,
     profile_path,
     theme_path,
 )
+from .transform import build_jsonresume_data
 from .types import PipelineConfig, VariantConfig
 
 
@@ -48,9 +50,9 @@ def _validate_variant_shape(
         condition=isinstance(output, str) and bool(output),
         message=message,
     )
-    message = f'Variant "{name}" output must live under build/assets/.'
+    message = f'Variant "{name}" output must live under build/website/assets/.'
     assert_condition(
-        condition=output.startswith("build/assets/"),
+        condition=output.startswith("build/website/assets/"),
         message=message,
     )
     message = f'Variant "{name}" label must be a string when provided.'
@@ -79,19 +81,30 @@ def _validate_variant_shape(
 def validate_resume_pipeline() -> PipelineConfig:
     """Validate canonical resume content and variant configuration."""
     for path, label in [
-        (RESUME_PATH, "Resume source"),
-        (RESUME_SCHEMA_PATH, "Resume schema"),
+        (MAIN_PATH, "Canonical resume source"),
+        (SCHEMA_PATH, "Canonical schema"),
+        (JSONRESUME_SCHEMA_PATH, "JSON Resume schema"),
         (VARIANTS_PATH, "RenderCV variants config"),
         (BASE_RENDER_CV_PATH, "RenderCV base config"),
     ]:
         ensure_readable(path, label)
 
-    resume = read_yaml(RESUME_PATH)
-    schema = read_json(RESUME_SCHEMA_PATH)
+    resume = read_yaml(MAIN_PATH)
+    schema = read_json(SCHEMA_PATH)
+    jsonresume_schema = read_json(JSONRESUME_SCHEMA_PATH)
     variants_data = read_yaml(VARIANTS_PATH)
     canonical_resume_slug = resume_slug(resume)
 
-    validator = Draft7Validator(schema, format_checker=FormatChecker())
+    resolver = RefResolver(
+        base_uri=SCHEMA_PATH.resolve().as_uri(),
+        referrer=schema,
+        store={JSONRESUME_SCHEMA_PATH.resolve().as_uri(): jsonresume_schema},
+    )
+    validator = Draft7Validator(
+        schema,
+        format_checker=FormatChecker(),
+        resolver=resolver,
+    )
     errors = sorted(validator.iter_errors(resume), key=lambda error: list(error.path))
     if errors:
         messages = []
@@ -102,12 +115,36 @@ def validate_resume_pipeline() -> PipelineConfig:
                 else "/"
             )
             messages.append(f"{pointer} {error.message}")
-        message = "cv/resume.yaml failed schema validation:\n" + "\n".join(messages)
+        message = "data/main.yaml failed schema validation:\n" + "\n".join(messages)
+        raise ResumePipelineError(message)
+
+    jsonresume = build_jsonresume_data(resume)
+    jsonresume_validator = Draft7Validator(
+        jsonresume_schema,
+        format_checker=FormatChecker(),
+    )
+    jsonresume_errors = sorted(
+        jsonresume_validator.iter_errors(jsonresume),
+        key=lambda error: list(error.path),
+    )
+    if jsonresume_errors:
+        messages = []
+        for error in jsonresume_errors:
+            pointer = (
+                "/" + "/".join(str(part) for part in error.path)
+                if error.path
+                else "/"
+            )
+            messages.append(f"{pointer} {error.message}")
+        message = (
+            "Generated JSON Resume output failed schema validation:\n"
+            + "\n".join(messages)
+        )
         raise ResumePipelineError(message)
 
     assert_condition(
         condition=isinstance(variants_data, dict),
-        message="cv/rendercv/variants.yaml must be an object keyed by variant name.",
+        message="data/rendercv/variants.yaml must be an object keyed by variant name.",
     )
 
     ensure_readable(theme_path("default"), "Default theme config")

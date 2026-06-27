@@ -1,9 +1,4 @@
-const { readFileSync } = require("node:fs");
-const { resolve } = require("node:path");
-const YAML = require("yaml");
-
-const resumePath = resolve(__dirname, "../../cv/resume.yaml");
-const source = YAML.parse(readFileSync(resumePath, "utf8"));
+const source = require("./main");
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];

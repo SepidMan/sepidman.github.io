@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-from .paths import BUILD_DIR
+from .paths import WEBSITE_ASSETS_DIR
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -25,4 +25,4 @@ def resume_slug(resume: JsonDict) -> str:
 
 def public_jsonresume_output_path(resume: JsonDict) -> Path:
     """Return the published JSON Resume asset path."""
-    return BUILD_DIR / "assets" / f"{resume_slug(resume)}-jsonresume.json"
+    return WEBSITE_ASSETS_DIR / f"{resume_slug(resume)}-jsonresume.json"

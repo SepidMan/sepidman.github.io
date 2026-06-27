@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://sepidehmansouri.com/schema/profile.schema.json",
+  "$id": "./schema.json",
   "title": "Canonical Profile Schema",
   "description": "Internal source-of-truth schema for resume, RenderCV export metadata, and website content.",
   "type": "object",
@@ -11,12 +11,12 @@
       "description": "Optional schema URL for the canonical profile file."
     },
     "meta": {
-      "$ref": "./resume_schema.json#/properties/meta"
+      "$ref": "./jsonresume.schema.json#/properties/meta"
     },
     "basics": {
       "allOf": [
         {
-          "$ref": "./resume_schema.json#/properties/basics"
+          "$ref": "./jsonresume.schema.json#/properties/basics"
         },
         {
           "type": "object",
@@ -32,7 +32,7 @@
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
-                  "placeholder": {
+                  "label": {
                     "type": "string"
                   },
                   "url": {
@@ -44,7 +44,7 @@
                   }
                 },
                 "required": [
-                  "placeholder",
+                  "label",
                   "icon"
                 ]
               }
@@ -58,19 +58,19 @@
       ]
     },
     "work": {
-      "$ref": "./resume_schema.json#/properties/work"
+      "$ref": "./jsonresume.schema.json#/properties/work"
     },
     "volunteer": {
-      "$ref": "./resume_schema.json#/properties/volunteer"
+      "$ref": "./jsonresume.schema.json#/properties/volunteer"
     },
     "education": {
-      "$ref": "./resume_schema.json#/properties/education"
+      "$ref": "./jsonresume.schema.json#/properties/education"
     },
     "awards": {
-      "$ref": "./resume_schema.json#/properties/awards"
+      "$ref": "./jsonresume.schema.json#/properties/awards"
     },
     "certificates": {
-      "$ref": "./resume_schema.json#/properties/certificates"
+      "$ref": "./jsonresume.schema.json#/properties/certificates"
     },
     "publications": {
       "type": "array",
@@ -78,7 +78,7 @@
       "items": {
         "allOf": [
           {
-            "$ref": "./resume_schema.json#/properties/publications/items"
+            "$ref": "./jsonresume.schema.json#/properties/publications/items"
           },
           {
             "type": "object",
@@ -104,19 +104,19 @@
       }
     },
     "skills": {
-      "$ref": "./resume_schema.json#/properties/skills"
+      "$ref": "./jsonresume.schema.json#/properties/skills"
     },
     "languages": {
-      "$ref": "./resume_schema.json#/properties/languages"
+      "$ref": "./jsonresume.schema.json#/properties/languages"
     },
     "interests": {
-      "$ref": "./resume_schema.json#/properties/interests"
+      "$ref": "./jsonresume.schema.json#/properties/interests"
     },
     "references": {
-      "$ref": "./resume_schema.json#/properties/references"
+      "$ref": "./jsonresume.schema.json#/properties/references"
     },
     "projects": {
-      "$ref": "./resume_schema.json#/properties/projects"
+      "$ref": "./jsonresume.schema.json#/properties/projects"
     },
     "website": {
       "type": "object",

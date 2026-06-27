@@ -1,5 +1,5 @@
 {
   "yaml.schemas": {
-    "./cv/resume_schema.json": "cv/resume.yaml"
+    "./data/schema.json": "data/main.yaml"
   }
 }

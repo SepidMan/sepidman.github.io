@@ -14,12 +14,13 @@ This repository contains a data-driven personal portfolio website built with Ele
 
 - `src/` — site templates, pages, styles, and project content
 - `src/projects/` — data-driven case-study entries
-- `src/_data/` — global site data and normalized resume data
-- `cv/resume.yaml` — canonical resume source
-- `cv/profiles/` — variant-specific content overrides for PDF builds
-- `cv/rendercv/` — RenderCV base config, theme presets, and variant definitions
+- `src/_data/` — Eleventy data loaders derived from the canonical YAML source
+- `data/main.yaml` — canonical profile, resume, and website source data
+- `data/profiles/` — variant-specific content overrides for PDF builds
+- `data/rendercv/` — RenderCV base config, theme presets, and variant definitions
 - `.dev/resume/` — Python package for resume validation, conversion, and PDF builds
-- `build/` — generated site output for deployment
+- `build/website/` — generated website output for deployment
+- `build/cv/` — generated RenderCV inputs and working files
 - `Taskfile.yml` — top-level task runner commands
 - `pixi.toml` — Python environment management for RenderCV
 
@@ -52,17 +53,16 @@ npx task build:resume:all
 
 ## Content workflow
 
-- Update resume content in `cv/resume.yaml`
-- Add PDF-specific content overrides in `cv/profiles/`
-- Tune PDF design defaults in `cv/rendercv/base.yaml`
-- Add or adjust variant definitions in `cv/rendercv/variants.yaml`
-- Update site-wide biography/contact content in `src/_data/site.js`
+- Update shared resume and website content in `data/main.yaml`
+- Add PDF-specific content overrides in `data/profiles/`
+- Tune PDF design defaults in `data/rendercv/base.yaml`
+- Add or adjust variant definitions in `data/rendercv/variants.yaml`
 - Add or edit case studies in `src/projects/`
 
 The web resume page and the downloadable PDFs are both generated from the same canonical resume source file, but they now have separate presentation pipelines:
 
-- Web resume: `cv/resume.yaml` -> `src/_data/resume.js` -> Eleventy/Nunjucks
-- PDF resume: `cv/resume.yaml` -> profile override -> RenderCV YAML -> RenderCV PDF
-- JSON Resume export: `cv/resume.yaml` -> published JSON asset in `build/assets/`
+- Web resume and site data: `data/main.yaml` -> `src/_data/*.js` -> Eleventy/Nunjucks
+- PDF resume: `data/main.yaml` -> profile override -> RenderCV YAML -> RenderCV PDF
+- JSON Resume export: `data/main.yaml` -> published JSON asset in `build/website/assets/`
 
-RenderCV intermediate files stay under `cv/generated/`, and the final public PDFs plus the JSON Resume asset are copied into `build/assets/`.
+RenderCV intermediate files now live under `build/cv/`, and the final public PDFs plus the JSON Resume asset are published into `build/website/assets/`.

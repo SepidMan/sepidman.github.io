@@ -1,7 +1,7 @@
 version: "3"
 
 vars:
-  BUILD_DIR: build
+  BUILD_DIR: build/website
   ELEVENTY_INPUT: src
   PIXI_BIN: $HOME/.pixi/bin/pixi
   RESUME_CLI: '{{.PIXI_BIN}} run --environment resume resume-pipeline'
@@ -29,7 +29,7 @@ tasks:
   build:site:
     desc: Build the Eleventy site
     cmds:
-      - npx rimraf {{.BUILD_DIR}}
+      - npx rimraf build
       - npx @11ty/eleventy --input={{.ELEVENTY_INPUT}} --output={{.BUILD_DIR}}
 
   build:resume:
@@ -60,4 +60,4 @@ tasks:
   clean:
     desc: Remove generated build output
     cmds:
-      - npx rimraf build cv/generated
+      - npx rimraf build

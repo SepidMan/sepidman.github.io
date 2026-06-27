@@ -6,10 +6,31 @@ from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from .errors import ResumePipelineError
-from .io_utils import deep_merge
+from .io_utils import clone, deep_merge
 
 if TYPE_CHECKING:
     from .types import GeneratedVariantPaths, JsonDict, JsonValue
+
+
+JSONRESUME_TOP_LEVEL_KEYS = {
+    "$schema",
+    "meta",
+    "basics",
+    "work",
+    "volunteer",
+    "education",
+    "awards",
+    "certificates",
+    "publications",
+    "skills",
+    "languages",
+    "interests",
+    "references",
+    "projects",
+}
+JSONRESUME_SCHEMA_URL = (
+    "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json"
+)
 
 
 def _pick_username(profile: JsonDict) -> str:
@@ -133,6 +154,17 @@ def build_sections(resume: JsonDict) -> JsonDict:
         ]
 
     return sections
+
+
+def build_jsonresume_data(profile: JsonDict) -> JsonDict:
+    """Strip internal-only top-level fields and emit JSON Resume data."""
+    jsonresume = {
+        key: clone(value) if isinstance(value, (dict, list)) else value
+        for key, value in profile.items()
+        if key in JSONRESUME_TOP_LEVEL_KEYS
+    }
+    jsonresume["$schema"] = JSONRESUME_SCHEMA_URL
+    return jsonresume
 
 
 def _build_experience_entry(item: JsonDict) -> JsonDict:

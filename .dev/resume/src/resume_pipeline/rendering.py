@@ -10,7 +10,8 @@ from .assets import public_jsonresume_output_path
 from .conversion import generate_rendercv_yaml
 from .errors import ResumePipelineError
 from .io_utils import write_json
-from .paths import BUILD_DIR, PIXI_BINARY
+from .paths import PIXI_BINARY, ROOT_DIR, WEBSITE_ASSETS_DIR
+from .transform import build_jsonresume_data
 from .validation import validate_resume_pipeline
 
 if TYPE_CHECKING:
@@ -27,12 +28,12 @@ def _ensure_pixi() -> None:
 
 
 def _run_rendercv(command: list[str]) -> None:
-    subprocess.run(command, check=True, cwd=BUILD_DIR.parent)  # noqa: S603
+    subprocess.run(command, check=True, cwd=ROOT_DIR)  # noqa: S603
 
 
 def _build_variant(name: str) -> Path:
     generated = generate_rendercv_yaml(variant=name)
-    BUILD_DIR.joinpath("assets").mkdir(parents=True, exist_ok=True)
+    WEBSITE_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     _run_rendercv(
         [
             str(PIXI_BINARY),
@@ -59,9 +60,9 @@ def _build_variant(name: str) -> Path:
 
 def _publish_jsonresume_asset() -> Path:
     validated = validate_resume_pipeline()
-    BUILD_DIR.joinpath("assets").mkdir(parents=True, exist_ok=True)
+    WEBSITE_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     output_path = public_jsonresume_output_path(validated.resume)
-    write_json(output_path, validated.resume)
+    write_json(output_path, build_jsonresume_data(validated.resume))
     if not output_path.is_file():
         msg = f"Public JSON Resume was not written to {output_path}"
         raise ResumePipelineError(msg)
