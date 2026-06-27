@@ -222,6 +222,13 @@ projects:
     type: Final Course Project
     website:
       slug: photohub
+      featured: true
+      order: 1
+      coverTone: sand
+      cardEyebrow: Visual system
+      focus: Components, consistency, and scalable visual patterns.
+      seoDescription: A design systems case study focused on consistency,
+        scalability, and a stronger visual voice across screens.
   - name: Impact Page Redesign (Case Study)
     description: Redesigned an NGO Impact Page to improve readability, visual
       hierarchy, and content structure.
@@ -236,79 +243,10 @@ projects:
       - Visual Hierarchy
       - UX Research
     website:
-      slug: impact-page-redesign
-  - name: Making an analytics workspace feel more focused
-    description: A UI/UX case study exploring modular hierarchy, calmer
-      grouping, and clearer decision paths in analytics software.
-    highlights:
-      - Analytics products often ask people to interpret dense information while
-        navigating too many competing panels, filters, and metrics at once.
-      - This concept explores how a workspace can feel more supportive by
-        reducing noise and giving each section a clearer role.
-    keywords:
-      - Figma
-      - Wireframing
-      - UX analysis
-    startDate: "2025"
-    endDate: "2025"
-    roles:
-      - UI/UX Design
-    website:
-      slug: analytics-workspace
-      featured: true
-      order: 1
-      coverTone: slate
-      cardEyebrow: Product UX
-      focus: Information architecture, dashboard clarity, and reusable layout
-        patterns.
-      seoDescription: A UI/UX case study exploring modular hierarchy, calmer
-        grouping, and clearer decision paths in analytics software.
-  - name: Designing a warmer care journey
-    description: A service UX concept focused on reassurance, guidance, and
-      reducing friction during emotionally sensitive tasks.
-    highlights:
-      - Care-related services often combine urgency, uncertainty, and
-        emotionally sensitive decisions.
-      - The concept explores a calmer service journey using step-by-step
-        guidance, softer content tone, and clearer feedback at every stage.
-    keywords:
-      - Figma
-      - Content design
-      - User flows
-    startDate: "2025"
-    endDate: "2025"
-    roles:
-      - Service UX
-    website:
-      slug: care-journey
+      slug: redischool-impact-page
       featured: true
       order: 2
       coverTone: coral
-      cardEyebrow: Service experience
-      focus: User flows, emotional tone, and supportive content design.
-      seoDescription: A service UX concept focused on reassurance, guidance, and
-        reducing friction during emotionally sensitive tasks.
-  - name: Creating a reusable interface language
-    description: A design systems case study focused on consistency,
-      scalability, and a stronger visual voice across screens.
-    highlights:
-      - As digital products grow, small inconsistencies in spacing, type, and
-        components can make the experience feel fragmented.
-      - This exploration focused on shared interface primitives, repeatable
-        patterns, and visual rules that support both usability and tone.
-    keywords:
-      - Figma
-      - Components
-      - Design systems
-    startDate: "2025"
-    endDate: "2025"
-    roles:
-      - Design Systems
-    website:
-      slug: interface-library
-      featured: true
-      order: 3
-      coverTone: sand
       cardEyebrow: Visual system
       focus: Components, consistency, and scalable visual patterns.
       seoDescription: A design systems case study focused on consistency,
