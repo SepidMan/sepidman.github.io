@@ -58,6 +58,12 @@ def _with_summary_highlights(summary: JsonValue, highlights: JsonValue) -> list[
     return [summary] if isinstance(summary, str) and summary else []
 
 
+def _optional_string(value: JsonValue) -> str | None:
+    if isinstance(value, str) and value:
+        return value
+    return None
+
+
 def build_sections(resume: JsonDict) -> JsonDict:
     """Build the RenderCV section payload for a profiled resume."""
     sections: JsonDict = {}
@@ -101,7 +107,12 @@ def build_sections(resume: JsonDict) -> JsonDict:
     certificates = resume.get("certificates")
     if isinstance(certificates, list) and certificates:
         sections["certificates"] = [
-            _build_detail_entry(item, name_key="name", detail_keys=("issuer", "date"))
+            _build_detail_entry(
+                item,
+                name_key="name",
+                fallback_name_keys=("title",),
+                detail_keys=("issuer", "date"),
+            )
             for item in certificates
             if isinstance(item, dict)
         ]
@@ -201,10 +212,21 @@ def _build_detail_entry(
     item: JsonDict,
     *,
     name_key: str,
+    fallback_name_keys: tuple[str, ...] = (),
     detail_keys: tuple[str, ...],
 ) -> JsonDict:
+    label = item.get(name_key)
+    if not isinstance(label, str) or not label:
+        label = next(
+            (
+                value
+                for fallback_key in fallback_name_keys
+                if isinstance((value := item.get(fallback_key)), str) and value
+            ),
+            None,
+        )
     return {
-        "label": item.get(name_key),
+        "label": label,
         "details": " | ".join(_string_values(item, detail_keys)),
     }
 
@@ -219,11 +241,10 @@ def _string_values(item: JsonDict, keys: tuple[str, ...]) -> list[str]:
 
 def build_rendercv_data(
     resume: JsonDict,
-    converted_seed: JsonDict,
     theme_config: JsonDict,
     paths: GeneratedVariantPaths,
 ) -> JsonDict:
-    """Merge RenderCV seed output, theme config, and transformed resume data."""
+    """Merge theme config and transformed resume data into RenderCV input."""
     basics = resume.get("basics")
     if not isinstance(basics, dict):
         msg = "Resume basics must be an object before generating RenderCV data."
@@ -233,32 +254,23 @@ def build_rendercv_data(
     pdf_path = paths.rendered_pdf_path.relative_to(paths.output_path.parent)
     typst_path = pdf_path.with_suffix(".typ")
 
-    seed_cv = converted_seed.get("cv")
-    cv = dict(seed_cv) if isinstance(seed_cv, dict) else {}
-    cv.update(
-        {
-            "name": basics.get("name"),
-            "headline": (
-                basics.get("label") if isinstance(basics.get("label"), str) else ""
-            ),
-            "location": _format_location(basics.get("location")),
-            "email": (
-                basics.get("email") if isinstance(basics.get("email"), str) else ""
-            ),
-            "phone": (
-                basics.get("phone") if isinstance(basics.get("phone"), str) else ""
-            ),
-            "website": (
-                basics.get("url") if isinstance(basics.get("url"), str) else ""
-            ),
-            "social_networks": [
-                {"network": profile.get("network"), "username": _pick_username(profile)}
-                for profile in basics.get("profiles", [])
-                if isinstance(profile, dict)
-            ],
-            "sections": build_sections(resume),
-        },
-    )
+    cv: JsonDict = {
+        "name": basics.get("name"),
+        "headline": basics.get("label") if isinstance(basics.get("label"), str) else "",
+        "location": _format_location(basics.get("location")),
+        "social_networks": [
+            {"network": profile.get("network"), "username": _pick_username(profile)}
+            for profile in basics.get("profiles", [])
+            if isinstance(profile, dict)
+        ],
+        "sections": build_sections(resume),
+    }
+    if (email := _optional_string(basics.get("email"))) is not None:
+        cv["email"] = email
+    if (phone := _optional_string(basics.get("phone"))) is not None:
+        cv["phone"] = phone
+    if (website := _optional_string(basics.get("url"))) is not None:
+        cv["website"] = website
 
     return deep_merge(
         theme_config,

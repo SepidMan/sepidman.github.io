@@ -17,7 +17,6 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.5",
     "@go-task/cli": "^3.51.1",
-    "@jsonresume/jsonresume-to-rendercv": "^1.0.13",
     "luxon": "^3.7.2",
     "rimraf": "^5.0.0"
   },

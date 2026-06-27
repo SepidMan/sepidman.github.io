@@ -13,7 +13,6 @@ from .paths import (
     RESUME_SCHEMA_PATH,
     ROOT_DIR,
     VARIANTS_PATH,
-    node_converter_path,
     profile_path,
     theme_path,
 )
@@ -84,7 +83,6 @@ def validate_resume_pipeline() -> PipelineConfig:
         (RESUME_SCHEMA_PATH, "Resume schema"),
         (VARIANTS_PATH, "RenderCV variants config"),
         (BASE_RENDER_CV_PATH, "RenderCV base config"),
-        (node_converter_path(), "JSON Resume converter"),
     ]:
         ensure_readable(path, label)
 
