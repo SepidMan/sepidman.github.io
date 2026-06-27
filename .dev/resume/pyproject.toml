@@ -8,8 +8,7 @@ version = "0.1.0"
 description = "Resume validation, conversion, and PDF build pipeline for sepidman.github.io"
 requires-python = ">=3.12"
 dependencies = [
-  "jsonschema>=4.23.0",
-  "PyYAML>=6.0.2",
+  "pyserials>=0.2.1,<0.3",
 ]
 
 [project.scripts]
