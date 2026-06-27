@@ -16,8 +16,14 @@
     {% if github %}
       <p><strong>GitHub</strong><a href="{{ github.url }}">{{ github.url | replace("https://www.", "") | replace("https://", "") }}</a></p>
     {% endif %}
-    <details class="download-menu">
-      <summary class="button download-menu-summary">
+    <div class="download-menu" data-download-menu>
+      <button
+        class="button download-menu-summary"
+        type="button"
+        aria-expanded="false"
+        aria-controls="resume-download-menu"
+        data-download-menu-toggle
+      >
         <span class="download-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" focusable="false">
             <path d="M12 4v10"></path>
@@ -25,13 +31,18 @@
             <path d="M5 18h14"></path>
           </svg>
         </span>
-        <span>Download</span>
-      </summary>
-      <div class="download-menu-items">
+        <span>Download Resume</span>
+      </button>
+      <div
+        class="download-menu-items"
+        id="resume-download-menu"
+        hidden
+        data-download-menu-items
+      >
         {% for item in resume.downloadOptions %}
           <a class="download-menu-link" href="{{ item.href }}" download>{{ item.label }}</a>
         {% endfor %}
       </div>
-    </details>
+    </div>
   </aside>
 </section>

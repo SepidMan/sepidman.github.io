@@ -795,18 +795,18 @@ li {
 
 .download-menu {
   position: relative;
+  width: fit-content;
+  margin: 1.2rem auto 0;
 }
 
 .download-menu-summary {
-  list-style: none;
   cursor: pointer;
+  font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.download-menu-summary::-webkit-details-marker {
-  display: none;
-}
-
-.download-menu[open] .download-menu-summary {
+.download-menu[data-open="true"] .download-menu-summary {
   transform: translateY(-2px);
 }
 
@@ -828,8 +828,9 @@ li {
 
 .download-menu-items {
   position: absolute;
-  top: calc(100% + 0.65rem);
-  right: 0;
+  top: calc(100% + 0.3rem);
+  left: 50%;
+  transform: translateX(-50%);
   min-width: 13.5rem;
   padding: 0.55rem;
   border: 1px solid var(--line);

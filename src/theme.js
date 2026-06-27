@@ -9,6 +9,9 @@ const root = document.documentElement;
 const button = document.querySelector("[data-theme-toggle]");
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const siteNav = document.querySelector("[data-site-nav]");
+const downloadMenu = document.querySelector("[data-download-menu]");
+const downloadMenuToggle = document.querySelector("[data-download-menu-toggle]");
+const downloadMenuItems = document.querySelector("[data-download-menu-items]");
 
 function preferredTheme() {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
@@ -142,6 +145,56 @@ if (menuToggle && siteNav) {
 
   window.addEventListener("resize", syncMenuForViewport);
   syncMenuForViewport();
+}
+
+function closeDownloadMenu() {
+  if (!downloadMenu || !downloadMenuToggle || !downloadMenuItems) {
+    return;
+  }
+
+  downloadMenu.removeAttribute("data-open");
+  downloadMenuToggle.setAttribute("aria-expanded", "false");
+  downloadMenuItems.hidden = true;
+}
+
+function openDownloadMenu() {
+  if (!downloadMenu || !downloadMenuToggle || !downloadMenuItems) {
+    return;
+  }
+
+  downloadMenu.setAttribute("data-open", "true");
+  downloadMenuToggle.setAttribute("aria-expanded", "true");
+  downloadMenuItems.hidden = false;
+}
+
+if (downloadMenu && downloadMenuToggle && downloadMenuItems) {
+  downloadMenuToggle.addEventListener("click", () => {
+    const expanded = downloadMenuToggle.getAttribute("aria-expanded") === "true";
+    if (expanded) {
+      closeDownloadMenu();
+    } else {
+      openDownloadMenu();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Node) || downloadMenu.contains(event.target)) {
+      return;
+    }
+    closeDownloadMenu();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeDownloadMenu();
+    }
+  });
+
+  downloadMenuItems.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      closeDownloadMenu();
+    });
+  });
 }
 
 function animateHeroGraphic() {
