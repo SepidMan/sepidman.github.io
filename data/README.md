@@ -9,7 +9,6 @@ data/
   README.md
   main.yaml
   schema.json
-  schema/
   jsonresume.schema.json
   resume_ux.md
   profile-model.md
@@ -27,13 +26,9 @@ data/
 
 `schema.json`
 
-- Thin top-level validation schema for `main.yaml`.
-- Composes smaller schema modules under `schema/`.
-
-`schema/`
-
-- Split internal schema modules for canonical content, website content, shared definitions, and export configuration.
-- Keeps model changes localized instead of editing one monolithic schema file.
+- Standalone internal validation schema for `main.yaml`.
+- Defines the canonical model explicitly without importing the JSON Resume schema.
+- This is the authoritative schema for authored data.
 
 `jsonresume.schema.json`
 

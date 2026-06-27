@@ -1,86 +1,1451 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Canonical Profile Schema",
-  "description": "Internal source-of-truth schema for resume, RenderCV export metadata, and website content.",
+  "description": "Internal source-of-truth schema for resume content, website content, and export configuration.",
   "type": "object",
   "additionalProperties": false,
+  "required": [
+    "$schema",
+    "meta",
+    "basics",
+    "work",
+    "volunteer",
+    "education",
+    "certificates",
+    "skills",
+    "languages",
+    "interests",
+    "references",
+    "projects",
+    "website",
+    "exports"
+  ],
   "properties": {
     "$schema": {
       "type": "string",
-      "description": "Optional schema URL for the canonical profile file."
+      "description": "Relative path to the canonical schema file."
     },
     "meta": {
-      "$ref": "./jsonresume.schema.json#/properties/meta"
+      "type": "object",
+      "description": "Document-level metadata for the canonical profile.",
+      "additionalProperties": false,
+      "required": ["canonical", "version", "lastModified"],
+      "properties": {
+        "canonical": {
+          "type": "string",
+          "format": "uri",
+          "description": "Canonical public URL for the generated JSON Resume asset."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "description": "Semantic version of the canonical profile document."
+        },
+        "lastModified": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Last modification date for the canonical profile."
+        }
+      }
     },
     "basics": {
-      "allOf": [
-        {
-          "$ref": "./jsonresume.schema.json#/properties/basics"
+      "type": "object",
+      "description": "Primary identity, contact, and summary information for the profile owner.",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "shortName",
+        "label",
+        "image",
+        "email",
+        "url",
+        "summary",
+        "location",
+        "profiles",
+        "connections"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name used across resume, website, and PDFs."
         },
-        {
-          "$ref": "./schema/content.schema.json#/definitions/basicsExtension"
+        "shortName": {
+          "type": "string",
+          "description": "Short display name used in compact UI contexts."
+        },
+        "label": {
+          "type": "string",
+          "description": "Primary professional label or role."
+        },
+        "image": {
+          "type": "string",
+          "description": "Canonical public image URL for the profile."
+        },
+        "photo": {
+          "type": "string",
+          "description": "Optional RenderCV-specific photo override."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Primary contact email address."
+        },
+        "phone": {
+          "type": "string",
+          "description": "Optional phone number."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Primary personal website URL."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Main professional summary used as the source biography."
+        },
+        "location": {
+          "type": "object",
+          "description": "Structured location information for the profile owner.",
+          "additionalProperties": false,
+          "required": ["postalCode", "city", "countryCode", "region"],
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "Optional street address."
+            },
+            "postalCode": {
+              "type": "string",
+              "description": "Postal code."
+            },
+            "city": {
+              "type": "string",
+              "description": "City name."
+            },
+            "countryCode": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "ISO 3166-1 alpha-2 country code."
+            },
+            "region": {
+              "type": "string",
+              "description": "Region, state, or province."
+            }
+          }
+        },
+        "profiles": {
+          "type": "array",
+          "description": "Structured social profiles used across website and exports.",
+          "items": {
+            "type": "object",
+            "description": "Single social profile entry.",
+            "additionalProperties": false,
+            "required": ["network", "url", "icon"],
+            "properties": {
+              "network": {
+                "type": "string",
+                "description": "Profile network name, such as LinkedIn or GitHub."
+              },
+              "username": {
+                "type": "string",
+                "description": "Optional username on the network."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Canonical URL for the social profile."
+              },
+              "icon": {
+                "$ref": "#/definitions/iconDefinition"
+              }
+            }
+          }
+        },
+        "connections": {
+          "type": "array",
+          "description": "Additional contact connections that do not fit the standard social-profile model.",
+          "items": {
+            "type": "object",
+            "description": "Single additional connection entry.",
+            "additionalProperties": false,
+            "required": ["label", "url", "icon"],
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Human-readable label for the connection."
+              },
+              "url": {
+                "type": "string",
+                "description": "Connection target URL, including mailto links where needed."
+              },
+              "icon": {
+                "$ref": "#/definitions/iconDefinition"
+              }
+            }
+          }
         }
-      ]
+      }
     },
     "work": {
-      "$ref": "./jsonresume.schema.json#/properties/work"
+      "type": "array",
+      "description": "Professional work history entries.",
+      "items": {
+        "type": "object",
+        "description": "Single work experience entry.",
+        "additionalProperties": false,
+        "required": ["name", "position", "summary"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Employer or organization name."
+          },
+          "location": {
+            "type": "string",
+            "description": "Human-readable location string for the role."
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional short descriptor of the employer or context."
+          },
+          "position": {
+            "type": "string",
+            "description": "Role title."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional employer URL."
+          },
+          "startDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "endDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Core summary of the role."
+          },
+          "highlights": {
+            "$ref": "#/definitions/stringList"
+          }
+        }
+      }
     },
     "volunteer": {
-      "$ref": "./jsonresume.schema.json#/properties/volunteer"
+      "type": "array",
+      "description": "Volunteer and unpaid contribution entries.",
+      "items": {
+        "type": "object",
+        "description": "Single volunteer experience entry.",
+        "additionalProperties": false,
+        "required": ["organization", "position", "summary"],
+        "properties": {
+          "organization": {
+            "type": "string",
+            "description": "Organization name."
+          },
+          "position": {
+            "type": "string",
+            "description": "Volunteer role title."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional organization URL."
+          },
+          "startDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "endDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Core summary of the volunteer role."
+          },
+          "highlights": {
+            "$ref": "#/definitions/stringList"
+          }
+        }
+      }
     },
     "education": {
-      "$ref": "./jsonresume.schema.json#/properties/education"
+      "type": "array",
+      "description": "Formal education and course entries.",
+      "items": {
+        "type": "object",
+        "description": "Single education entry.",
+        "additionalProperties": false,
+        "required": ["institution", "studyType"],
+        "properties": {
+          "institution": {
+            "type": "string",
+            "description": "Institution or provider name."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional institution URL."
+          },
+          "area": {
+            "type": "string",
+            "description": "Subject area or program focus."
+          },
+          "studyType": {
+            "type": "string",
+            "description": "Degree, course, or program type."
+          },
+          "startDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "endDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "score": {
+            "type": "string",
+            "description": "Optional grade or score."
+          },
+          "courses": {
+            "$ref": "#/definitions/stringList"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Optional education summary."
+          }
+        }
+      }
     },
     "awards": {
-      "$ref": "./jsonresume.schema.json#/properties/awards"
+      "type": "array",
+      "description": "Awards and honors.",
+      "items": {
+        "type": "object",
+        "description": "Single award entry.",
+        "additionalProperties": false,
+        "required": ["title", "date", "awarder", "summary"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Award title."
+          },
+          "date": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "awarder": {
+            "type": "string",
+            "description": "Issuing body for the award."
+          },
+          "summary": {
+            "type": "string",
+            "description": "Short explanation of the award."
+          }
+        }
+      }
     },
     "certificates": {
-      "$ref": "./jsonresume.schema.json#/properties/certificates"
+      "type": "array",
+      "description": "Professional certificates and certifications.",
+      "items": {
+        "type": "object",
+        "description": "Single certificate entry.",
+        "additionalProperties": false,
+        "required": ["name", "issuer"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Certificate name."
+          },
+          "date": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional verification URL."
+          },
+          "issuer": {
+            "type": "string",
+            "description": "Issuing organization."
+          },
+          "summary": {
+            "type": "string",
+            "description": "Optional note about the certificate."
+          }
+        }
+      }
     },
     "publications": {
       "type": "array",
-      "description": "JSON Resume publications plus RenderCV-specific publication fields.",
+      "description": "Publications and publication-like outputs.",
       "items": {
-        "allOf": [
-          {
-            "$ref": "./jsonresume.schema.json#/properties/publications/items"
+        "type": "object",
+        "description": "Single publication entry.",
+        "additionalProperties": false,
+        "required": ["name", "publisher"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Publication title."
           },
-          {
-            "$ref": "./schema/content.schema.json#/definitions/publicationExtension"
+          "publisher": {
+            "type": "string",
+            "description": "Publisher, journal, or venue owner."
+          },
+          "releaseDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional publication URL."
+          },
+          "summary": {
+            "type": "string",
+            "description": "Optional summary of the publication."
+          },
+          "authors": {
+            "$ref": "#/definitions/stringList"
+          },
+          "doi": {
+            "type": "string",
+            "description": "Optional DOI."
+          },
+          "journal": {
+            "type": "string",
+            "description": "Optional journal or conference name."
           }
-        ]
+        }
       }
     },
     "skills": {
-      "$ref": "./jsonresume.schema.json#/properties/skills"
+      "type": "array",
+      "description": "Grouped skill areas and their associated keywords.",
+      "items": {
+        "type": "object",
+        "description": "Single skill-group entry.",
+        "additionalProperties": false,
+        "required": ["name", "keywords"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Skill group name."
+          },
+          "level": {
+            "type": "string",
+            "description": "Optional proficiency level."
+          },
+          "keywords": {
+            "$ref": "#/definitions/stringList"
+          }
+        }
+      }
     },
     "languages": {
-      "$ref": "./jsonresume.schema.json#/properties/languages"
+      "type": "array",
+      "description": "Languages spoken by the profile owner.",
+      "items": {
+        "type": "object",
+        "description": "Single language entry.",
+        "additionalProperties": false,
+        "required": ["language", "fluency"],
+        "properties": {
+          "language": {
+            "type": "string",
+            "description": "Language name."
+          },
+          "fluency": {
+            "type": "string",
+            "description": "Fluency level or descriptor."
+          }
+        }
+      }
     },
     "interests": {
-      "$ref": "./jsonresume.schema.json#/properties/interests"
+      "type": "array",
+      "description": "Personal interests and associated keywords.",
+      "items": {
+        "type": "object",
+        "description": "Single interest entry.",
+        "additionalProperties": false,
+        "required": ["name", "keywords"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Interest category name."
+          },
+          "keywords": {
+            "$ref": "#/definitions/stringList"
+          }
+        }
+      }
     },
     "references": {
-      "$ref": "./jsonresume.schema.json#/properties/references"
+      "type": "array",
+      "description": "Written references or testimonials.",
+      "items": {
+        "type": "object",
+        "description": "Single reference entry.",
+        "additionalProperties": false,
+        "required": ["name", "reference"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Reference author or source name."
+          },
+          "reference": {
+            "type": "string",
+            "description": "Full reference text."
+          }
+        }
+      }
     },
     "projects": {
       "type": "array",
+      "description": "Project and case-study entries used across resume and website.",
       "items": {
-        "allOf": [
-          {
-            "$ref": "./jsonresume.schema.json#/properties/projects/items"
+        "type": "object",
+        "description": "Single project entry.",
+        "additionalProperties": false,
+        "required": ["name", "description", "keywords", "presentation"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Project name."
           },
-          {
-            "$ref": "./schema/content.schema.json#/definitions/projectExtension"
+          "description": {
+            "type": "string",
+            "description": "Short project summary."
+          },
+          "highlights": {
+            "$ref": "#/definitions/stringList"
+          },
+          "keywords": {
+            "$ref": "#/definitions/stringList"
+          },
+          "startDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "endDate": {
+            "$ref": "#/definitions/datePartial"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional canonical project URL."
+          },
+          "roles": {
+            "$ref": "#/definitions/stringList"
+          },
+          "entity": {
+            "type": "string",
+            "description": "Associated organization or client."
+          },
+          "type": {
+            "type": "string",
+            "description": "Project category or engagement type."
+          },
+          "presentation": {
+            "type": "object",
+            "description": "Website-facing presentation metadata for the project.",
+            "additionalProperties": false,
+            "required": ["slug", "listing", "cover", "meta", "seo"],
+            "properties": {
+              "slug": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+                "description": "Slug used for the project page and lookup."
+              },
+              "listing": {
+                "type": "object",
+                "description": "Metadata for project listing placement and card treatment.",
+                "additionalProperties": false,
+                "required": ["featured", "order"],
+                "properties": {
+                  "featured": {
+                    "type": "boolean",
+                    "description": "Whether the project appears in featured project collections."
+                  },
+                  "order": {
+                    "type": "integer",
+                    "description": "Sort order used in project listings."
+                  },
+                  "label": {
+                    "type": "string",
+                    "description": "Optional short label used above the project title in listing cards."
+                  }
+                }
+              },
+              "cover": {
+                "type": "object",
+                "description": "Visual metadata for the project cover swatch.",
+                "additionalProperties": false,
+                "required": ["tone"],
+                "properties": {
+                  "tone": {
+                    "type": "string",
+                    "description": "Named color tone token used by the website."
+                  }
+                }
+              },
+              "meta": {
+                "type": "object",
+                "description": "Project metadata shown on project pages.",
+                "additionalProperties": false,
+                "required": ["focus"],
+                "properties": {
+                  "focus": {
+                    "type": "string",
+                    "description": "Short focus statement for the project."
+                  }
+                }
+              },
+              "seo": {
+                "type": "object",
+                "description": "SEO metadata for the project page.",
+                "additionalProperties": false,
+                "required": ["description"],
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Project-specific SEO description."
+                  }
+                }
+              }
+            }
           }
-        ]
+        }
       }
     },
     "website": {
-      "$ref": "./schema/website.schema.json"
+      "type": "object",
+      "description": "Website-specific content, navigation, and page copy.",
+      "additionalProperties": false,
+      "required": ["baseUrl", "description", "navigation", "pages"],
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Canonical base URL for the website."
+        },
+        "description": {
+          "type": "string",
+          "description": "Global site description."
+        },
+        "navigation": {
+          "type": "array",
+          "description": "Primary site navigation entries.",
+          "items": {
+            "type": "object",
+            "description": "Single navigation item.",
+            "additionalProperties": false,
+            "required": ["label", "url", "icon"],
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Navigation label."
+              },
+              "url": {
+                "type": "string",
+                "description": "Navigation target URL."
+              },
+              "icon": {
+                "$ref": "#/definitions/iconDefinition"
+              }
+            }
+          }
+        },
+        "pages": {
+          "type": "object",
+          "description": "Content blocks for each top-level website page.",
+          "additionalProperties": false,
+          "required": ["home", "about", "contact", "work", "resume", "projects", "footer"],
+          "properties": {
+            "home": {
+              "type": "object",
+              "description": "Homepage content model.",
+              "additionalProperties": false,
+              "required": [
+                "seo",
+                "hero",
+                "stats",
+                "graphicLabels",
+                "aside",
+                "featuredCollection",
+                "narrative",
+                "focusList",
+                "callToAction"
+              ],
+              "properties": {
+                "seo": {
+                  "$ref": "#/definitions/websitePageSeo"
+                },
+                "hero": {
+                  "type": "object",
+                  "description": "Homepage hero block.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "headline", "intro", "primaryAction", "secondaryAction"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Short hero eyebrow."
+                    },
+                    "headline": {
+                      "type": "string",
+                      "description": "Primary homepage headline."
+                    },
+                    "intro": {
+                      "type": "string",
+                      "description": "Introductory supporting copy."
+                    },
+                    "primaryAction": {
+                      "$ref": "#/definitions/websiteAction"
+                    },
+                    "secondaryAction": {
+                      "$ref": "#/definitions/websiteAction"
+                    }
+                  }
+                },
+                "stats": {
+                  "type": "array",
+                  "description": "Homepage stat cards.",
+                  "items": {
+                    "type": "object",
+                    "description": "Single homepage stat card.",
+                    "additionalProperties": false,
+                    "required": ["label", "value", "detail"],
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "description": "Stat label."
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "Primary stat value."
+                      },
+                      "detail": {
+                        "type": "string",
+                        "description": "Supporting stat explanation."
+                      }
+                    }
+                  }
+                },
+                "graphicLabels": {
+                  "type": "object",
+                  "description": "Text labels embedded in the decorative homepage graphic.",
+                  "additionalProperties": false,
+                  "required": ["top", "bottom"],
+                  "properties": {
+                    "top": {
+                      "type": "string",
+                      "description": "Upper graphic label."
+                    },
+                    "bottom": {
+                      "type": "string",
+                      "description": "Lower graphic label."
+                    }
+                  }
+                },
+                "aside": {
+                  "type": "object",
+                  "description": "Supporting aside card on the homepage hero row.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "caption", "note"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Aside eyebrow."
+                    },
+                    "caption": {
+                      "type": "string",
+                      "description": "Aside caption."
+                    },
+                    "note": {
+                      "type": "string",
+                      "description": "Supporting aside note."
+                    }
+                  }
+                },
+                "featuredCollection": {
+                  "type": "object",
+                  "description": "Intro block for featured project listings.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "headline", "linkLabel"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Featured collection eyebrow."
+                    },
+                    "headline": {
+                      "type": "string",
+                      "description": "Featured collection headline."
+                    },
+                    "linkLabel": {
+                      "type": "string",
+                      "description": "Label for the link to all work."
+                    }
+                  }
+                },
+                "narrative": {
+                  "type": "object",
+                  "description": "Primary narrative block on the homepage.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "headline", "body"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Narrative eyebrow."
+                    },
+                    "headline": {
+                      "type": "string",
+                      "description": "Narrative headline."
+                    },
+                    "body": {
+                      "type": "string",
+                      "description": "Narrative body copy."
+                    }
+                  }
+                },
+                "focusList": {
+                  "type": "object",
+                  "description": "Current focus list shown on the homepage.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "items"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Focus list eyebrow."
+                    },
+                    "items": {
+                      "$ref": "#/definitions/stringList"
+                    }
+                  }
+                },
+                "callToAction": {
+                  "type": "object",
+                  "description": "Closing homepage CTA block.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "headline", "primary", "secondary"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "CTA eyebrow."
+                    },
+                    "headline": {
+                      "type": "string",
+                      "description": "CTA headline."
+                    },
+                    "primary": {
+                      "$ref": "#/definitions/websiteAction"
+                    },
+                    "secondary": {
+                      "$ref": "#/definitions/websiteAction"
+                    }
+                  }
+                }
+              }
+            },
+            "about": {
+              "type": "object",
+              "description": "About-page content model.",
+              "additionalProperties": false,
+              "required": ["seo", "eyebrow", "headline", "summary", "principles", "introCard", "featureCards"],
+              "properties": {
+                "seo": {
+                  "$ref": "#/definitions/websitePageSeo"
+                },
+                "eyebrow": {
+                  "type": "string",
+                  "description": "About-page eyebrow."
+                },
+                "headline": {
+                  "type": "string",
+                  "description": "About-page headline."
+                },
+                "summary": {
+                  "$ref": "#/definitions/stringList"
+                },
+                "principles": {
+                  "$ref": "#/definitions/stringList"
+                },
+                "introCard": {
+                  "type": "object",
+                  "description": "Introductory about-page card.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "headline", "body", "principlesEyebrow"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Intro card eyebrow."
+                    },
+                    "headline": {
+                      "type": "string",
+                      "description": "Intro card headline."
+                    },
+                    "body": {
+                      "type": "string",
+                      "description": "Intro card body copy."
+                    },
+                    "principlesEyebrow": {
+                      "type": "string",
+                      "description": "Eyebrow for the adjacent principles list."
+                    }
+                  }
+                },
+                "featureCards": {
+                  "type": "object",
+                  "description": "Feature card grid on the about page.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "headline", "cards"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Feature cards eyebrow."
+                    },
+                    "headline": {
+                      "type": "string",
+                      "description": "Feature cards headline."
+                    },
+                    "cards": {
+                      "type": "array",
+                      "description": "Individual feature cards.",
+                      "items": {
+                        "type": "object",
+                        "description": "Single about-page feature card.",
+                        "additionalProperties": false,
+                        "required": ["eyebrow", "headline", "body"],
+                        "properties": {
+                          "eyebrow": {
+                            "type": "string",
+                            "description": "Card eyebrow."
+                          },
+                          "headline": {
+                            "type": "string",
+                            "description": "Card headline."
+                          },
+                          "body": {
+                            "type": "string",
+                            "description": "Card body."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "contact": {
+              "type": "object",
+              "description": "Contact-page content model.",
+              "additionalProperties": false,
+              "required": [
+                "seo",
+                "eyebrow",
+                "headline",
+                "intro",
+                "availability",
+                "socialLinkDescription",
+                "emailLinkLabel",
+                "emailLinkDescription"
+              ],
+              "properties": {
+                "seo": {
+                  "$ref": "#/definitions/websitePageSeo"
+                },
+                "eyebrow": {
+                  "type": "string",
+                  "description": "Contact-page eyebrow."
+                },
+                "headline": {
+                  "type": "string",
+                  "description": "Contact-page headline."
+                },
+                "intro": {
+                  "type": "string",
+                  "description": "Main contact intro copy."
+                },
+                "availability": {
+                  "type": "string",
+                  "description": "Availability statement."
+                },
+                "socialLinkDescription": {
+                  "type": "string",
+                  "description": "Description shown in social contact cards."
+                },
+                "emailLinkLabel": {
+                  "type": "string",
+                  "description": "Label for the email contact card."
+                },
+                "emailLinkDescription": {
+                  "type": "string",
+                  "description": "Description shown in the email contact card."
+                }
+              }
+            },
+            "work": {
+              "type": "object",
+              "description": "Simple hero content model for the work index page.",
+              "additionalProperties": false,
+              "required": ["seo", "eyebrow", "headline", "intro"],
+              "properties": {
+                "seo": {
+                  "$ref": "#/definitions/websitePageSeo"
+                },
+                "eyebrow": {
+                  "type": "string",
+                  "description": "Work-page eyebrow."
+                },
+                "headline": {
+                  "type": "string",
+                  "description": "Work-page headline."
+                },
+                "intro": {
+                  "type": "string",
+                  "description": "Work-page intro copy."
+                }
+              }
+            },
+            "resume": {
+              "type": "object",
+              "description": "Resume-page content model.",
+              "additionalProperties": false,
+              "required": ["seo", "hero", "contact", "sections"],
+              "properties": {
+                "seo": {
+                  "$ref": "#/definitions/websitePageSeo"
+                },
+                "hero": {
+                  "type": "object",
+                  "description": "Resume-page hero content.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Resume-page eyebrow."
+                    }
+                  }
+                },
+                "contact": {
+                  "type": "object",
+                  "description": "Labels and download metadata for the resume page.",
+                  "additionalProperties": false,
+                  "required": ["labels", "downloadLabel", "downloads"],
+                  "properties": {
+                    "labels": {
+                      "type": "object",
+                      "description": "Contact field labels shown on the resume page.",
+                      "additionalProperties": false,
+                      "required": ["location", "email", "linkedin", "github"],
+                      "properties": {
+                        "location": {
+                          "type": "string",
+                          "description": "Location label."
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "Email label."
+                        },
+                        "linkedin": {
+                          "type": "string",
+                          "description": "LinkedIn label."
+                        },
+                        "github": {
+                          "type": "string",
+                          "description": "GitHub label."
+                        }
+                      }
+                    },
+                    "downloadLabel": {
+                      "type": "string",
+                      "description": "Button label for the resume download menu."
+                    },
+                    "downloads": {
+                      "type": "object",
+                      "description": "Labels for generated downloadable resume assets.",
+                      "additionalProperties": false,
+                      "required": ["resumePdf", "cvPdf", "jsonResume"],
+                      "properties": {
+                        "resumePdf": {
+                          "type": "string",
+                          "description": "Label for the resume PDF download."
+                        },
+                        "cvPdf": {
+                          "type": "string",
+                          "description": "Label for the CV PDF download."
+                        },
+                        "jsonResume": {
+                          "type": "string",
+                          "description": "Label for the JSON Resume download."
+                        }
+                      }
+                    }
+                  }
+                },
+                "sections": {
+                  "type": "object",
+                  "description": "Section labels and headings for the resume page.",
+                  "additionalProperties": false,
+                  "required": ["experience", "education", "skills", "supporting"],
+                  "properties": {
+                    "experience": {
+                      "type": "object",
+                      "description": "Experience section labels.",
+                      "additionalProperties": false,
+                      "required": ["eyebrow", "headline", "presentLabel"],
+                      "properties": {
+                        "eyebrow": {
+                          "type": "string",
+                          "description": "Experience section eyebrow."
+                        },
+                        "headline": {
+                          "type": "string",
+                          "description": "Experience section headline."
+                        },
+                        "presentLabel": {
+                          "type": "string",
+                          "description": "Label used for open-ended date ranges."
+                        }
+                      }
+                    },
+                    "education": {
+                      "type": "object",
+                      "description": "Education section labels.",
+                      "additionalProperties": false,
+                      "required": ["eyebrow"],
+                      "properties": {
+                        "eyebrow": {
+                          "type": "string",
+                          "description": "Education section eyebrow."
+                        }
+                      }
+                    },
+                    "skills": {
+                      "type": "object",
+                      "description": "Skills section labels.",
+                      "additionalProperties": false,
+                      "required": ["eyebrow"],
+                      "properties": {
+                        "eyebrow": {
+                          "type": "string",
+                          "description": "Skills section eyebrow."
+                        }
+                      }
+                    },
+                    "supporting": {
+                      "type": "object",
+                      "description": "Supporting sidebar labels for the resume page.",
+                      "additionalProperties": false,
+                      "required": ["eyebrow", "certificatesHeading", "languagesHeading", "projectsHeading"],
+                      "properties": {
+                        "eyebrow": {
+                          "type": "string",
+                          "description": "Supporting section eyebrow."
+                        },
+                        "certificatesHeading": {
+                          "type": "string",
+                          "description": "Certificates subsection heading."
+                        },
+                        "languagesHeading": {
+                          "type": "string",
+                          "description": "Languages subsection heading."
+                        },
+                        "projectsHeading": {
+                          "type": "string",
+                          "description": "Projects subsection heading."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "projects": {
+              "type": "object",
+              "description": "Project-page and project-listing UI labels.",
+              "additionalProperties": false,
+              "required": ["card", "hero", "meta", "callToAction"],
+              "properties": {
+                "card": {
+                  "type": "object",
+                  "description": "Fallback labels for project cards.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Fallback eyebrow for project cards."
+                    }
+                  }
+                },
+                "hero": {
+                  "type": "object",
+                  "description": "Project-page hero labels.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "Project-page hero eyebrow."
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "description": "Labels for project meta cards.",
+                  "additionalProperties": false,
+                  "required": ["roleLabel", "timelineLabel", "toolsLabel", "focusLabel"],
+                  "properties": {
+                    "roleLabel": {
+                      "type": "string",
+                      "description": "Label for the role meta field."
+                    },
+                    "timelineLabel": {
+                      "type": "string",
+                      "description": "Label for the timeline meta field."
+                    },
+                    "toolsLabel": {
+                      "type": "string",
+                      "description": "Label for the tools meta field."
+                    },
+                    "focusLabel": {
+                      "type": "string",
+                      "description": "Label for the focus meta field."
+                    }
+                  }
+                },
+                "callToAction": {
+                  "type": "object",
+                  "description": "Closing CTA block for project pages.",
+                  "additionalProperties": false,
+                  "required": ["eyebrow", "headline", "primary", "secondary"],
+                  "properties": {
+                    "eyebrow": {
+                      "type": "string",
+                      "description": "CTA eyebrow."
+                    },
+                    "headline": {
+                      "type": "string",
+                      "description": "CTA headline."
+                    },
+                    "primary": {
+                      "$ref": "#/definitions/websiteAction"
+                    },
+                    "secondary": {
+                      "$ref": "#/definitions/websiteAction"
+                    }
+                  }
+                }
+              }
+            },
+            "footer": {
+              "type": "object",
+              "description": "Footer labels and link copy.",
+              "additionalProperties": false,
+              "required": ["contactEyebrow", "downloadLabel"],
+              "properties": {
+                "contactEyebrow": {
+                  "type": "string",
+                  "description": "Footer contact eyebrow."
+                },
+                "downloadLabel": {
+                  "type": "string",
+                  "description": "Footer CV download link label."
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "exports": {
-      "$ref": "./schema/exports.schema.json"
+      "type": "object",
+      "description": "Export-specific configuration for generated resume artifacts.",
+      "additionalProperties": false,
+      "required": ["rendercv"],
+      "properties": {
+        "rendercv": {
+          "type": "object",
+          "description": "RenderCV PDF export configuration.",
+          "additionalProperties": false,
+          "required": ["locale", "settings", "variants"],
+          "properties": {
+            "locale": {
+              "type": "object",
+              "description": "Locale settings for RenderCV generation.",
+              "additionalProperties": false,
+              "required": ["language"],
+              "properties": {
+                "language": {
+                  "type": "string",
+                  "description": "Language name passed through to RenderCV."
+                }
+              }
+            },
+            "settings": {
+              "type": "object",
+              "description": "Shared RenderCV settings for all variants.",
+              "additionalProperties": false,
+              "required": ["currentDate", "boldKeywords", "pdfTitle"],
+              "properties": {
+                "currentDate": {
+                  "description": "Current date behavior for rendered PDFs.",
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": ["today"]
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    }
+                  ]
+                },
+                "boldKeywords": {
+                  "$ref": "#/definitions/stringList"
+                },
+                "pdfTitle": {
+                  "type": "string",
+                  "description": "Base PDF document title template."
+                }
+              }
+            },
+            "variants": {
+              "type": "object",
+              "description": "Named RenderCV output variants.",
+              "additionalProperties": {
+                "type": "object",
+                "description": "Single RenderCV variant configuration.",
+                "additionalProperties": false,
+                "required": ["label", "profile", "theme", "output", "summary"],
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "description": "Human-readable variant label."
+                  },
+                  "profile": {
+                    "type": "string",
+                    "description": "Profile override file name."
+                  },
+                  "theme": {
+                    "type": "string",
+                    "description": "RenderCV theme overlay name."
+                  },
+                  "output": {
+                    "type": "string",
+                    "description": "Output path template for the generated PDF."
+                  },
+                  "summary": {
+                    "type": "string",
+                    "description": "Description of the variant's intended usage."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "datePartial": {
+      "type": "string",
+      "description": "Date string accepting YYYY, YYYY-MM, or YYYY-MM-DD.",
+      "pattern": "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$"
+    },
+    "stringList": {
+      "type": "array",
+      "description": "List of strings used for repeated keyword-style content.",
+      "items": {
+        "type": "string",
+        "description": "Single string item."
+      }
+    },
+    "iconDefinition": {
+      "description": "Reusable icon descriptor supporting custom site icons and Font Awesome icons.",
+      "oneOf": [
+        {
+          "type": "object",
+          "description": "Custom icon reference.",
+          "additionalProperties": false,
+          "required": ["kind", "name"],
+          "properties": {
+            "kind": {
+              "const": "custom",
+              "description": "Marks this icon as a custom site icon."
+            },
+            "name": {
+              "type": "string",
+              "description": "Custom icon token name."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "description": "Font Awesome icon reference.",
+          "additionalProperties": false,
+          "required": ["kind", "name", "style"],
+          "properties": {
+            "kind": {
+              "const": "fontawesome",
+              "description": "Marks this icon as a Font Awesome icon."
+            },
+            "name": {
+              "type": "string",
+              "description": "Font Awesome icon name without the fa- prefix."
+            },
+            "style": {
+              "type": "string",
+              "description": "Font Awesome style family.",
+              "enum": ["solid", "regular", "brands"]
+            }
+          }
+        }
+      ]
+    },
+    "websiteAction": {
+      "type": "object",
+      "description": "Reusable website action object pointing at either a URL or a generated asset.",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Visible action label."
+        },
+        "url": {
+          "type": "string",
+          "description": "Direct URL target."
+        },
+        "asset": {
+          "type": "string",
+          "description": "Generated asset identifier resolved at build time.",
+          "enum": ["cvPdf", "resumePdf", "jsonResume"]
+        }
+      },
+      "oneOf": [
+        {
+          "required": ["url"]
+        },
+        {
+          "required": ["asset"]
+        }
+      ]
+    },
+    "websitePageSeo": {
+      "type": "object",
+      "description": "Reusable SEO metadata block for a website page.",
+      "additionalProperties": false,
+      "required": ["title", "description"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Page title."
+        },
+        "description": {
+          "type": "string",
+          "description": "Page description."
+        }
+      }
     }
   }
 }
