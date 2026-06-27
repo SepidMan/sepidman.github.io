@@ -4,6 +4,7 @@ vars:
   BUILD_DIR: build
   ELEVENTY_INPUT: src
   PIXI_BIN: $HOME/.pixi/bin/pixi
+  RESUME_CLI: '{{.PIXI_BIN}} run resume-pipeline'
   RESUME_VARIANT: '{{default "default" .VARIANT}}'
 
 tasks:
@@ -40,17 +41,17 @@ tasks:
   build:resume:all:
     desc: Build every configured RenderCV PDF variant
     cmds:
-      - node tools/build_resume_pdf.mjs --all
+      - '{{.RESUME_CLI}} build --all'
 
   build:resume:variant:
     desc: Build a named RenderCV PDF variant
     cmds:
-      - node tools/build_resume_pdf.mjs --variant {{.RESUME_VARIANT}}
+      - '{{.RESUME_CLI}} build --variant {{.RESUME_VARIANT}}'
 
   validate:resume:
     desc: Validate canonical resume data and resume variant config
     cmds:
-      - node tools/validate_resume.mjs
+      - '{{.RESUME_CLI}} validate'
 
   clean:
     desc: Remove generated build output

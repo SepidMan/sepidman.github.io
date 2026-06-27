@@ -7,6 +7,7 @@ This repository contains a data-driven personal portfolio website built with Ele
 - Eleventy
 - Nunjucks
 - JSON Resume data
+- Python resume pipeline package in `.dev/resume`
 - RenderCV for paper-native PDF export
 
 ## Project structure
@@ -17,8 +18,8 @@ This repository contains a data-driven personal portfolio website built with Ele
 - `cv/resume.json` — canonical resume source
 - `cv/profiles/` — variant-specific content overrides for PDF builds
 - `cv/rendercv/` — RenderCV base config, theme presets, and variant definitions
+- `.dev/resume/` — Python package for resume validation, conversion, and PDF builds
 - `build/` — generated site output for deployment
-- `tools/build_resume_pdf.mjs` — RenderCV PDF build orchestration
 - `Taskfile.yml` — top-level task runner commands
 - `pixi.toml` — Python environment management for RenderCV
 

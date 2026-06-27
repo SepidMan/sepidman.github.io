@@ -9,6 +9,8 @@ pip = "*"
 
 [pypi-dependencies]
 rendercv = { version = "*", extras = ["full"] }
+resume-pipeline = { path = ".dev/resume", editable = true }
 
 [tasks]
 rendercv = "rendercv"
+resume-pipeline = "resume-pipeline"

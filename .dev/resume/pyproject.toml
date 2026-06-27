@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resume-pipeline"
+version = "0.1.0"
+description = "Resume validation, conversion, and PDF build pipeline for sepidman.github.io"
+requires-python = ">=3.11"
+dependencies = [
+  "jsonschema>=4.23.0",
+  "PyYAML>=6.0.2",
+]
+
+[project.scripts]
+resume-pipeline = "resume_pipeline.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

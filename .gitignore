@@ -5,3 +5,10 @@ npm-debug.log*
 build/
 .pixi/
 cv/generated/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/

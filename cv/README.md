@@ -118,14 +118,12 @@ The PDF flow is:
 7. Write the merged YAML to `generated/`.
 8. Ask RenderCV to produce the final PDF in `build/assets/`.
 
-The main implementation points are:
+The main implementation point is the Python package under [.dev/resume](/workspaces/sepidman.github.io/.dev/resume/pyproject.toml:1).
 
-- [tools/validate_resume.mjs](/workspaces/sepidman.github.io/tools/validate_resume.mjs:1)
-  Validates source data, profiles, variants, and theme file existence.
-- [tools/convert_resume_to_rendercv.mjs](/workspaces/sepidman.github.io/tools/convert_resume_to_rendercv.mjs:1)
-  Applies profile overrides and generates RenderCV YAML.
-- [tools/build_resume_pdf.mjs](/workspaces/sepidman.github.io/tools/build_resume_pdf.mjs:1)
-  Invokes the converter and then runs RenderCV through `pixi`.
+- [resume_pipeline.cli](/workspaces/sepidman.github.io/.dev/resume/src/resume_pipeline/cli.py:1)
+  Provides the argparse-based CLI used by the task runner.
+- [resume_pipeline.pipeline](/workspaces/sepidman.github.io/.dev/resume/src/resume_pipeline/pipeline.py:1)
+  Validates source data, applies profile overrides, generates RenderCV YAML, and runs the PDF build.
 
 ## Working On Different Parts
 
