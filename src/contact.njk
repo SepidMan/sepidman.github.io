@@ -23,7 +23,7 @@ eleventyComputed:
         </div>
         <p class="eyebrow">{{ item.name }}</p>
         <h2>{{ item.url | replace("https://www.", "") | replace("https://", "") }}</h2>
-        <p>{{ site.pages.contact.socialCardBody }}</p>
+        <p>{{ site.pages.contact.socialLinkDescription }}</p>
       </a>
     {% endfor %}
 
@@ -34,9 +34,9 @@ eleventyComputed:
         {% set iconStyle = null %}
         {% include "partials/contact-icon.njk" %}
       </div>
-      <p class="eyebrow">{{ site.pages.contact.emailCardEyebrow }}</p>
+      <p class="eyebrow">{{ site.pages.contact.emailLinkLabel }}</p>
       <h2>{{ site.author.email }}</h2>
-      <p>{{ site.pages.contact.emailCardBody }}</p>
+      <p>{{ site.pages.contact.emailLinkDescription }}</p>
     </a>
   </div>
 </section>

@@ -64,10 +64,10 @@ eleventyComputed:
 <section class="section-block">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">{{ site.pages.home.featuredProjects.eyebrow }}</p>
-      <h2>{{ site.pages.home.featuredProjects.headline }}</h2>
+      <p class="eyebrow">{{ site.pages.home.featuredCollection.eyebrow }}</p>
+      <h2>{{ site.pages.home.featuredCollection.headline }}</h2>
     </div>
-    <a class="text-link" href="/work/">{{ site.pages.home.featuredProjects.linkLabel }}</a>
+    <a class="text-link" href="/work/">{{ site.pages.home.featuredCollection.linkLabel }}</a>
   </div>
   <div class="project-grid">
     {% for project in collections.featuredProjects %}
@@ -78,14 +78,14 @@ eleventyComputed:
 
 <section class="split-section">
   <article class="content-card">
-    <p class="eyebrow">{{ site.pages.home.practice.eyebrow }}</p>
-    <h2>{{ site.pages.home.practice.headline }}</h2>
-    <p>{{ site.pages.home.practice.body }}</p>
+    <p class="eyebrow">{{ site.pages.home.narrative.eyebrow }}</p>
+    <h2>{{ site.pages.home.narrative.headline }}</h2>
+    <p>{{ site.pages.home.narrative.body }}</p>
   </article>
   <aside class="note-card">
-    <p class="eyebrow">{{ site.pages.home.focus.eyebrow }}</p>
+    <p class="eyebrow">{{ site.pages.home.focusList.eyebrow }}</p>
     <ul class="plain-list">
-      {% for item in site.pages.home.focus.items %}
+      {% for item in site.pages.home.focusList.items %}
         <li>{{ item }}</li>
       {% endfor %}
     </ul>

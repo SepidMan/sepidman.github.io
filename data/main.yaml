@@ -398,19 +398,19 @@ website:
         caption: From complexity to clarity!
         note: I like taking crowded, uncertain product experiences and shaping
           them into interfaces that feel calm, legible, and intentional.
-      featuredProjects:
+      featuredCollection:
         eyebrow: Featured projects
         headline: Selected work that combines clarity, structure, and visual
           tone.
         linkLabel: View all work
-      practice:
+      narrative:
         eyebrow: About my practice
         headline: My process is rooted in usability, but shaped by content and
           atmosphere too.
         body: I enjoy designing flows that make complex information feel
           lighter. That means thinking carefully about hierarchy, language, and
           the small visual decisions that help people trust what they are using.
-      focus:
+      focusList:
         eyebrow: Currently focused on
         items:
           - Junior UI/UX opportunities
@@ -467,10 +467,10 @@ website:
       eyebrow: Contact
       headline: Let’s talk about design roles, internships, or thoughtful
         digital products.
-      socialCardBody: Connect with me and explore more of my background and
+      socialLinkDescription: Connect with me and explore more of my background and
         work.
-      emailCardEyebrow: Email
-      emailCardBody: The best place to reach me for roles, portfolio
+      emailLinkLabel: Email
+      emailLinkDescription: The best place to reach me for roles, portfolio
         conversations, and collaboration inquiries.
     work:
       seo:
@@ -509,7 +509,7 @@ website:
         languagesHeading: Languages
         projectsHeading: Selected projects
     projects:
-      defaultCardEyebrow: Selected work
+      defaultCardLabel: Selected work
       heroEyebrow: Case study
       metaLabels:
         role: Role

@@ -594,7 +594,7 @@
             }
           }
         },
-        "featuredProjects": {
+        "featuredCollection": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -609,7 +609,7 @@
             }
           }
         },
-        "practice": {
+        "narrative": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -624,7 +624,7 @@
             }
           }
         },
-        "focus": {
+        "focusList": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -672,13 +672,13 @@
         "headline": {
           "type": "string"
         },
-        "socialCardBody": {
+        "socialLinkDescription": {
           "type": "string"
         },
-        "emailCardEyebrow": {
+        "emailLinkLabel": {
           "type": "string"
         },
-        "emailCardBody": {
+        "emailLinkDescription": {
           "type": "string"
         }
       }
@@ -768,7 +768,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "defaultCardEyebrow": {
+        "defaultCardLabel": {
           "type": "string"
         },
         "heroEyebrow": {

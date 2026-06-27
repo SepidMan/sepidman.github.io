@@ -89,6 +89,18 @@ function resolveAction(action) {
   return action;
 }
 
+function resolveActionGroup(group) {
+  if (!group || typeof group !== "object") {
+    return group;
+  }
+
+  return {
+    ...group,
+    primary: resolveAction(group.primary),
+    secondary: resolveAction(group.secondary)
+  };
+}
+
 const basics = main.basics || {};
 const website = main.website || {};
 const social = asArray(basics.profiles).map((item) =>
@@ -142,23 +154,9 @@ module.exports = {
     ...(website.pages || {}),
     home: {
       ...(website.pages && website.pages.home ? website.pages.home : {}),
-      cta: {
-        ...(website.pages && website.pages.home && website.pages.home.cta
-          ? website.pages.home.cta
-          : {}),
-        primary: resolveAction(
-          website.pages &&
-            website.pages.home &&
-            website.pages.home.cta &&
-            website.pages.home.cta.primary
-        ),
-        secondary: resolveAction(
-          website.pages &&
-            website.pages.home &&
-            website.pages.home.cta &&
-            website.pages.home.cta.secondary
-        )
-      }
+      cta: resolveActionGroup(
+        website.pages && website.pages.home ? website.pages.home.cta : null
+      )
     }
   }
 };
