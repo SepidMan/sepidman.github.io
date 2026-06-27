@@ -84,8 +84,8 @@ work:
 volunteer:
   - organization: Tehran Animal Shelter
     position: Content Creator
-    startDate: 2013
-    endDate: 2018
+    startDate: "2013"
+    endDate: "2018"
     summary: Created content for the animal shelter's website and social media platforms.
     highlights:
       - Developed content strategies to increase engagement and awareness
@@ -118,7 +118,7 @@ certificates:
     issuer: ReDI School
   - name: UX/UI Design Intermediate
     issuer: ReDI School
-  - title: telc B2 (German language)
+  - name: telc B2 (German language)
     date: 2023-01-01
     issuer: Berlitz
     summary: German language certificate B2.

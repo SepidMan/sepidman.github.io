@@ -107,12 +107,7 @@ def build_sections(resume: JsonDict) -> JsonDict:
     certificates = resume.get("certificates")
     if isinstance(certificates, list) and certificates:
         sections["certificates"] = [
-            _build_detail_entry(
-                item,
-                name_key="name",
-                fallback_name_keys=("title",),
-                detail_keys=("issuer", "date"),
-            )
+            _build_detail_entry(item, name_key="name", detail_keys=("issuer", "date"))
             for item in certificates
             if isinstance(item, dict)
         ]
@@ -212,21 +207,10 @@ def _build_detail_entry(
     item: JsonDict,
     *,
     name_key: str,
-    fallback_name_keys: tuple[str, ...] = (),
     detail_keys: tuple[str, ...],
 ) -> JsonDict:
-    label = item.get(name_key)
-    if not isinstance(label, str) or not label:
-        label = next(
-            (
-                value
-                for fallback_key in fallback_name_keys
-                if isinstance((value := item.get(fallback_key)), str) and value
-            ),
-            None,
-        )
     return {
-        "label": label,
+        "label": item.get(name_key),
         "details": " | ".join(_string_values(item, detail_keys)),
     }
 
