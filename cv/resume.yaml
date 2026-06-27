@@ -33,9 +33,13 @@ work:
     location: Berlin, Germany
     position: Sales Assistant / Customer Experience
     startDate: 2025-01-01
-    summary: Assisted customers in a fast-paced retail environment; developed strong
-      communication and problem-solving skills; gained real-world insight into
-      user behavior and needs.
+    summary: Assisted customers in a fast-paced retail environment; observed
+      common user questions and behaviors to better support product presentation
+      and customer communications.
+    highlights:
+      - Developed communication and problem-solving skills useful for user
+        research and stakeholder interactions
+      - Gained real-world insight into user behavior and customer needs
   - name: Davino Export
     location: Teheran, Iran
     position: Content Manager
@@ -60,8 +64,10 @@ work:
     position: English Tutor
     startDate: 2011-07-01
     endDate: 2014-12-31
-    summary: Taught English to students and prepared exam materials; provided
-      one-on-one tutoring and lesson planning.
+    summary: Designed lesson plans and taught English; prepared exam materials
+      and provided one-on-one tutoring.
+    highlights:
+      - Improved communication and instructional-design skills
   - name: Kish Air
     location: Teheran, Iran
     position: Cabin Crew / Training Program
@@ -81,7 +87,7 @@ education:
     studyType: Course
     startDate: 2024-09-01
     endDate: 2024-12-01
-    summary: Coaching program in Berlin
+    summary: Coaching and integration support program in Berlin
   - institution: Islamic Azad University, Karaj
     area: English Literature
     studyType: Bachelor
@@ -104,17 +110,29 @@ skills:
   - name: UX & UI
     keywords:
       - UX Research
+      - User Interviews
+      - Basic Usability Testing
+      - Empathy
+      - User Observation
       - UI Design
+      - Wireframing
+      - Prototyping
       - User Flows
+      - Visual Hierarchy
       - Information Architecture
       - Usability Thinking
       - Content Design
+      - Content Structuring
+      - Microcopy Awareness
+      - Stakeholder Communication
+      - Presenting Design Decisions
   - name: Design Tools
     keywords:
       - Figma
       - Canva
       - Google Slides
       - PowerPoint
+      - Basic Prototyping
 languages:
   - language: Farsi
     fluency: Native speaker
@@ -132,25 +150,29 @@ interests:
 references: []
 projects:
   - name: Photography App (UX Project)
-    description: Designed a mobile-first photography application in Figma; developed
-      user flows, wireframes, and interactive prototypes.
+    description: Designed a mobile-first photography application in Figma with a
+      focus on navigation clarity and image-centric flows.
     highlights:
-      - Designed mobile-first photography application using Figma
-      - Developed user flows, wireframes, and interactive prototypes
-      - Conducted basic usability testing to refine design decisions
+      - Created user flows, low-fi and hi-fi wireframes, and interactive
+        prototypes
+      - Performed basic usability checks and iterated on layouts and
+        micro-interactions
     keywords:
       - Figma
       - Mobile-first
       - Prototyping
       - Wireframing
       - Usability Testing
+      - Navigation Design
+      - Micro-interactions
   - name: Impact Page Redesign (Case Study)
     description: Redesigned an NGO Impact Page to improve readability, visual
-      hierarchy, and layout consistency.
+      hierarchy, and content structure.
     highlights:
-      - Improved readability and visual hierarchy
-      - Resolved text-heavy content and misalignment issues
-      - Created a more accessible and user-friendly information flow
+      - Reduced text density by restructuring content into digestible sections
+        and clearer headings
+      - Improved accessibility and created a consistent visual layout for
+        better user comprehension
     keywords:
       - Information Architecture
       - Accessibility
