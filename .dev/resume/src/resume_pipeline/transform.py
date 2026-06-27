@@ -98,11 +98,11 @@ def build_sections(resume: JsonDict) -> JsonDict:
             _build_project_entry(item) for item in projects if isinstance(item, dict)
         ]
 
-    certifications = resume.get("certifications")
-    if isinstance(certifications, list) and certifications:
-        sections["certifications"] = [
+    certificates = resume.get("certificates")
+    if isinstance(certificates, list) and certificates:
+        sections["certificates"] = [
             _build_detail_entry(item, name_key="name", detail_keys=("issuer", "date"))
-            for item in certifications
+            for item in certificates
             if isinstance(item, dict)
         ]
 

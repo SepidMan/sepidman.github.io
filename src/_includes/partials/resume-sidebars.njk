@@ -30,9 +30,9 @@
   <article class="resume-panel">
     <p class="eyebrow">Training and languages</p>
     <div class="resume-list-item">
-      <h3>Certifications</h3>
+      <h3>Certificates</h3>
       <ul class="plain-list">
-        {% for item in resume.certifications %}
+        {% for item in resume.certificates %}
           <li>{{ item.name }}{% if item.issuer %} · {{ item.issuer }}{% endif %}</li>
         {% endfor %}
       </ul>

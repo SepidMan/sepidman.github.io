@@ -8,5 +8,5 @@ sections:
     enabled: false
   projects:
     limit: 1
-  certifications:
+  certificates:
     limit: 2

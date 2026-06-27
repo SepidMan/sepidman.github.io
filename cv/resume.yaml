@@ -93,7 +93,7 @@ awards:
     awarder: Berlitz
     summary: German language certificate B2.
 publications: []
-certifications:
+certificates:
   - name: Foundations of User Experience (UX) Design
     issuer: Google
   - name: UX/UI Design Basics

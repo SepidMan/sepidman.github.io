@@ -79,7 +79,7 @@ module.exports = {
     dateRaw: item.date || null,
     date: cleanDateParts(item.date)
   })),
-  certifications: asArray(source.certifications),
+  certificates: asArray(source.certificates),
   skills: asArray(source.skills),
   languages: asArray(source.languages),
   interests: asArray(source.interests),

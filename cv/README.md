@@ -64,7 +64,7 @@ Examples:
 - [profiles/cv.yaml](/workspaces/sepidman.github.io/cv/profiles/cv.yaml:1)
   Leaves the canonical content untouched for the full CV output.
 - [profiles/resume.yaml](/workspaces/sepidman.github.io/cv/profiles/resume.yaml:1)
-  Replaces the summary, hides awards, limits projects to 1, and limits certifications to 2.
+  Replaces the summary, hides awards, limits projects to 1, and limits certificates to 2.
 
 `rendercv/`
 
@@ -136,7 +136,7 @@ Use this when:
 
 - job history changes
 - education changes
-- skills or certifications change
+- skills or certificates change
 - contact details change
 - project entries change
 
@@ -155,7 +155,7 @@ Use this when:
 
 - a shorter application version is needed
 - one version should hide a section
-- a variant should show fewer projects or certifications
+- a variant should show fewer projects or certificates
 - a variant needs a different summary
 
 Then connect it in [rendercv/variants.yaml](/workspaces/sepidman.github.io/cv/rendercv/variants.yaml:1).
