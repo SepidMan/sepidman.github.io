@@ -218,7 +218,7 @@ function buildProjectView(project, projectsPage) {
       slug: getProjectSlug(project),
       featured: Boolean(listing.featured),
       order: typeof listing.order === "number" ? listing.order : 0,
-      cardEyebrow: listing.cardEyebrow || null,
+      label: listing.label || null,
       coverTone: cover.tone || "sage"
     },
     labels: {

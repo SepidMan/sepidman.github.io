@@ -225,7 +225,7 @@ projects:
       listing:
         featured: true
         order: 1
-        cardEyebrow: Visual system
+        label: Visual system
       cover:
         tone: sand
       meta:
@@ -251,7 +251,7 @@ projects:
       listing:
         featured: true
         order: 2
-        cardEyebrow: Visual system
+        label: Visual system
       cover:
         tone: coral
       meta:

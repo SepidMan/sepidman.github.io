@@ -142,7 +142,7 @@
                       "order": {
                         "type": "integer"
                       },
-                      "cardEyebrow": {
+                      "label": {
                         "type": "string"
                       }
                     }
