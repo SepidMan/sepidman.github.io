@@ -1,11 +1,14 @@
 $schema: https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json
+meta:
+  canonical: https://sepidehmansouri.com/assets/sepide-mansouri-jsonresume.json
+  version: 1.0.0
+  lastModified: 2026-06-27
 basics:
   name: Sepideh Mansouri
-  label: UX/UI Designer | Junior & Internship Candidate
-  image: ""
+  label: UX/UI Designer
+  image: https://sepidehmansouri.com/assets/images/headshot.jpg
   email: sepideh.mansouri85@gmail.com
-  phone: +49 176 7685 2444
-  url: https://www.linkedin.com/in/sepid-mans/
+  url: https://sepidehmansouri.com
   summary: Aspiring UX/UI Designer with a background in content management and
     customer-facing roles, currently transitioning into digital product design.
     Experienced in user-centered thinking through project-based training at ReDI
@@ -16,7 +19,6 @@ basics:
     Currently seeking Junior UX Designer or Internship opportunities in Berlin
     to further develop practical product design skills.
   location:
-    address: Königsberger Straße 23
     postalCode: "12207"
     city: Berlin
     countryCode: DE
@@ -28,11 +30,16 @@ basics:
     - network: GitHub
       username: SepidMans
       url: https://github.com/SepidMans
+    - network: Instagram
+      username: _seraphim___
+      url: https://www.instagram.com/_seraphim___/
 work:
   - name: Action
     location: Berlin, Germany
+    description: Retail Company
     position: Sales Assistant / Customer Experience
-    startDate: 2025-01-01
+    url: https://action.com
+    startDate: 2025-01
     summary: Assisted customers in a fast-paced retail environment; observed
       common user questions and behaviors to better support product presentation
       and customer communications.
@@ -74,13 +81,22 @@ work:
     summary: Completed an 11-month cabin crew service training program focusing on
       aviation safety, service standards, teamwork and high-pressure customer
       service skills.
-volunteer: []
+volunteer:
+  - organization: Tehran Animal Shelter
+    position: Content Creator
+    startDate: 2013
+    endDate: 2018
+    summary: Created content for the animal shelter's website and social media platforms.
+    highlights:
+      - Developed content strategies to increase engagement and awareness
+      - Produced visual and written content to support animal adoption campaigns
 education:
   - institution: ReDI School of Digital Integration
+    url: https://redi-school.org
     area: UX/UI Design
     studyType: Course
-    startDate: 2025-01-01
-    endDate: 2025-12-31
+    startDate: 2025-01
+    endDate: 2025-12
     summary: Basic & Intermediate project-based UX training
   - institution: Goldnetz gGmbH
     area: Coaching Program
@@ -93,21 +109,22 @@ education:
     studyType: Bachelor
     startDate: 2007-01-01
     endDate: 2012-12-31
-awards:
-  - title: telc B2 (German language)
-    date: 2023-01-01
-    awarder: Berlitz
-    summary: German language certificate B2.
-publications: []
 certificates:
   - name: Foundations of User Experience (UX) Design
+    date: 2024-10
     issuer: Google
+    url: https://www.coursera.org/account/accomplishments/verify/OHERFGR2PVEZ
   - name: UX/UI Design Basics
     issuer: ReDI School
   - name: UX/UI Design Intermediate
     issuer: ReDI School
+  - title: telc B2 (German language)
+    date: 2023-01-01
+    issuer: Berlitz
+    summary: German language certificate B2.
 skills:
-  - name: UX & UI
+  - name: UI/UX Design
+    level: Intermediate
     keywords:
       - UX Research
       - User Interviews
@@ -134,20 +151,35 @@ skills:
       - PowerPoint
       - Basic Prototyping
 languages:
-  - language: Farsi
-    fluency: Native speaker
   - language: English
     fluency: B2
   - language: German
     fluency: B2
+  - language: Farsi
+    fluency: Native
 interests:
-  - name: Interests
+  - name: Film & Cinema
     keywords:
-      - Photography
-      - Visual Storytelling
-      - Art
-      - Film
-references: []
+      - Cinematography
+      - Directing
+      - Screenwriting
+      - Film Analysis
+references:
+  - name: Tássia Barros
+    reference: >-
+      I had the pleasure of teaching Sepideh across two semesters in 2025,
+      during the UX Basics and UX Intermediate courses at ReDI School.
+      Throughout this time, she consistently showed strong commitment
+      to her learning process and a thoughtful approach to design challenges,
+      combining curiosity with a clear structure in her work.
+      What stands out most about Sepideh is her initiative.
+      She goes beyond what is expected by taking the lead to speak with users
+      and run interviews early in her process to better inform her decisions.
+      She understands how to work with assumptions, but also knows when to validate them.
+      This balance, along with her ability to identify pain points
+      and turn insights into practical design directions, is a strong asset.
+      I'm confident she will be a solid addition to any team that values quality work,
+      collaboration, and a well-grounded design process.
 projects:
   - name: Photography App (UX Project)
     description: Designed a mobile-first photography application in Figma with a
@@ -165,6 +197,13 @@ projects:
       - Usability Testing
       - Navigation Design
       - Micro-interactions
+    startDate: 2025-03
+    endDate: 2025-04
+    url: https://sepidehmansouri.com/projects/photohub
+    roles:
+      - UI/UX Designer
+    entity: ReDI School of Digital Integration
+    type: Final Course Project
   - name: Impact Page Redesign (Case Study)
     description: Redesigned an NGO Impact Page to improve readability, visual
       hierarchy, and content structure.
@@ -178,7 +217,3 @@ projects:
       - Accessibility
       - Visual Hierarchy
       - UX Research
-meta:
-  canonical: https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json
-  version: v1.0.0
-  lastModified: 2026-04-22T00:00:00
